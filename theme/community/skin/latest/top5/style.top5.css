@@ -1,0 +1,37 @@
+@charset "utf-8";
+/* CSS Document */
+
+	.layerBox { 
+		position:relative;
+		z-index:999;
+		width:100%; 
+		padding:5px 0;
+		background-color:#dedede;
+		border-bottom:1px solid #9d9d9d;
+		display:none;
+	}
+	
+	.layerBox:after {
+		display:block;
+		visibility:hidden;
+		clear:both;
+		content:""
+	}
+		
+    .layerBanner {
+		position:relative; 
+		width:980px;
+		margin:0 auto;
+	}
+	
+	.layerBanner span { 
+		position:absolute !important; 
+		float:right; 
+		top:0; 
+		right:0; 
+		width:41px; 
+		height:41px; 
+	}
+	
+	li { list-style:none; }
+

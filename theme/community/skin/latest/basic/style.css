@@ -1,0 +1,38 @@
+@charset "utf-8";
+/* SIR */
+
+/* 새글 스킨 (latest) */
+.lt_pc {float:left;margin-left:24px}
+.lt_ml{margin-left:0}
+.lt {width:343px;/*height:176px;*/position:relative;float:left;padding-bottom:45px}
+.lt .lt_Box{padding:20px;width:301px;height:126px;border:1px solid #e8e8e8}
+.lt ul {margin:0 0 10px;padding:0;list-style:none}
+.lt li {padding:4px 0; width:300px; height:12px; overflow: hidden;}
+.lt .no_bd{height:126px;text-align:center; line-height:100px}
+.lt .lt_title {background:url("img/icon_blue.png") no-repeat 0 0; display:block; padding:0 0 14px 24px; height:11px}
+.lt .lt_more a{height:16px;background:url("img/icon_more.gif") no-repeat top right; position:absolute;top:0px;right:0px; padding-right:23px;color:#696969;}
+.lt .cnt_cmt {display:inline-block;margin:0 0 0 3px;font-weight:bold}
+
+/*최신 게시글*/
+.new_latest{width:710px; position:relative; margin-bottom:45px;}
+.new_latest .lt_Box{width:668px; height:126px; border:1px solid #e8e8e8;padding:20px;}
+.new_latest .lt_Box ul{margin:0; padding:0}
+.new_latest .lt_Box li{list-style:none; padding:4px 0; width:668px; height:12px; overflow: hidden;}
+.new_latest .lt_Box li.no_bd{height:126px;text-align:center; line-height:100px}
+.new_latest .lt_title {background:url("img/icon_blue.png") no-repeat 0 0; display:block; padding:0 0 14px 24px; height:11px;}
+.new_latest .lt_more a{height:16px;background:url("img/icon_more.gif") no-repeat top right; position:absolute;top:0px;right:0px; padding-right:23px;color:#696969;display:inline-block}
+
+
+/*사이드 메뉴*/
+.short_cut{margin-bottom:45px;}
+.short_cut li{list-style: none; padding:12px 0; border-bottom:1px solid #e8e8e8;}
+.short_cut li.f_short_cut{border-top:1px solid #e8e8e8;}
+.short_cut li a{display:inline-block; width:250px; height:16px;background:url("img/icon_more.gif") no-repeat top right;color:#696969;}
+
+.aside_lt .lt{width:100%/*280px*/; position:relative;}
+.aside_lt .lt .lt_Box{width:210px; height:126px; border:1px solid #e8e8e8;padding:20px;}
+.aside_lt .lt .lt_Box ul{margin:0; padding:0}
+.aside_lt .lt .lt_Box li{list-style:none; padding:4px 0; width:240px; height:12px; overflow: hidden;}
+.aside_lt .lt .lt_Box li.no_bd{height:126px;text-align:center; line-height:100px}
+.aside_lt .lt .lt_title {background:url("img/icon_blue.png") no-repeat 0 0; display:block; padding:0 0 14px 24px; height:11px;}
+.aside_lt .lt .lt_more a{height:16px;background:url("img/icon_more.gif") no-repeat top right;position:absolute;top:0px;right:0px;color:#696969;}

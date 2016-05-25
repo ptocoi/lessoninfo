@@ -1,0 +1,16 @@
+@charset "utf-8";
+/* 새글 스킨 (latest)*/
+
+
+.lt_gal{clear:both; position:relative; width:710px; height:280px;margin-bottom:45px}
+.lt_gal .lt_title{display:block;background:url("img/icon_blue.png") no-repeat 0 0;display:block;padding:0 0 14px 24px;height: 11px;}
+.lt_gal_Box{border-top:1px solid #e8e8e8;padding-top:27px;}
+.lt_gal_Box ul{margin:0; padding:0;}
+.lt_gal_Box ul li{list-style:none; float:left; width:170px; height:149px; margin-right:10px; margin-right:7px \9; }
+.lt_gal_Box ul li:last-child{margin-right:0px;}
+.lt_gal_Box ul li.no_bd{width:100%; text-align:center; line-height:100px;}
+.lt_gal_Box ul li .lt_image{display:inline-block; margin-bottom:15px;text-decoration:none}
+.lt_gal_Box ul li .no_img{text-align: center;display: block;line-height:145px;vertical-align: middle;text-transform: uppercase;font-weight:bold;color: #bbb;background: #eee;}
+.lt_gal_Box ul li .lt_tit{display:inline-block;margin-bottom:3px;font-weight:bold;padding:3px 0; width:170px; height:12px; overflow: hidden;}
+.lt_gal_Box ul li .lt_detail{display:inline-block; color:#989898; padding:4px 0; width:170px; height:30px; overflow: hidden;line-height:16px}
+.lt_gal_more a{position:absolute;top:0;right:0;background:url("img/icon_more.gif") no-repeat top right;height:16px;position:absolute;top:0px;right:0px; padding-right:23px;color:#696969;}
