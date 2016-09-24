@@ -1,0 +1,90 @@
+<div class="wrapper left" style="display:none;">
+	<?php if(!$is_member){ ?>
+	<ul class="globalMenu clearfix border_color1">
+		<!-- <li class="userId"><span><a href="../member/join1.html"><strong class="text_color1 pr5">회원가입</strong></a></span></li> -->
+		<?php if($is_member){ ?>
+		<li class="btnLogout"><span><a href="../login/login.html"><img class="vm pb2 pr3"  width="15"  src="../images/icon/icon_login1.png">로그아웃</a></span></li>	
+		<?php } else { ?>
+		<li class="btnLogout"><span><a href="../login/login.html"><img class="vm pb2 pr3"  width="15"  src="../images/icon/icon_login1.png">로그인</a></span></li>	
+		<?php } ?>
+	</ul>
+	<?php } ?>
+	<ul class="main">
+
+		<li><a  href="../main/index.html">메인 바로가기</a></li>
+		<!-- <li><a  href="../map/main.html">내주변정보 바로가기</a></li> -->
+		<!-- <li><a  href="../service/main.html">서비스안내</a></li>	 -->
+
+		<h1><a href="../job/index.html">채용정보</a></h1>
+			<li><a  href="../job/list_busy.html">급구 채용정보</a></li>
+			<li><a  href="../job/list_local.html">지역별 채용정보</a></li>
+			<li><a  href="../job/list_part.html">업직종별 채용정보</a></li>
+			<?php if($is_adult){ ?>
+			<li><a  href="../job/list_part_adult.html?type=<?php echo $adult_job_types[0]['code'];?>">19금 채용정보</a></li>
+			<?php } ?>
+			<li><a  href="../job/list_subway.html">역세권별 채용정보</a></li>
+			<li><a  href="../job/list_college.html">대학가별 채용정보</a></li>
+			<li><a  href="../job/list_term.html">기간별 채용정보</a></li>
+			<li><a  href="../job/list_pay.html">급여별 채용정보</a></li>
+			<li><a  href="../job/list_target.html">대상별 채용정보</a></li>
+
+		<h1><a href="../resume/index.html">인재정보</a></h1>
+			<li><a  href="../resume/list_busy.html">급구 인재정보</a></li>			
+			<li><a  href="../resume/list_local.html">지역별 인재정보</a></li>
+			<li><a  href="../resume/list_part.html">업직종별 인재정보</a></li>
+			<li><a  href="../resume/list_term.html">기간별 인재정보</a></li>
+
+		<h1><a href="../community/main.html">커뮤니티</a></h1>
+		<?php
+		$board_groups = array();
+		$board_codes = array();
+		foreach($sub_board as $bo_table_list => $bo_val){
+			$get_board = $board_control->get_boardTable($bo_table_list);
+			if(!in_array($get_board['code'],$board_groups)){
+				array_push($board_groups,$get_board['code']);
+			}
+			array_push($board_codes,$bo_table_list);
+		}	// foreach end.
+		?>
+		<?php
+		foreach($board_groups as $bo_group){
+		$get_category = $category_control->get_categoryCode($bo_group);
+		$boCode_list = $board_config_control->boCode_list($bo_group);
+		?>
+			<li>
+				<h2><?php echo $get_category['name'];?></h2>
+				<ul class="subMenu clearfix">
+					<?php 
+					foreach($boCode_list as $val){ 
+						if( in_array($val['bo_table'],$board_codes) ){
+							$get_board = $board_control->get_boardTable($val['bo_table']);
+							if($get_board['bo_skin']=='on2on') continue;
+					?>
+						<li><a  href="../community/list.php?bo_table=<?php echo $get_board['bo_table'];?>"><?php echo $get_board['bo_subject'];?><!-- <em class="numberBox bg_color1 border_color1">N</em> --></a></li>
+					<?php
+						}
+					}	// foreach end.
+					?>
+				</ul>
+			</li>
+		<?php
+		}	// foreach end.
+		?>
+			<!-- <li>
+				<h2>취업지식</h2>
+				<ul class="subMenu clearfix">
+					<li><a  href="../resume/list_local.html">취업이야기<em class="numberBox bg_color1 border_color1">N</em></a></li>
+					<li><a  href="../resume/list_part.html">취업경험담<em class="numberBox bg_color1 border_color1">N</em></a></li>
+					<li><a  href="../resume/list_time.html">취업정보<em class="numberBox bg_color1 border_color1">N</em></a></li>	
+				</ul>		
+			</li>
+			<li>
+				<h2>공감이야기</h2>
+				<ul class="subMenu clearfix">
+					<li><a  href="../resume/list_local.html">사진이야기<em class="numberBox bg_color1 border_color1">N</em></a></li>
+					<li><a  href="../resume/list_part.html">취업현장<em class="numberBox bg_color1 border_color1">N</em></a></li>
+					<li><a  href="../resume/list_time.html">유모게시판<em class="numberBox bg_color1 border_color1">N</em></a></li>	
+				</ul>		
+			</li> -->
+			</ul>
+</div>

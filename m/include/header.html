@@ -1,0 +1,27 @@
+<?php 
+include_once "../include/left_navi.html";
+include_once "../include/right_navi.html";
+?>
+<script>
+var searchSubmit = function(){
+	$('#searchFrm').submit();
+}
+</script>
+<div class="wrap">
+<header id="firstheader">
+	<hgroup class="mainLogo">
+		<h1><a href="../main/index.html"><img src="<?php echo $mobile_info['wr_logo'];?>" alt="넷퓨"></a></h1>
+		<a class="btn_leftMenu nav" href="#"><img src="../images/btn/icon_btnLeftMenu.png"  alt="네비게이션"></a>
+		<?php if($is_member){ ?>
+		<a class="btn_myPage nav" href="#"><img src="../images/btn/icon_btnMyPage.png"  alt="마이페이지"></a>
+		<?php } ?>
+	</hgroup>
+	<div class="search">
+	<form method="get" name="searchFrm" id="searchFrm" action="../keyword/list_main.html">
+	<input type="hidden" name="mode" value="mobile_search"/>
+		<div class="box_search">
+		<input type="text" style="background:none repeat scroll 0% 0% #fff;" id="search_keyword" name="search_keyword" maxlength="50" placeholder="검색어를 입력해 주세요..." class="mr5" value="<?php echo $search_keyword;?>">
+		<a class="btn_search" href="javascript:searchSubmit();"><img src="../images/btn/icon_btnSearch.png"  alt="검색버튼"></a>
+		</div>
+	</form>
+	</div>

@@ -1,0 +1,53 @@
+<?php 
+$page_name = "alba_resume_index";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list2").addClass("on");
+$(".subBtn").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+var sub_focus_total_page = "<?php echo $sub_focus_total_page;?>";
+var sub_individual_total_page = "<?php echo $sub_individual_total_page;?>";
+var ajax_paging = function( page, list_service ){
+
+	$.ajax({
+		type : "POST",
+		url : "../resume/_load/paging.php",
+		data : { page:page, list_service:list_service }
+	}).done(function( result ){
+		$('#'+list_service).html(result);
+		$('.'+list_service+'_page').removeClass('bg_color1 on');
+		$('.'+list_service+'_page').addClass('text_color1');
+		$('#page_'+list_service+"_"+page).removeClass('text_color1');
+		$('#page_'+list_service+"_"+page).addClass('bg_color1 on');
+
+		switch(list_service){
+			case 'sub_focus': total_page = sub_focus_total_page; break;
+			case 'sub_individual': total_page = sub_individual_total_page; break;
+		}
+
+		if(page == total_page){
+			$('#'+list_service+'_first').html("<a href='javascript:ajax_paging(1,\""+list_service+"\");' class='prev' onfocus='blur();'><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"></a>");
+			$('#last_'+list_service).hide();
+		} else {
+			$('#'+list_service+'_first').html("");
+			$('#last_'+list_service).show();
+		}
+
+	});
+	
+}
+</script> 
+<section class="contentWrap">
+<?php
+if($sub_focus_use) include_once "./_include/sub_focus.php"; // 포커스 인재정보
+if($sub_individual_use) include_once "./_include/sub_individual.php"; // 서브 인재정보
+?>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<footer id="footer">
+<div class="quicklink">
+<em class="topBtn positionF" style="bottom:10%; right:10px;"><a href="#top"><img class="bg_color1" alt="" src="../images/btn/btn_up7.gif">TOP</a></em>
+<?php if($is_member){ ?>
+	<a href="../member/process/logout.php">로그아웃</a>
+<?php } else { ?>
+	<a href="../login/login.html?url=<?php echo $urlencode;?>">로그인</a>
+<?php } ?>
+<a href="../etc/agree.html">이용약관</a><a href="../etc/privacy.html">개인정보방침</a><a  href="../etc/cscenter.html">고객센터</a><a  href="<?php echo $alice['path'];?>?device=pc">PC버전</a> 
+</div>
+<div class="copy">
+<p><?php echo nl2br(stripslashes($mobile_info['wr_copyright']));?></p>
+</div>
+<p class="copyright"><span class="date"><?=date('Y');?>.</span>Copyright<strong> <?php echo $env['site_english'];?>.</strong>All right reserved.</p>
+</footer>
+</div>
+
+ <script> /* 상세검색 클릭시 이벤트 */
+$('.detailSearch').toggle(function() {
+		$(this).addClass("on");
+		$(".detailSearchBox").slideDown("4000");
+}, function() {
+		$(this).removeClass("on");
+		$(".detailSearchBox").slideUp("4000");
+});
+</script>
+ <script> /* 이력서상세,채용정보상세 tab메뉴 클릭시 이벤트 */
+ $(".tapBox.list1").click(function() {
+		$(this).addClass("on");
+		$(".tapBox.list2").removeClass("on");
+		$(".tapBox.list3").removeClass("on");
+		$(".contentBox.list1").fadeIn("fast");
+		$(".contentBox.list2").hide();
+		$(".contentBox.list3").hide();
+		$(".contentBox.list4").hide();
+	}
+);
+</script> 
+ <script> 
+ $(".tapBox.list2").click(function() {
+		$(this).addClass("on");
+		$(".tapBox.list1").removeClass("on");
+		$(".tapBox.list3").removeClass("on");
+		$(".tapBox.list4").removeClass("on");
+		$(".contentBox.list2").fadeIn("fast");
+		$(".contentBox.list1").hide();
+		$(".contentBox.list3").hide();
+		$(".contentBox.list4").hide();
+	}
+);
+</script> 
+ <script> 
+ $(".tapBox.list3").click(function() {
+		$(this).addClass("on");
+		$(".tapBox.list1").removeClass("on");
+		$(".tapBox.list2").removeClass("on");
+		$(".tapBox.list4").removeClass("on");
+		$(".contentBox.list3").fadeIn("fast");
+		$(".contentBox.list1").hide();
+		$(".contentBox.list2").hide();
+		$(".contentBox.list4").hide();
+	}
+);
+ $(".tapBox.list4").click(function() {
+		$(this).addClass("on");
+		$(".tapBox.list1").removeClass("on");
+		$(".tapBox.list2").removeClass("on");
+		$(".tapBox.list3").removeClass("on");
+		$(".contentBox.list4").fadeIn("fast");
+		$(".contentBox.list1").hide();
+		$(".contentBox.list2").hide();
+		$(".contentBox.list3").hide();
+	}
+);
+</script> 
+ <script> /* top메뉴 클릭시 이벤트 */
+ $(".topMenu.list1").click(function() {
+		$(this).addClass("on");
+		$(".topMenu.list2").removeClass("on");
+		$(".topMenu.list3").removeClass("on");
+		$(".topMenu.list4").removeClass("on");
+		$(".jobBtnWrap").fadeIn("fast");
+		$(".resumeBtnWrap").hide();
+
+
+	}
+);
+</script>
+ <script> 
+ $(".topMenu.list2").click(function() {
+		$(this).addClass("on");
+		$(".topMenu.list1").removeClass("on");
+		$(".topMenu.list3").removeClass("on");
+		$(".topMenu.list4").removeClass("on");
+		$(".resumeBtnWrap").fadeIn("fast");
+		$(".jobBtnWrap").hide();
+
+
+	}
+);
+</script> 
+ <script> 
+ $(".topMenu.list3").click(function() {
+		$(this).addClass("on");
+		$(".topMenu.list1").removeClass("on");
+		$(".topMenu.list2").removeClass("on");
+		$(".topMenu.list4").removeClass("on");
+		$(".jobBtnWrap").hide();
+		$(".resumeBtnWrap").hide();
+
+	}
+);
+</script> 
+ <script> 
+ $(".topMenu.list4").click(function() {
+		$(this).addClass("on");
+		$(".topMenu.list1").removeClass("on");
+		$(".topMenu.list2").removeClass("on");
+		$(".topMenu.list3").removeClass("on");
+		$(".jobBtnWrap").hide();
+		$(".resumeBtnWrap").hide();
+
+	}
+);
+</script> 
+ <script> /*  */
+ $(".listDown").click(function() {
+		$(this).addClass("on");
+		$(".topMenu.list1").removeClass("on");
+		$(".topMenu.list2").removeClass("on");
+		$(".topMenu.list3").removeClass("on");
+		$(".jobBtnWrap").hide();
+		$(".resumeBtnWrap").hide();
+
+	}
+);
+</script>
+ <script> /* 전체팝업레이어 클릭시이벤트 */
+ $(".layerBtn").click(function() {
+ $(".popLayerWrap").fadeIn("4000");
+	}
+);
+</script>
+ <script> /* 팝업레이어 닫기 클릭시 이벤트 */
+ $(".closeBtn").click(function() {
+ $(".popLayerWrap").fadeOut("4000");
+	}
+);
+</script>
+
+<script type="text/javascript">/* left메뉴 스크롤 */
+var myScroll = new iScroll('wrapper');
+</script>
+
+ <script> /* left global Menu, right global Menu */
+$(".wrapper").hide();
+$('.btn_leftMenu.nav').toggle(function() {
+	    $(".wrap").addClass("left");
+			$(".wrapper.left").fadeIn("4000");
+		
+}, function() {
+		$(".wrapper").fadeOut("1000");		
+		$(".wrap").removeClass("left");
+});
+$('.btn_myPage.nav').toggle(function() {
+	    $(".wrap").addClass("right");
+			$(".wrapper.right").fadeIn("4000");
+		
+}, function() {
+		$(".wrapper").fadeOut("1000");		
+		$(".wrap").removeClass("right");
+});
+
+
+</script>
+</body>
+</html>

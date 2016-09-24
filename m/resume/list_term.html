@@ -1,0 +1,41 @@
+<?php 
+$page_name = "alba_resume_list_term";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list2").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+</script>
+<section class="contentWrap">
+<div class="location">
+	<h2 class="skip">기간별리스트</h2>
+	<ul class="boxWrap clearfix positionR">
+		<?php 
+		if($alba_date_list){
+			foreach($alba_date_list as $val){ 
+			$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+			$category_count = $alba_resume_user_control->get_category_count($val['code'],"wr_date");
+		?>
+		<li class="clearfix">
+			<div class="positionR">
+				<a href="./list_term_detail.html?mode=search&search_mode=alba_resume_term&code=<?php echo $val['code'];?>"onclick="">
+				<span class="local"> <?php echo $name;?><em class="text_color1">(<?php echo number_format($category_count);?>)</em></span>
+				<div class="localRightArrow"><img style="width:6px; height:11px;" class="bg_color1" src="../images/btn/btn_rightArrow2.png" alt="click"></div>
+				</a> 
+			</div>
+		</li>
+		<?php
+			}	// foreach end.
+		}	// if end.
+		?>
+	</ul>
+</div>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

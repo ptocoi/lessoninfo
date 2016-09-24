@@ -1,0 +1,138 @@
+<?php
+$online_cnt = $receive_control->__ReceiveList( "", "", " where `type` = 'become_online' and `wr_id` = '".$member['mb_id']."' and `wr_to`!= '0' " . $_con );
+$email_cnt = $receive_control->__ReceiveList( "", "", " where `type` = 'become_email' and `wr_id` = '".$member['mb_id']."' and `wr_to`!= '0' " . $_con );
+$interview_count = $alba_company_control->proposal_counts('interview', "", $member['mb_id']);
+$become_count = $alba_company_control->proposal_counts('become', "", $member['mb_id']);
+$scrap_count_list = $alba_user_control->scrap_list($member['mb_id']);
+$scrap_cnt = $scrap_count_list['total_count'];	// 스크랩 카운팅
+$page = ($page) ? $page : 1;
+$page_rows = ($page_rows) ? $page_rows : 5;
+if($member['mb_type']=='individual'){
+	$custom_titles = $alba_individual_control->custom_titles($member['mb_id']);	 // 맞춤채용 타이틀 뽑기
+	if($custom_titles){
+		$custom_con = " where `is_delete` = 0 ";
+		$custom_list = $alba_individual_control->custom_list($page, $page_rows, $custom_con);
+	}
+} else if($member['mb_type']=='company'){
+	$custom_list = $alba_company_control->custom_list($page, $page_rows, " where `is_delete` = 0 ");
+}
+?>
+<div class="wrapper right clearfix" style="display:none;">
+	<?php if($is_member){ ?>
+	<ul class="globalMenu clearfix border_color1">
+		<li class="userId"><span><strong class="text_color1 pr5"><?php echo $member['mb_id'];?></strong>님</span></li>
+		<li class="btnLogout"><span><a href="../member/process/logout.php"><img class="vm pb2"  width="15"  src="../images/icon/icon_logout1.png">로그아웃</a></span></li>	
+	</ul>
+	<?php } ?>
+	<?php if($mb_type=='individual'){ ?>
+	<ul class="personMenu">
+		<?php /* ?>
+		<h1><img class="vm pb3 pr3"  width="16"  src="../images/icon/icon_user1.png">개인회원서비스</h1>	
+		<li><a  href="../person/regist1.html">이력서등록</a></li>
+		<li><a  href="../person/list_resumeEdit.html">이력서관리<em class="numberBox bg_color1 border_color1"><?php echo number_format($member['mb_alba_resume_count']);?></em></a></li>
+		<li><a  href="../person/photo.html">내사진관리</a></li>
+		<h1>입사지원관리</h1>
+		<li><a  href="../person/list_application.html">입사지원현황</a>
+		<ul class="serviceMenu clearfix">
+			<li>
+				<dl>
+					<dd><?php echo number_format($online_cnt);?></dd>
+					<dt>온라인입사지원</dt>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dd><?php echo number_format($email_cnt);?></dd>
+					<dt>이메일입사지원</dt>
+				</dl>
+			</li>
+		</ul>		
+		</li>
+		<li><a  href="../person/list_interview.html">면접제의·입사지원요청 기업</a>
+			<ul class="serviceMenu clearfix">
+			<li>
+				<dl>
+				<dd><?php echo number_format($become_count);?></dd>
+				<dt>입사요청기업</dt>
+				</dl>
+			</li>
+			<li>
+				<dl>
+				<dd><?php echo number_format($interview_count);?></dd>
+				<dt>면접제의기업</dt>
+				</dl>
+			</li>
+		</ul>
+		</li>
+		<?php */ ?>
+		<h1>맞춤서비스관리</h1>
+		<li><a  href="../person/list_scrap.html">스크랩 채용정보<em class="numberBox bg_color1 border_color1"><?php echo number_format($scrap_cnt);?></em></a></li>
+		<li><a  href="../person/list_customized.html">맞춤채용정보<em class="numberBox bg_color1 border_color1"><?php echo number_format($custom_list['total_count']);?></em></a>	</li>
+		<!-- <h1>개인정보관리</h1>	
+		<li><a  href="../member/edit1.html">개인정보수정</a></li>	
+		<li><a  href="../member/edit2.html">비밀번호변경</a></li> -->
+		<!-- <li><a  href="../person/list_service.html">유료이용내역</a></li> -->
+	</ul>
+	<?php } ?>
+	<?php if($mb_type=='company'){ ?>
+	<ul class="companyMenu" style="display:;">
+		<?php /* ?>
+		<h1><img class="vm pb3 pr3"  width="16"  src="../images/icon/icon_user1.png">기업회원서비스</h1>	
+		<li><a  href="../company/regist1.html">채용공고등록</a></li>
+		<li>
+		<a  href="../company/list_manage.html">채용공고관리</a>
+		<ul class="serviceMenu clearfix">
+			<li>
+				<dl>
+				<dd>0</dd>
+				<dt>진행중인공고</dt>
+				</dl>
+			</li>
+			<li>
+				<dl>
+				<dd>0</dd>
+				<dt>마감된공고</dt>
+				</dl>
+			</li>
+		</ul>
+		</li>
+		<li><a  href="../company/list_apply.html">지원자관리</a>
+		<ul class="serviceMenu clearfix">
+			<li>
+				<dl>
+				<dd>0</dd>
+				<dt>총지원자수</dt>
+				</dl>
+			</li>
+			<li>
+				<dl>
+				<dd>0</dd>
+				<dt>미열람수</dt>
+				</dl>
+			</li>
+		</ul>
+		</li>
+		<?php */ ?>
+		<h1>서비스관리</h1>
+		<li><a  href="../company/list_scrap.html">스크랩 인재정보<em class="numberBox bg_color1 border_color1"><?php echo number_format($scrap_cnt);?></em></a></li>
+		<li><a  href="../company/list_customized.html">맞춤인재정보<em class="numberBox bg_color1 border_color1"><?php echo number_format($custom_list['total_count']);?></em></a></li>
+		<?php /* ?>
+		<li><a>이력서열람신청</a>
+		<ul class="serviceMenu one clearfix">
+			<li>
+				<dl>
+				<dd>~2014.05.12</dd>
+				<div class="mt3 mb3"><a href="../service/main.html"><em class="numberBox bg_color1 border_color1">+서비스연장</em></a><a href="" style="display:none;"><em class="numberBox bg_color1 border_color1">+이력서열람신청</em></a></div>
+				</dl>
+			</li>
+		</ul>
+		</li>
+		<h1>기업정보관리</h1>	
+		<li><a  href="../member/edit1.html">기업정보수정</a></li>	
+		<li><a  href="../member/edit2.html">비밀번호변경</a></li>
+		<li><a  href="../company/photo.html">기업로고·사진관리</a></li>
+		<li><a  href="../company/list_service.html">유료이용내역</a></li>
+		<?php */ ?>
+	</ul>
+	<?php } ?>
+</div>

@@ -1,0 +1,80 @@
+[2016-09-17 15:12:47.421] # OKNAME v3.70 start!<br>
+[2016-09-17 15:12:47.422] # mode=HS_CNFRM_POPUP<br>
+[2016-09-17 15:12:47.422] # Parameter IP: 	183.111.174.76<br>
+[2016-09-17 15:12:47.422] # argv[ 1](hs_cert_svc_tx_seqno)=20160917151247031829<br>
+[2016-09-17 15:12:47.422] # argv[ 2](nm)=김광현<br>
+[2016-09-17 15:12:47.422] # argv[ 3](brdt)=19790815<br>
+[2016-09-17 15:12:47.422] # argv[ 4](sex)=1<br>
+[2016-09-17 15:12:47.422] # argv[ 5](ntv_frnr_tp_cd)=1<br>
+[2016-09-17 15:12:47.422] # argv[ 6](var1)=02<br>
+[2016-09-17 15:12:47.422] # argv[ 7](var2)=01094067854<br>
+[2016-09-17 15:12:47.422] # argv[ 8](var3)=0<br>
+[2016-09-17 15:12:47.422] # argv[ 9](var4)=0<br>
+[2016-09-17 15:12:47.422] # argv[10](var5)=0<br>
+[2016-09-17 15:12:47.422] # argv[11](return_msg)=x<br>
+[2016-09-17 15:12:47.422] # argv[12](return_url)=http://lessoninfo.cafe24.com/modules/okname/hs_cnfrm/cnfrm_popup2.php<br>
+[2016-09-17 15:12:47.422] # argv[13](in_tp_bit)=15<br>
+[2016-09-17 15:12:47.422] # argv[14](hs_cert_msr_cd)=10<br>
+[2016-09-17 15:12:47.422] # argv[15](hs_cert_rqst_caus_cd)=00<br>
+[2016-09-17 15:12:47.422] # argv[16](idcf_mbr_com_cd)=V05280000000<br>
+[2016-09-17 15:12:47.422] # argv[17](server_ip)=183.111.174.76<br>
+[2016-09-17 15:12:47.422] # argv[18](client_site_nm)=lessoninfo.cafe24.com<br>
+[2016-09-17 15:12:47.422] # argv[19](end_point_url)=http://safe.ok-name.co.kr/KcbWebService/OkNameService<br>
+[2016-09-17 15:12:47.422] # argv[20](log_path)=/home/hosting_users/lessoninfo/www/.//modules/okname/log<br>
+[2016-09-17 15:12:47.422] # argv[21](option)=QL<br>
+[2016-09-17 15:12:47.422] # soap_timeout: 30000 ms<br>
+[2016-09-17 15:12:47.434] # key   : Agde/Agjj5aBrpK7Si4mEfQGDiupsQ==:reufw2MfY0eXwREaBMGo9w==<br>
+[2016-09-17 15:12:47.434] # spkey : Agde/Agjj5aBrpK7Si4mEfQGDiupsQ==<br>
+[2016-09-17 15:12:47.434] # ssig  : reufw2MfY0eXwREaBMGo9w==<br>
+[2016-09-17 15:12:47.436] # nm               : 김광현<br>
+[2016-09-17 15:12:47.436] # brdt             : 19790815<br>
+[2016-09-17 15:12:47.436] # e_nm             : CEY8mWZY<br>
+[2016-09-17 15:12:47.436] # e_brdt           : iJe6BJGW4pI=<br>
+[2016-09-17 15:12:47.436] # cpkey : AgLL1XVnaGFSVB/7PNp+Sk4A8MUazQ==<br>
+[2016-09-17 15:12:47.436] # csig  : 8lvUEMrZTed1jx/ZA2fFvA==<br>
+[2016-09-17 15:12:47.461] retmsg: +5+9CZsSfh0OHYSYK6fPfDZeRGnMx0UrbP6SrRHBSRS6+oJyDzU7F7m22bY17H4mmE7QeP2bdmoXKxXaCT31dX+Jb/F+FVYyqXclxQNtJVZuj88sK2Lf1v0MLi3ERJhe4t4Lh1N42zCGxxqdrmTHpXNQIoiDcWxTLp0T3IBgUWR0fVVma7JLbNCRxe7a1IT3+imcyHtm/v/voM7MkIMxzsuitp0OvDZA+EBCw3sOTmcNn0swt9YArbbRALO9S+09pAXKKcyvhUK8qSgboCA61YHuzLywVMW8CfnjGE+Z8NlN4eQ4K6ao5iEDDm3lS6hv9r/OkM/u/CPdHf8=
+[2016-09-17 15:12:47.461] retmsg: B104:서비스 사용  중지 상태입니다.:kYFvkgmfTi0CDDkL3FAZ/BATNgydZvdqM3gOmIwbpEy2T5gw/RQkPKGFAiZS1JypdS+Fh6n81x136lpzhUZSyWA+dJw4gam9UggRXMYK8AExu7YVVNLhOWuc+ZXwiY+MgsCYD5TL97YIPcSvsaYl1XXNO5pX9s7RIQPJ3QoRp/HTv0R1lHLINSZJxzflGNAbso0KODsE8mxGzt9Opn2jTQ==
+[2016-09-17 15:12:47.461] B104
+[2016-09-17 15:12:47.461] 서비스 사용  중지 상태입니다.
+[2016-09-17 15:12:47.461] kYFvkgmfTi0CDDkL3FAZ/BATNgydZvdqM3gOmIwbpEy2T5gw/RQkPKGFAiZS1JypdS+Fh6n81x136lpzhUZSyWA+dJw4gam9UggRXMYK8AExu7YVVNLhOWuc+ZXwiY+MgsCYD5TL97YIPcSvsaYl1XXNO5pX9s7RIQPJ3QoRp/HTv0R1lHLINSZJxzflGNAbso0KODsE8mxGzt9Opn2jTQ==
+[2016-09-17 15:12:47.461] # final ret code=104<br>
+[2016-09-17 15:13:56.407] # OKNAME v3.70 start!<br>
+[2016-09-17 15:13:56.407] # mode=HS_CNFRM_POPUP<br>
+[2016-09-17 15:13:56.407] # Parameter IP: 	183.111.174.76<br>
+[2016-09-17 15:13:56.407] # argv[ 1](hs_cert_svc_tx_seqno)=20160917151356186893<br>
+[2016-09-17 15:13:56.407] # argv[ 2](nm)=김광현<br>
+[2016-09-17 15:13:56.407] # argv[ 3](brdt)=19790815<br>
+[2016-09-17 15:13:56.407] # argv[ 4](sex)=1<br>
+[2016-09-17 15:13:56.407] # argv[ 5](ntv_frnr_tp_cd)=1<br>
+[2016-09-17 15:13:56.407] # argv[ 6](var1)=02<br>
+[2016-09-17 15:13:56.407] # argv[ 7](var2)=01094067854<br>
+[2016-09-17 15:13:56.407] # argv[ 8](var3)=0<br>
+[2016-09-17 15:13:56.408] # argv[ 9](var4)=0<br>
+[2016-09-17 15:13:56.408] # argv[10](var5)=0<br>
+[2016-09-17 15:13:56.408] # argv[11](return_msg)=x<br>
+[2016-09-17 15:13:56.408] # argv[12](return_url)=http://lessoninfo.cafe24.com/modules/okname/hs_cnfrm/cnfrm_popup2.php<br>
+[2016-09-17 15:13:56.408] # argv[13](in_tp_bit)=15<br>
+[2016-09-17 15:13:56.408] # argv[14](hs_cert_msr_cd)=10<br>
+[2016-09-17 15:13:56.408] # argv[15](hs_cert_rqst_caus_cd)=00<br>
+[2016-09-17 15:13:56.408] # argv[16](idcf_mbr_com_cd)=V05280000000<br>
+[2016-09-17 15:13:56.408] # argv[17](server_ip)=183.111.174.76<br>
+[2016-09-17 15:13:56.408] # argv[18](client_site_nm)=lessoninfo.cafe24.com<br>
+[2016-09-17 15:13:56.408] # argv[19](end_point_url)=http://safe.ok-name.co.kr/KcbWebService/OkNameService<br>
+[2016-09-17 15:13:56.408] # argv[20](log_path)=/home/hosting_users/lessoninfo/www/.//modules/okname/log<br>
+[2016-09-17 15:13:56.408] # argv[21](option)=QL<br>
+[2016-09-17 15:13:56.408] # soap_timeout: 30000 ms<br>
+[2016-09-17 15:13:56.419] # key   : AgFTkY4DTS1i0CBfLsUUlWxdWyQwnw==:bMzpwVjiezijHNs513a3wg==<br>
+[2016-09-17 15:13:56.419] # spkey : AgFTkY4DTS1i0CBfLsUUlWxdWyQwnw==<br>
+[2016-09-17 15:13:56.419] # ssig  : bMzpwVjiezijHNs513a3wg==<br>
+[2016-09-17 15:13:56.420] # nm               : 김광현<br>
+[2016-09-17 15:13:56.420] # brdt             : 19790815<br>
+[2016-09-17 15:13:56.420] # e_nm             : tKq2ZD02<br>
+[2016-09-17 15:13:56.420] # e_brdt           : NHsw+cr4FdA=<br>
+[2016-09-17 15:13:56.420] # cpkey : AwFFSh5MbCcMH3dV8I3MWZHk7tL1kQ==<br>
+[2016-09-17 15:13:56.420] # csig  : 8yno1x7IF+QkUyM2ZWaPMA==<br>
+[2016-09-17 15:13:56.446] retmsg: R3M39MB8iV+161gCHWofy+JoZCxDY6nEXpBi5aHHvjLszIzGJmICC7kBPCVyJw6VZkvSRdjDcql5sRUyOsN/84tHNxOemzD2cVsDBnh+PFfLdYMJJkGIJuTcMUe5y+1wBAoyqIrMwqZ6pHmj+ZBGZ9kJAVOQDsb1D0OpjoJ9G+PnahHOVyXAzLBbPZ6qpexVJqCdfq1Mi2tC0k060WQeou3asuy6DCnPxMlk2Blml+Jh0Ygb6jMU+exTZgyKF/rtcWako5Er1g5AEeJYuVueGpFjl+6L1SHs1I0XvQWXxs3TSgLgUQSan6j3JObzB7azgzYte8gGK6aIxOo=
+[2016-09-17 15:13:56.446] retmsg: B104:서비스 사용  중지 상태입니다.:kYFvkgmfTi0CDDkL3FAZ/Frc+TT+uEhBJZ51hP11OGZmW6SU6kbue0wbhcVaqryxpweLZP3/f8cXxuvnLsrottztWg2JZlzb0bWKfeXBgzfmJDGkexUkoN044S9YpE+rxUit/dfxNvugoozlg3OiY4xLKAtVo+f4NEmAO5pmtj5oD09Y1Do88TDRHDLDhb8WpdLYtfL4AmB8UsMyZ6issQ==
+[2016-09-17 15:13:56.446] B104
+[2016-09-17 15:13:56.446] 서비스 사용  중지 상태입니다.
+[2016-09-17 15:13:56.447] kYFvkgmfTi0CDDkL3FAZ/Frc+TT+uEhBJZ51hP11OGZmW6SU6kbue0wbhcVaqryxpweLZP3/f8cXxuvnLsrottztWg2JZlzb0bWKfeXBgzfmJDGkexUkoN044S9YpE+rxUit/dfxNvugoozlg3OiY4xLKAtVo+f4NEmAO5pmtj5oD09Y1Do88TDRHDLDhb8WpdLYtfL4AmB8UsMyZ6issQ==
+[2016-09-17 15:13:56.447] # final ret code=104<br>

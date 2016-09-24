@@ -1,0 +1,44 @@
+<?php 
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+
+$get_notice = $notice_control->get_notice($no);
+$notice_cate = $category_control->get_categoryCodeName($get_notice['wr_type']);
+$wr_type = ($notice_cate) ? "[".$notice_cate."] " : "";
+$notice_control->hitup_notice($no);
+?>
+</header>
+
+
+<section class="contentWrap">
+<div class="comWrap">
+<h2><em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em><span>공지사항</span>
+</h2>
+			<dl class="comlistBox clearfix">
+				<dt>
+					<div class="tit"><?php echo $wr_type;?><?php echo stripslashes($get_notice['wr_subject']);?></div>
+					<div class="text1 pt5">
+					<span><?php echo substr($get_notice['wr_date'],0,11);?></span><span class="text2 text_color1">조회수:<?php echo number_format($get_notice['wr_hit']);?></span>
+					</div>
+				</dt>
+				<dd class="text  clearfix">
+					<div class="editorView"><?php echo stripslashes($get_notice['wr_content']);?></div>
+				 </dd>
+				
+			
+			</dl>
+
+</div>
+<div class="btnBottom">
+        <ul class="clearfix">
+		<li><a class="button white" href="../community/list.html"><span>목록보기</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li> 
+		<li><a class="button white" href=""><span>삭제</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li> 
+		<li><a class="button white" href=""><span>수정</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li> 
+		</ul>
+	</div>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

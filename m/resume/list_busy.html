@@ -1,0 +1,98 @@
+<?php 
+$page_name = "alba_resume_list_busy";
+include_once "../include/top.html";
+include_once "../include/header.html";
+$search_mode = "alba_resume_busy";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list2").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+var area_sel_first = function( vals, target ){	// 첫번째 지역값 선택
+	var sel = vals.value;
+	$('#'+target+'_display').load('./_load/search.php', { mode:'second_area', type:'area', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+var jobtype_sels = function( vals, target ){	// 첫번째 직종 선택
+	var sel = vals.value;
+	$('#'+target+'_display').load('./_load/search.php', { mode:'second_jobtype', type:'job_type', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+var searchFrm_submit = function(){
+	$('#resumeSearchFrm').submit();
+}
+</script>
+<section class="contentWrap">
+
+<?php include_once "./_include/search_form.php";?>
+
+<div class="mList">
+	<h2>
+		<em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em>
+		<span>일반인재정보<em class="text_color1 pl5">(<?php echo number_format($resume_busy_list['total_count']);?>건)</em></span>
+	</h2>
+
+	<ul class="boxWrap clearfix positionR">
+	<?php
+	if(!$resume_busy_list['total_count']){
+	?>
+		<li class="bth positionR">
+			<dl class="tc clearfix" style="height:40px;line-height:40px;">등록된 인재정보가 없습니다.</dl>
+		</li>
+	<?php } else {
+		foreach($resume_busy_list['result'] as $val) {
+		$no = $val['no'];
+		$wr_id = $val['wr_id'];
+		$list = $alba_resume_user_control->get_resume_service($no,"",44);
+		$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba_resume', $no, date('Y-m-d'));
+	?>
+		<li class="bth positionR">
+			<dl class="resumeList clearfix">
+				<dt class="name_wrap"> 
+					<a href="./detail.html?no=<?php echo $no;?>">
+					<span class="name"><?php echo $list['wr_name'];?></span>
+					<?php if($list['is_photo']){ ?>
+					<span class="photo"><img width="16" height="16" src="../images/icon/icon_photo1.gif" class="vb pb2"></span>
+					<?php } ?>
+					<span class="gender">(<?php echo $list['wr_gender'];?><?php echo $list['wr_age'];?>)</span>
+					<span class="career"><?php echo $list['career'];?></span>
+					</a> 
+				</dt>
+				<dd class="text1 positionR" >
+					<a href="./detail.html?no=<?php echo $no;?>" class=""><?php echo $list['subject'];?></a>
+				</dd>
+				<dd class="text2 clearfix positionR">
+					<span class="school"><?php echo $list['school_ability'];?></span>
+					<span class="add"><?php echo $utility->str_cut($list['wr_area'],18,"");?></span>
+					<?php if($list['license']){ ?>
+					<span class="license"><em class="payIcon"><?php echo $list['license'];?></em></span>
+					<?php } ?>
+				</dd>
+				<dd class="etc">
+					<span class="pay"><em class="number"><?php echo $list['wr_pay'];?></em> 
+					<?php if($list['wr_pay']!='추후협의'){ ?>
+					<em class="payIcon"><?php echo $list['wr_pay_type'];?></em></span>
+					<?php } ?>
+				</dd>
+				<dd class="scrap" ><!-- bg_color1 -->
+					<a onclick="resume_scrap('<?php echo $no;?>');"><img alt="스크랩" src="../images/icon/icon_scrap1.png" class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>"></a>
+				</dd>
+			</dl>
+		</li>
+	<?php
+		}	// foreach end.
+	}	// if end.
+	?>
+	</ul>
+</div>
+
+<?php include_once "../include/page.html";?>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu_person.html";?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+		$(".topMenu.list1").addClass("on");
+</script>
+<section  class="contentWrap">
+<div class="popLayerWrap" style="display:none;"><!-- 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>학교검색</span>
+<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+</div>
+	</h2>
+		<div class="LayerContent">
+		   <div class="contentBoxWrap clearfix positionR" style="margin-top:-1px;">
+			<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px; width:100%;">
+				<tbody>
+				<tr>
+					<th  style="width:100%; padding:10px">
+					<label class="skip">학교검색</label>
+					<input type="text"  class="ipText" style="width:75%; height:20px;"  id="" name="">
+					<a href="#" class="" style=""><span class="bg_color1 text_white" style="vertical-aling:top; display:inline-block; text-align:center; width:20%; height:20px; line-height:20px;">검색</span></a>
+					<div>※학교명을 입력해주세요.</div>
+					</th>
+				</tr>
+				</tbody>
+			</table>
+			</div>
+			<div class="mt20 mb20 result">
+				<p style="border-bottom:1px solid #ddd;" class="pb5">※학교명을 클릭하시면 <strong>자동으로 등록</strong>됩니다.</p>
+				<ul style="max-height:100px; overflow:auto;">
+						<li style="cursor:pointer; padding:5px; border-bottom:1px solid #eee;">
+						<a href="#">대한 <strong class="text_color1">한국</strong>대학</a>
+						</li>
+                        <li style="cursor: pointer; padding:5px; border-bottom:1px solid #eee;">
+						<a href="#">서울 <strong class="text_color1">한국</strong> 예술학교</a>
+						</li>
+						<li style="cursor:pointer; padding:5px; border-bottom:1px solid #eee;">
+						<a href="#">대한 <strong class="text_color1">한국</strong>대학</a>
+						</li>
+       			</ul>
+		      </div>
+
+		</div>
+		<div class="LayerContent">
+		<div class="contentBoxWrap">
+               <h3 class="mb5">
+			   <img class="bg_color1" style="vertical-align:middle; padding:2px 4px; height:11px;" src="../images/btn/btn_rightArrow3.png" alt="">
+               <span>학교명 직접입력</span>
+               </h3>
+				<div style="">
+                <table style="width:100%;">
+                <tbody>
+				<tr>
+				<th style="width:100%; padding:5px 10px 10px">
+				 <div>※찾으시려는 학교명이 없을 경우 직접 입력해주세요.</div>
+				<label class="skip">학교명 직접입력</label>
+				<input id="" class="ipText" type="text" name="" style="width:75%; height:20px;">
+				<a href="#" class="" style="">
+				<span class="bg_color1 text_white" style="vertical-aling:top; display:inline-block; text-align:center; width:20%; height:20px; line-height:20px;">입력</span>
+				</a>
+				</th>
+				</tr>
+                </tbody>
+				</table>
+       			</div>
+              </div>
+        </div>
+	</div>
+</div>
+</div><!-- 레이어 팝업 //-->
+<div class="memberWrap">
+<div style="width:100%; margin:0; padding:0;" class="headerBoxWrap clearfix positionR ">
+<table cellspacing="1" cellpadding="0" border="0" style="margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th rowspan="4" class="detailPhoto shadowBox">
+		<img alt="사진" src="../images/basic/bg_noPhoto.gif" style="width:100px;">
+		</th>
+		<th colspan="3" class="info">
+			<div>
+				<p class="name"><strong>김이름(男, 1977년생)</strong> / idname</p>
+				<p class="addr">광주 동구 금남로5가 남선빌딩 608호</p>
+			</div>
+		</th>
+	</tr>
+	<tr>
+		<td style="">연락처</td>
+		<td style="">010-9790-5580</td>
+		<td style="color:#fff;" class="call bg_color1">
+		<a href="../member/edit1.html">개인정보수정</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="text">핸드폰</td>
+		<td colspan="2">010-9790-5580</td>
+	</tr>
+	<tr>
+		<td class="shadowBox">이메일</td>
+		<td colspan="2" class="shadowBox">netfu@naver.com</td>
+	</tr>
+</tbody>
+</table>
+</div>
+
+<div class="memberWrap mt10">
+<h2>
+
+<span>필수입력사항</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">이력서제목</th>
+		<td colspan="3">
+		<label class="skip">이력서제목</label>
+        <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">희망근무지</th>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">시/도</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">시/군/구</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">읍/면/동</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">희망업직종</th>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">업직종1차</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">업직종2차</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">업직종3차</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">희망근무일시</th>
+				<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">근무기간</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">근무요일</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">근무시간</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>	
+	<tr>
+		<th  class="pl5">희망급여</th>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">시급</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  colspan="2" class="">
+        <input type="text" name="" id="" maxlength="12" style="width:50%;" class="ipText">
+		<label class="">원</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">추후협의</label>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">희망근무형태</th>
+		<td colspan="3" class="pl5">
+		<input id="" class="" type="checkbox" title="정규직">
+        <label class="" for="">정규직</label>
+		<input id="" class="" type="checkbox" title="아르바이트">
+        <label class="" for="">아르바이트</label>
+		<input id="" class="" type="checkbox" title="계약직">
+        <label class="" for="">계약직</label>
+		<input id="" class="" type="checkbox" title="인턴쉽">
+        <label class="" for="">인턴쉽</label>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+<div class="memberWrap mt10">
+<h2>
+<span>선택입력사항</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR">
+<table cellspacing="1" cellpadding="0" border="0" class="" style="margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">최종학력</th>
+		<td colspan="2" style="">
+			<div class="styled-select list3  clearfix positionR" style="width:50%;">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">학력선택</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+        <input id="" class="" type="checkbox" title="경력">
+        <label class="" for="">휴학중</label>	
+		</td>
+	</tr>
+<!-- 학력사항1 펼침메뉴-->
+	<tr>
+		<td  class="pl5">고등학교</th>
+		<td  colspan="2" class="pl5 ">
+		<table>
+		<tr>
+		<td>
+		<label class="skip" for="">학교</label>
+		<input type="text" name="" placeholder="학교를 선택해주세요." maxlength="12" style="width:50%;" class="ipText" id="">
+		<em class="layerBtn bg_color1" > 선택</em>
+		</td></tr>
+       <tr>
+		<td>
+		<div class="styled-select list2  clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		<select title="순서" name="" id="" style="" class="">
+			<option value="0">년도</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+            <div style="float:left; line-height:25px; margin-right:1px;">~</div>			
+			<div class="styled-select list2  clearfix positionR">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+            <option value="0">년도</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+				<div class="styled-select list2  clearfix positionR ml10">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+            <option value="0">졸업</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+		<tr>
+		<td  class="pl5">대학(4년)</th>
+		<td  colspan="2" class="pl5 ">
+		<table>
+		<tr>
+		<td>
+		<label class="skip" for="">학교</label>
+		<input type="text" name="" placeholder="학교를 선택해주세요." maxlength="12" style="width:50%;" class="ipText" id="">
+		<em class="layerBtn bg_color1" > 선택</em>
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<label class="skip" for="">전공입력</label>
+		<input type="text" name="" placeholder="전공을 입력해주세요." maxlength="12" style="width:50%;" class="ipText" id="">
+		
+		</td>
+		</tr>
+       <tr>
+		<td>
+		<div class="styled-select list2  clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		<select title="순서" name="" id="" style="" class="">
+			<option value="0">년도</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+            <div style="float:left; line-height:25px; margin-right:1px;">~</div>			
+			<div class="styled-select list2  clearfix positionR">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+            <option value="0">년도</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+			<div class="styled-select list2  clearfix positionR ml10">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+            <option value="0">졸업</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		</tr>
+		</table>
+		</td>
+	</tr>
+<!-- 학력사항1 펼침메뉴 //-->
+	<tr>
+		<th  class="pl5">경력</th>
+		<td  colspan="2">
+		<div class="positionR">
+		<input id="" class="" type="checkbox" title="경력">
+        <label class="" for="">경력있음</label>	
+		<em class="positionA bg_color1"  style="right:2px;top:2px; ">+ 추가</em>
+		</div>
+		</td>
+	</tr>
+<!-- 경력사항1 펼침메뉴-->
+	<tr>
+		<td  class="pl5">경력사항1<em class="delBtn bg_color1 mt5">- 삭제</em></td>
+		<td  colspan="2" class="pl5 ">
+		<table>
+        <tr><td style="width:15%;">
+		<label class="" style="display:inline-block;">회사명</label>
+		</td>
+		<td style="width:85%;">
+		<input id="" class="ipText" type="text" placeholder="회사명을 입력해주세요." style="width:70%;" maxlength="12" name="">
+		</td></tr>
+		
+		<tr><td>
+		<label class="" style="display:inline-block;">근무직종</label>
+		</td>
+		<td>
+		<div class="styled-select list9 clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">1차</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		<div  class="styled-select list9 clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">2차</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+        </div>
+		<div class="styled-select list9 clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">3차</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		 </div>
+		</td></tr>
+       <tr><td>
+		<label class="" style="display:inline-block;width:50px">근무시간</label>
+		</td>
+		<td>
+		<div class="styled-select list2  clearfix positionR">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		<select title="순서" name="" id="" style="" class="">
+			<option value="0">년</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+			<div class="styled-select list2 mr5 clearfix positionR">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">월</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+            <div style="float:left; line-height:25px; margin-right:1px;">~</div>			
+			<div class="styled-select list2  clearfix positionR">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+            <option value="0">년</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+			<div class="styled-select list2  clearfix positionR">
+		    <img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">월</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td></tr>
+		<tr><td>
+		<label class="" style="display:inline-block;width:50px">담당업무</label>
+		</td>
+		<td>
+		<input id="" class="ipText" type="text" style="width:50%;" maxlength="12" name="">
+		</td></tr>
+		<tr><td>
+		<label class="" style="display:inline-block;width:50px">상세업무</label>
+		</td>
+		<td>
+		<textarea style="width:70%; height:40px;" id="" class="ipTextarea" name=""></textarea>
+		</td></tr>
+		</table>
+		</td>
+	</tr>
+<!-- 경력사항1 펼침메뉴 //-->
+	<tr>
+		<th  class="pl5">보유자격증</th>
+		<td  colspan="2" class=" ">
+		<div class="positionR">
+		<input id="" class="" type="checkbox" title="자격증">
+        <label class="" for="">보유자격증 있음</label>
+		<em class="positionA bg_color1"  style="right:2px;top:2px; ">+ 추가</em>
+		</div>
+		</td>
+	</tr>
+<!-- 자격증1 펼침메뉴-->
+	<tr>
+		<td  class="pl5">자격증1<em class="delBtn bg_color1 mt5">- 삭제</em></td>
+		<td  colspan="2" class="pl5 ">
+        <table>
+        <tr><td style="width:15%;">
+		<label class="" style="display:inline-block; ">자격증명</label>
+		</td>
+		<td style="">
+		<input id="" class="ipText" type="text" style="width:95%;" maxlength="12" name="">
+		</td>
+		<td style="width:15%">
+		<label class="" style="display:inline-block;">발행처</label>
+		</td>
+		<td style="">
+		<input id="" class="ipText" type="text" style="width:95%;" maxlength="12" name="">
+		</td>
+		</tr>
+		<tr><td>
+		<label class="" style="display:inline-block;">취득년도</label>
+		</td>
+		<td>
+		<div class="styled-select list7  clearfix positionR" style="width:96%;">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">년</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		
+		</td></tr>
+		</table>
+		</td>
+		</tr>
+ 
+<!-- 자격증1 펼침메뉴 //-->
+	<tr>
+		<th  class="pl5">외국어능력</th>
+		<td  colspan="2" class=" ">
+		<div class="positionR">
+		<input id="" class="" type="checkbox" title="외국어">
+        <label class="" for="">외국어능력 있음</label>
+		<em class="positionA bg_color1"  style="right:2px;top:2px; ">+ 추가</em>
+		</div>
+
+		</td>
+	</tr>
+<!-- 외국어1 펼침메뉴-->
+	<tr>
+		<td  class="pl5">외국어능력1<em class="delBtn bg_color1 mt5">- 삭제</em></td>
+		<td  colspan="2" class="pl5 ">
+        <table>
+        <tr><td style="width:15%;">
+		<label class="" style="display:inline-block; ">외국어</label>
+		</td>
+		<td style="">
+		<div class="styled-select list7  clearfix positionR" style="width:96%;">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">공인시험</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		</td>
+		<td colspan="2" style="width:50%">
+		<input id="" class="" type="radio" title="상">
+		<label class="" style="display:inline-block;">상</label>
+		<input id="" class="" type="radio" title="상">
+		<label class="" style="display:inline-block;">중</label>
+		<input id="" class="" type="radio" title="상">
+		<label class="" style="display:inline-block;">하</label>		
+		</td>
+		</tr>
+		 <tr><td style="width:15%;">
+		<label class="" style="display:inline-block; ">공인시험</label>
+		</td>
+		<td style="">
+		<div class="styled-select list7  clearfix positionR" style="width:96%;">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">공인시험</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		</td>
+		<td style="width:20%">
+		<label class="" style="display:inline-block;">점수/등급</label>
+		</td>
+		<td style="">
+		<input id="" class="ipText" type="text" style="width:95%;" maxlength="12" name="">
+		</td>
+		</tr>
+		<tr><td>
+		<label class="" style="display:inline-block;">취득년도</label>
+		</td>
+		<td colspan="3">
+		<div class="styled-select list7  clearfix positionR" style="width:30%;">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">년</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		</td>
+		</tr>
+		<tr><td colspan="2">
+        <input id="" class="" type="checkbox" title="상">
+		<label class="" style="display:inline-block;  padding-right:10px;">어학연수 경험있음</label>
+		</td>
+		<td colspan="2">
+		<div class="styled-select  clearfix positionR" style="display:inline-block; width:80%;">
+		<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+		    <select title="순서" name="" id="" style="" class="">			
+			<option value="0">연수기간선택</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+		</div>
+		</td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+ 
+<!-- 외국어1 펼침메뉴 //-->
+	
+	<tr>
+		<th  class="pl5">OA능력</th>
+		<td >
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">시급</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  style="width:50%"class="">
+        <input type="text" name="" id="" maxlength="12" style="width:50%;" class="ipText">
+		<label class="">원</label>
+		<input id="" class="" type="checkbox" title="추후협의">
+        <label class="" for="">추후협의</label>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">컴퓨터능력</th>
+		<td colspan="2">
+		<input id="" class="" type="checkbox" title="프로그래밍">
+        <label class="" for="">프로그래밍</label>
+		<input id="" class="" type="checkbox" title="디자인">
+        <label class="" for="">디자인</label>
+		<input id="" class="" type="checkbox" title="포토샵">
+        <label class="" for="">포토샵</label>
+		<input id="" class="" type="checkbox" title="PC조립">
+        <label class="" for="">PC조립</label>
+		</td>
+	</tr>
+<tr>
+		<th  class="pl5">특기사항</th>
+		<td colspan="2" >
+		<input id="" class="" type="checkbox" title="문서작성을잘함">
+        <label class="" for="">문서작성을잘함</label>
+		<input id="" class="" type="checkbox" title="PC조립/설치에능숙함">
+        <label class="" for="">PC조립/설치에능숙함</label>
+		</td>
+	</tr>	
+<tr>
+		<th  class="pl5">수상수료활동내역</th>
+		<td colspan="2" style="padding-top:3px; padding-bottom:3px; ">
+		<textarea name="" class="ipTextarea" id="" style="width:95%; height:40px;"></textarea>
+		</td>
+	</tr>		
+</tbody>
+</table>
+</div>
+</div>
+<div class="btnBottom">
+     <ul class="clearfix">
+		<li><a href="../person/regist2.html" class="button white"><span>다음</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+		<li><a href="../main/main.html" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+	</ul>
+</div>
+<!--
+<div class="contentBoxWrap clearfix positionR">
+<h2 style="margin-bottom:1px;">
+<ul class="tapMenu clearfix">
+<li class="list1 on"><a href="">선택입력사항</a></li>
+</ul>
+</h2>
+<table cellspacing="1" cellpadding="0" border="0" class="" style="border:15px solid #fff; margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">최종학력</th>
+		<td style="">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">학력선택</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+		</td>
+		<td style="width:50%;">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">상태선택</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">경력사항</th>
+		<td  colspan="2" class=" ">
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">경력있음</label>	
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">보유자격증</th>
+		<td  colspan="2" class=" ">
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">보유자격증 있음</label>	
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">외국어능력</th>
+		<td  colspan="2" class=" ">
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">외국어능력 있음</label>	
+		</td>
+	</tr>	
+	<tr>
+		<th  class="pl5">OA능력</th>
+		<td  >
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">시급</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  class="">
+        <input type="text" name="" id="" maxlength="12" style="width:50%;" class="ipText">
+		<label class="">원</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">추후협의</label>
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">컴퓨터능력</th>
+		<td colspan="2" class="pl5">
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">프로그래밍</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">디자인</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">포토샵</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">PC조립</label>
+		</td>
+	</tr>
+<tr>
+		<th  class="pl5">특기사항</th>
+		<td colspan="2" class="pl5">
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">문서작성을잘함</label>
+		<input id="" class="" type="checkbox" title="회원이용약관동의">
+        <label class="" for="">PC조립/설치에능숙함</label>
+		</td>
+	</tr>	
+<tr>
+		<th  class="pl5">수상수료활동내역</th>
+		<td colspan="2" class="pl5">
+		<textarea name="" class="ipTextarea" id="" style="width:95%; height:40px;"></textarea>
+		</td>
+	</tr>		</tbody>
+</table>
+</div>
+<div style="display:block;" class="button shadowBox">
+                  <ul class="clearfix">
+					  <li style="margin-right:1px;"><a href="../person/regist2.html"><span>다음<img class="" src="../images/btn/btn_rightArrow4.png" alt=""></span></a>
+					  </li>
+					  <li style="margin-right:-1px;"><a href="../member/join2.html"><span>취소<img class="" src="../images/btn/btn_rightArrow4.png" alt=""></span></a>
+					  </li>
+				  </ul>
+			  </div>
+</div>
+-->
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

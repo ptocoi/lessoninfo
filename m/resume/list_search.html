@@ -1,0 +1,316 @@
+<?php 
+$page_name = "alba_resume_list_search";
+$search_mode = "alba_resume_search";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script>
+$(".topMenu.list2").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+var area_sel_first = function( vals, target ){	// 첫번째 지역값 선택
+	var sel = vals.value;
+	$('#'+target+'_display').load('./_load/search.php', { mode:'search_second_area', type:'area', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+var jobtype_sels = function( vals, target ){	// 첫번째 직종 선택
+	var sel = vals.value;
+	$('#'+target+'_display').load('./_load/search.php', { mode:'second_jobtype', type:'job_type', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+var searchFrm_submit = function(){
+	$('#resumeSearchFrm').submit();
+}
+</script>
+<section  class="contentWrap">
+
+<form method="get" name="resumeSearchFrm" action="<?php echo $_SERVER['PHP_SELF'];?>" id="resumeSearchFrm">
+<input type="hidden" name="mode" value="search"/>
+<input type="hidden" name="search_mode" value="<?php echo $search_mode;?>"/>
+
+<div class="searchWrap"><!--  상세검색 폼  -->	
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em><span>상세검색</span></h2>
+	<div class="contentBoxWrap clearfix positionR">
+		<table cellspacing="1" cellpadding="0" border="0" style="margin:0; padding:0px; width:100%">
+		<tbody>
+		<tr>
+			<th  class="pl5">근무지역</th>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select id="wr_area0" name="wr_area0" title="시/도" onchange="area_sel_first(this,'wr_area1');">
+					<option value="">시/도</option>
+					<?php 
+					if($category_area) {
+						foreach($category_area as $val){
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+						$selected = ($first_code == $val['code']) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php 
+						}	// foreach end.
+					} // if end.
+					?>
+					</select>
+				</div>		
+			</td>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<div id="wr_area1_display">
+					<select style="" id="wr_area1" name="wr_area1" title="시/구/군">
+						<option value="">시/구/군</option>
+						<?php
+						if($wr_area_0 || $second_code){
+							$pcodeList = $category_control->category_pcodeList('area', $first_code, "", " and `view` = 'yes' ");
+							if($pcodeList){
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($second_code == $val['code']) ? "selected" : "";
+						?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php 
+								}	// foreach end.
+							}	// if end.
+						}	// if end.
+						?>
+					</select>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th  class="pl5">업직종</th>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select class="" style="" id="wr_job_type0" name="wr_job_type0" title="업직종1차 분류선택" onchange="jobtype_sels(this,'wr_job_type1');">
+					<option value="">업직종1차</option>
+					<?php 
+					if($job_types){
+						foreach($job_types as $val){ 
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링							
+						$selected = ($val['code']==$wr_job_type0) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php 
+						} // foreach end.
+					}	// if end.
+					?>
+					</select>
+				</div>		
+			</td>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<div id="wr_job_type1_display">
+						<select class="" style="" id="wr_job_type1" name="wr_job_type1" title="업직종2차 분류선택">
+						<option value="">업직종2차</option>
+						<?php
+						if($wr_job_type1){
+							$pcodeList = $category_control->category_pcodeList('job_type', $wr_job_type0, "", " and `view` = 'yes' ");
+							if($pcodeList){
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($wr_job_type1 == $val['code']) ? "selected" : "";
+						?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php 
+								}	// foreach end.
+							}	// if end.
+						}	// if end.
+						?>
+						</select>
+					</div>
+				</div>		
+			</td>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<div id="wr_job_type2_display">
+						<select class="" style="" id="wr_job_type2" name="wr_job_type2" title="업직종3차 분류선택">
+						<option value="">업직종3차</option>
+						<?php
+						if($wr_job_type2){
+							$pcodeList = $category_control->category_pcodeList('job_type', $wr_job_type1, "", " and `view` = 'yes' ");
+							if($pcodeList){
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($wr_job_type2 == $val['code']) ? "selected" : "";
+						?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php 
+								}	// foreach end.
+							}	// if end.
+						}	// if end.
+						?>
+						</select>
+					</div>
+				</div>
+			</td>	
+		</tr>
+
+		<tr>
+			<th  class="pl5">기간별</th>
+			<td colspan="3">
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select class="" style="" id="" name="" title="순서">
+					<option value="">기간선택</option>
+					<?php 
+					if($alba_date_list){
+						foreach($alba_date_list as $val){ 
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+						$selected = ($val['code']==$wr_date) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php
+						}	// foreach end.
+					}	// if end.
+					?>
+					</select>
+				</div>		
+			</td>
+		</tr>
+		<tr>
+			<th  class="pl5">경력</th>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select class="" style="" id="wr_career" name="wr_career" title="경력선택">
+					<option value="">경력선택</option>
+					<?php
+					if($job_career_list) {
+						foreach($job_career_list as $val){
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+						$selected = ($wr_career==$val['code']) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php 
+						} // foreach end.
+					}	// if end.
+					?>
+					</select>
+				</div>		
+			</td>
+			<td colspan="2">
+				<span>
+					<input type="checkbox" id="wr_career_use_0" title="경력무관" class="chk" name="wr_career_use" value="0" <?php echo ($wr_career_use=='0')?'checked':'';?>>
+					<label for="ch_career_type_0" class="lbl_long">경력무관 포함</label>
+				</span>
+			</td>
+		</tr>
+		<tr>
+			<th  class="pl5">학력</th>
+			<td>
+				<div class="styled-select list7  clearfix positionR">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select class="" style="" id="wr_school_ability" name="wr_school_ability" title="학력선택">
+					<option value="">학력선택</option>
+					<?php
+						foreach($indi_ability_list as $val){
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+						$selected = ($wr_school_ability==$val['code']) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php
+						}	// foreach end.
+					?>
+					</select>
+				</div>
+			</td>
+		</tr>	
+		<tr>
+			<th  class="pl5">성별</th>
+			<td  colspan="3" style="width:70%;">
+				<div class="styled-select list7  clearfix positionR">
+				<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+				<select class="" style="" id="wr_gender" name="wr_gender" title="순서">
+				<option value="">성별선택</option>
+				<option value="1" <?php echo ($wr_gender=='1')?'selected':'';?>>남자</option>
+				<option value="2" <?php echo ($wr_gender=='2')?'selected':'';?>>여자</option>
+				</select>
+				</div>
+			</td>
+		</tr>	
+		</tbody>
+		</table>
+	</div><!--  상세검색 폼 // -->	
+	<div class="btnBottom"><!--  버튼 -->
+		<ul class="clearfix">
+			<li style="width:100%;"><a style="width:100%;" class="button bg_color1 white" href="javascript:searchFrm_submit();"><span style="color:#fff;">검색</span><img class="bg_color1" src="../images/btn/btn_rightArrow3.png" alt=""></a></li> 
+			<!-- <li style="width:40%;"><a style="width:100%;" class="button bg_color1 white" href="#"><span style="color:#fff;">초기화</span><img class="bg_color1" src="../images/btn/btn_rightArrow3.png" alt=""></a></li>  -->
+		</ul>
+	</div><!--  버튼 // -->
+
+</form>
+
+	<div class="mList mt50"><!--  검색결과  -->
+		<h2>
+			<em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em>
+			<span>일반인재정보<em class="text_color1 pl5">(<?php echo number_format($search_alba_resume['total_count']);?>건)</em></span>
+		</h2>
+
+		<ul class="boxWrap clearfix positionR">
+		<?php
+		if(!$search_alba_resume['total_count']){
+		?>
+			<li class="bth positionR">
+				<dl class="tc clearfix" style="height:40px;line-height:40px;">등록된 인재정보가 없습니다.</dl>
+			</li>
+		<?php } else { 
+			foreach($search_alba_resume['result'] as $val){
+			$no = $val['no'];
+			$wr_id = $val['wr_id'];
+			$list = $alba_resume_user_control->get_resume_service($no,"",44);
+			$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba_resume', $no, date('Y-m-d'));
+		?>
+			<li class="bth positionR">
+				<dl class="resumeList clearfix">
+					<dt class="name_wrap"> 
+						<a href="./detail.html?no=<?php echo $no;?>">
+						<span class="name"><?php echo $list['wr_name'];?></span>
+						<?php if($list['is_photo']){ ?>
+						<span class="photo"><img width="16" height="16" src="../images/icon/icon_photo1.gif" class="vb pb2"></span>
+						<?php } ?>
+						<span class="gender">(<?php echo $list['wr_gender'];?><?php echo $list['wr_age'];?>)</span>
+						<span class="career"><?php echo $list['career'];?></span>
+						</a> 
+					</dt>
+					<dd class="text1 positionR" >
+						<a href="./detail.html?no=<?php echo $no;?>" class=""><?php echo $list['subject'];?></a>
+					</dd>
+					<dd class="text2 clearfix positionR">
+						<span class="school"><?php echo $list['school_ability'];?></span>
+						<span class="add"><?php echo $utility->str_cut($list['wr_area'],18,"");?></span>
+						<?php if($list['license']){ ?>
+						<span class="license"><em class="payIcon"><?php echo $list['license'];?></em></span>
+						<?php } ?>
+					</dd>
+					<dd class="etc">
+						<span class="pay"><em class="number"><?php echo $list['wr_pay'];?></em> 
+						<?php if($list['wr_pay']!='추후협의'){ ?>
+						<em class="payIcon"><?php echo $list['wr_pay_type'];?></em></span>
+						<?php } ?>
+					</dd>
+					<dd class="scrap" ><!-- bg_color1 -->
+						<a onclick="resume_scrap('<?php echo $no;?>');"><img alt="스크랩" src="../images/icon/icon_scrap1.png" class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>"></a>
+					</dd>
+				</dl>
+			</li>
+		<?php
+			}	// foreach end.
+		}	// if end.
+		?>
+		</ul>
+	</div><!--  검색결과 // -->
+
+<?php include_once "../include/page.html";?>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

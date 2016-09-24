@@ -1,0 +1,50 @@
+<?php 
+$page_name = "alba_list_pay";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list1").addClass("on");
+$(".jobBtnWrap").fadeIn("fast");
+var pay_sels = function( code, target ){
+	$('.'+target+'Box li').html("");	// 선택지역 초기화
+	$('#'+target+'_pay_'+code).load('./_load/search.php', { mode:'alba_pay', type:'alba_pay', p_code:code, target:target }, function(result){
+
+	});
+}
+</script>
+<section class="contentWrap">
+<div class="location">
+	<h2 class="skip">급여별리스트</h2>
+	<ul class="boxWrap clearfix positionR">
+		<li class="clearfix">
+			<?php
+			if($alba_pay_list){
+				foreach($alba_pay_list as $val){
+				$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+				$category_count = $alba_user_control->get_category_count($val['code'],'wr_pay_type');
+			?>
+			<div class="positionR">
+				<a onclick="pay_sels('<?php echo $val['code'];?>','second');">
+				<span class="local"><?php echo $name;?><em class="text_color1">(<?php echo number_format($category_count);?>)</em></span>
+				<div class="localRightArrow"><img style="width:6px; height:11px;" class="bg_color1" src="../images/btn/btn_rightArrow2.png" alt="click"></div>
+				</a> 
+			</div>
+			<ul class="secondBox clearfix positionR">
+				<li class="clearfix" id="second_pay_<?php echo $val['code'];?>"></li>
+			</ul>
+			<?php 
+				}	// foreach end.
+			}	// if end.
+			?>
+		</li>
+	</ul>
+</div>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?php 
+$page_name = "alba_resume_list_part";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list2").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+var type_sels = function( code, target ){
+	$('.'+target+'Box li').html("");	// 선택지역 초기화
+	$('#'+target+'_type_'+code).load('./_load/search.php', { mode:'job_type', type:'job_type', p_code:code, target:target }, function(result){
+
+	});
+}
+</script> 
+<section class="contentWrap">
+<div class="location">
+	<h2 class="skip">업직종리스트</h2>
+	<ul class="boxWrap clearfix positionR">
+		<li class="clearfix">
+		<?php 
+		if($job_types){
+			foreach($job_types as $val){ 
+			$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+			$category_count = $alba_resume_user_control->get_category_count($val['code'],"wr_job_type0");
+		?>
+			<div class="positionR">
+				<a onclick="type_sels('<?php echo $val['code']?>','second');">
+				<span class="local"><?php echo $name;?><em class="text_color1">(<?php echo number_format($category_count);?>)</em></span>
+				<div class="localRightArrow"><img class="bg_color1" width="6" height="11" src="../images/btn/btn_rightArrow2.png" alt="click"></div>
+				</a> 
+			</div>
+			<ul class="secondBox clearfix positionR">
+				<li class="clearfix" id="second_type_<?php echo $val['code'];?>"></li>
+			</ul>
+		<?php 
+			} // foreach end.
+		} // if end.
+		?>
+		</li>
+	</ul>
+</div>
+
+<?php include_once "../include/page.html";?>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

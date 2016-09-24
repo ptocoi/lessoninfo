@@ -1,0 +1,1443 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu_service.html";?>
+</header>
+<script>
+		$(".topMenu.list1").addClass("on");
+</script>
+<style type="text/css">
+	/* ========================  기본컬러설정   ========================= */
+	#list li .icons div img{background-color:#c9c9c9;}
+
+	#platinum dd.icons > div > a > img{background-color:#<?php echo $design['main_platinum_border_color'];?>;}	/* 테두리 일반 */
+	#platinum  > ul > li{border-color:#<?php echo $design['main_platinum_border_color'];?>;}	/* 테두리 일반 */
+	#platinum .text1{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+	#platinum .text2{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+	#platinum.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+
+	#prime dd.icons > div > a > img{background-color:#<?php echo $design['main_prime_border_color'];?>;}
+	#prime  > ul > li{border-color:#<?php echo $design['main_prime_border_color'];?>;}
+	#prime .text1{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+	#prime .text2{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+	#prime.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+
+	#grand dd.icons > div > a > img{background-color:#<?php echo $design['main_grand_border_color'];?>;}
+	#grand  > ul > li{border-color:#<?php echo $design['main_grand_border_color'];?>;}
+	#grand .text1{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+	#grand .text2{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+	#grand.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+
+	#box dd.icons > div > a > img{background-color:#<?php echo $design['main_banner_border_color'];?>;}
+	#box  > ul > li{border-color:#<?php echo $design['main_banner_border_color'];?>;}
+	#box .text1{background-color:#<?php echo $design['main_banner_background_color'];?>;}
+	#box .text2{background-color:#<?php echo $design['main_banner_background_color'];?>;}
+	/* ========================  기본컬러설정 // ========================= */
+
+	/* ========================  골드컬러설정 ========================= */
+	.border1 > ul > li.gold {z-index:1000;}
+	.border2 > ul > li.gold {z-index:1000;}
+
+	#list > ul > li.gold {background:#<?php echo $design['main_list_background_gold_color'];?>;border-color:#c3b39e;}
+	#list > ul > li.gold .icons div img{background-color:#fdb301;}
+
+	#platinum  > ul > li.gold {border-color:#<?php echo $design['main_platinum_border_gold_color'];?>;}	/* 테두리 골드 */
+	#platinum  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_platinum_border_gold_color'];?>;}	/* 테두리 골드 */
+	#platinum  > ul > li.gold .text1 a{color:#fff;}
+	#platinum  > ul > li.gold .text1,#platinum li.gold .text2{background-color:#<?php echo $design['main_platinum_background_gold_color'];?>; color:#fff;}	/* 배경칼라 골드 */
+	#platinum  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_platinum_background_gold_color'];?>;}	/* 배경칼라 골드 */
+	#platinum.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_platinum_background_gold_color'];?>;color:#fff;}	/* 배경칼라 골드 */
+
+	#prime  > ul > li.gold {border-color:#<?php echo $design['main_prime_border_gold_color'];?>;}
+	#prime  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_prime_border_gold_color'];?>;}
+	#prime  > ul > li.gold .text1 a{color:#fff;}
+	#prime  > ul > li.gold .text1,#prime li.gold .text2{background-color:#<?php echo $design['main_prime_background_gold_color'];?>; color:#fff;}
+	#prime  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_prime_background_gold_color'];?>;}
+	#prime.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_prime_background_gold_color'];?>;color:#fff;}
+
+	#grand  > ul > li.gold {border-color:#<?php echo $design['main_grand_border_gold_color'];?>;}
+	#grand  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_grand_border_gold_color'];?>;}
+	#grand  > ul > li.gold .text1 a{color:#fff;}
+	#grand  > ul > li.gold .text1,#grand li.gold .text2{background-color:#<?php echo $design['main_grand_background_gold_color'];?>; color:#fff;}
+	#grand  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_grand_background_gold_color'];?>;}
+	#grand.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_grand_background_gold_color'];?>;color:#fff;}
+
+	#box  > ul > li.gold {border-color:#<?php echo $design['main_banner_border_gold_color'];?>;}
+	#box  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_banner_border_gold_color'];?>;}
+	#box  > ul > li.gold .text1 a{color:#fff;}
+	#box  > ul > li.gold .text1,#box li.gold .text2{background-color:#<?php echo $design['main_banner_background_gold_color'];?>; color:#fff;}
+	#box  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_banner_background_gold_color'];?>;}
+	/* ========================  골드컬러설정 // ========================= */
+
+/* line 4 () */
+.text2 .icon {background-color: #FDB301; color: #FFFFFF; font-size: 11px; font-style: normal;	font-weight:normal; padding:1px 1px 0;}
+.number4 .bth .logo {display:block;margin:9px 0 0 10px; height:50px; background-color:#FFFFFF;float:left; text-align:left; width:105px;}
+.number4 .bth .logo img { width:100px;}
+.number4 .logo_tit{display:block; padding-top:30px; background-color:#FFFFFF; text-align:center;
+ text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.number4 .logo_tit em{padding-top:1px;}
+.number4 .text1{padding:14px 5px 3px 5px; height:15px; line-height:1; text-align:left; text-overflow:ellipsis; white-space:nowrap;overflow:hidden; background-color:#F5FAFF;}
+.number4 .text2{padding:0 0 15px 5px; letter-spacing:0; background-color:#F5FAFF;}
+.number4 dd.icons{position:absolute; top:-1px;right:-1px;}
+.number4 dt{height:60px;}
+.style1.number4 > ul > li { height: 120px; overflow: hidden;  width:255px; }
+.border1 > ul > li {border: 1px solid #AFC0FF; margin-right: -1px;  margin-top: -1px;}
+
+div.sumImg > img{width:100px;}
+
+#list > ul { border-top: 2px solid #666666;}
+#list  > ul > li  a.service {height:30px; display:block;}
+#list.style1  > ul > li {width:463px; height:37px; overflow:hidden;}
+#list.style1 > ul > li {border-bottom: 1px solid #E7E7E7; letter-spacing: -0.1em; line-height: 3em;  padding-right: 16px;}
+#list.style1  > ul > li div.listWrap {width:440px;}
+#list .logo_tit{padding-left:5px; vertical-align:middle;  font-size:12px; font-weight:bold;}
+#list .text1{text-align:left; padding-left:5px;}
+#list .text1 a{line-height:18px; }
+#list .add{display:inline-block;zoom:1;*display:inline/*IE7 HACK*/;  padding-left:5px; color:#9c9c9c;}
+#list .icons{position:absolute; right:5px; top:50%; margin-top:-7px;}
+#list > ul > li:nth-child(2n){border-right:1px solid #E7E7E7;}
+#list > ul > li:nth-child(10n+1){border-bottom:1px solid #666;}
+#list > ul > li:nth-child(10n){border-bottom:1px solid #666;}
+
+/* content () */
+#list  a .logo_tit {color:#333333; font-size:13px; font-weight:bold; font-family:"Nanum Gothic","NGothic";}
+
+.serviceBox > div {background-color: #FFFFFF; border: 2px solid #FF0000; position: relative; width: 250px;}
+.serviceBox > div > span {display: block; height: 25px; line-height: 25px; margin: 5px;}
+.serviceBox > div > em {background-color: #000000; bottom: -2px; color: #FFFFFF; display: block; font-size: 11px; font-weight: bold; height: 20px; line-height: 20px;  position: absolute;  right: -2px;  text-align: center; width: 20px;  z-index: 500;}
+
+.serviceBox.jump > div {background: url("../../images/basic/img_listUp.gif") no-repeat scroll 0 0 #fff; height: 98px; position: relative; width: 164px;	border:none;}
+.serviceBox.jump > div > span {border: 2px solid #FF0000; display: block; height: 22px; position: absolute; top:14px;left:-5px;width: 155px;}
+.serviceBox.resumBg > div {background: url("../../images/basic/img_resume.gif") no-repeat scroll 0 0 #fff; height: 98px; position: relative; width: 164px;	border:none;}
+</style>
+<section  class="contentWrap" >
+
+<div class="popLayerWrap" style="display:;"><!-- 플래티넘 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>플래티넘</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 메인 최상단</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:20%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style=" padding-right:10px;">
+					<div style="display:block; margin:10px auto 0;" id="platinum" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="platinum" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 플래티넘 레이어 팝업 //-->
+<div class="popLayerWrap" style="display:none;"><!-- 프라임 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>프라임</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 메인 상단 두번째</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:29%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left;  padding-right:10px; ">
+					<div style="display:block; margin:10px auto 0;" id="prime" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="prime" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 프라임 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 그랜드 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>그랜드</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 메인 상단 세번째</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:39%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left;  padding-right:10px;">
+					<div style="display:block; margin:10px auto 0;" id="grand" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="grand" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 그랜드 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 배너형 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>배너형</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 메인 배너형태</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:47%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left;  padding-right:10px; ">
+					<div style="display:block; margin:10px auto 0;" id="box" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth" style="height:100px;">
+										<dl>
+											<dt style="height:40px;">
+												<span class="logo_tit" style="padding-left:10px; padding-top:15px; text-align:left;">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="box" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold" style="height:100px;">
+										<dl>
+											<dt style="height:40px;">
+												<span class="logo_tit" style="padding-left:10px; padding-top:15px; text-align:left;">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 배너형 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 리스트형 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>리스트형</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 메인 하단 리스트</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:270px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:55%; border:3px solid #ff0000; height:7%; width:105px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left; padding-left:5px; padding-right:5px;">
+					<div class="style1  color1 clearfix" id="list" style="display:block; width:260px; overflow:hidden; margin:10px auto;">
+								<ul class="clearfix">  
+									<li class="bth">
+										<span class="add" style="color:#8f8f8f">서울</span>
+										<a><span class="logo_tit">㈜회사명</span></a> 
+										<span class="text1">
+											<img src="../../images/icon/icon_hot.gif" alt="HOT" class="vm pr5"><a class="opt_color1 opt_bold opt_pen2">성실한 인재모집</a>
+										</span>
+									</li>
+									<li class="bth gold">
+										<span class="add" style="color:#8f8f8f">서울</span>
+										<a><span class="logo_tit">㈜회사명</span></a> 
+										<span class="text1"><span></span><a>성실한 인재모집</a></span>
+									</li>
+								</ul>
+								</div>
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 리스트형 레이어 팝업 //-->
+<div class="popLayerWrap" style="display:none;"><!-- 플래티넘채용정보 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>플래티넘 채용정보</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 채용정보 상단</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:20%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style=" padding-right:10px;">
+					<div style="display:block; margin:10px auto 0;" id="platinum" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="platinum" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold">
+										<dl>
+											<dt>
+												<a><span class="logo"><img width="106"  src="../../images/basic/img_aniLogo1.gif" alt="㈜logo"></span>
+												<span class="logo_tit">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 플래티넘채용정보 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 배너형채용정보 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>배너형 채용정보</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 채용정보 중단</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:260px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:47%; border:3px solid #ff0000; height:7%; width:100px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left;  padding-right:10px; ">
+					<div style="display:block; margin:10px auto 0;" id="box" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth" style="height:100px;">
+										<dl>
+											<dt style="height:40px;">
+												<span class="logo_tit" style="padding-left:10px; padding-top:15px; text-align:left;">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span>서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+							 </div>
+							<div style="display:block; margin:0 auto 10px;" id="box" class="style1 border1 number4 color1  clearfix">
+								<ul>
+									<li class="bth gold" style="height:100px;">
+										<dl>
+											<dt style="height:40px;">
+												<span class="logo_tit" style="padding-left:10px; padding-top:15px; text-align:left;">㈜회사명</span></a> 
+											</dt>
+											<dd class="text1">
+												<a class="opt_color1 opt_bold opt_pen2">함께할 성실한 인재모집 <span class="edy edyEn">~06/14</span></a>
+											</dd>
+											<dd class="text2">
+												<span><em class="icon">일</em><em class="number">50,000</em>원</span>
+												<span >서울 구로구</span>
+											</dd>
+										</dl>
+									</li>
+								</ul>
+						  </div>		
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 배너형채용정보 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 리스트형채용정보 레이어 팝업 -->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>리스트형 채용정보</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+		<a><img src="../images/btn/btn_close1.png" alt=""></a>
+	</div>
+	<div style="margin-top:1px;background-color:#fff; "class="LayerContent sumImg clearfix" ><!-- box-->
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 채용정보 하단</li>
+			<li style="font-weight:normal;">·일반리스트 무료 등록</li>
+		</ul>
+		</h3>		
+		<ul style="width:270px; margin:0 auto;">
+		<!--<li style="position:relative; float:left;  padding-left:10px; width:110px; text-align:left;">
+			<em style="display:block; position:absolute; left:8px;  top:55%; border:3px solid #ff0000; height:7%; width:105px;"></em>
+			<img  src="../images/basic/img01.gif">
+		</li>-->
+		<li style="float:left; padding-left:5px; padding-right:5px;">
+					<div class="style1  color1 clearfix" id="list" style="display:block; width:260px; overflow:hidden; margin:10px auto;">
+								<ul class="clearfix">  
+									<li class="bth">
+										<span class="add" style="color:#8f8f8f">서울</span>
+										<a><span class="logo_tit">㈜회사명</span></a> 
+										<span class="text1">
+											<img src="../../images/icon/icon_hot.gif" alt="HOT" class="vm pr5"><a class="opt_color1 opt_bold opt_pen2">성실한 인재모집</a>
+										</span>
+									</li>
+									<li class="bth gold">
+										<span class="add" style="color:#8f8f8f">서울</span>
+										<a><span class="logo_tit">㈜회사명</span></a> 
+										<span class="text1"><span></span><a>성실한 인재모집</a></span>
+									</li>
+								</ul>
+								</div>
+			</li>
+		</ul>
+	</div><!-- box //-->
+</div>
+</div>
+</div><!-- 리스트형채용정보 레이어 팝업 //-->
+
+
+
+<div class="popLayerWrap" style="display:none;"><!-- 급구상품 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>급구상품</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+		<div class="LayerContent serviceBox">
+		<h3 class="pl5 mb5">
+		<ul><li>·넷퓨 알바 솔루션 급구채용공고</li>
+			<li style="font-weight:normal;">·급구 채용공고에 노출되며<em class="pl5"><img src="../../data/icon/1308/31508438_ryWab7tD_icon_wanted.gif" alt="급구"></em> 로 강조</li>
+		</ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="" class="ml10 pl5"><img alt="급구" src="../../data/icon/1308/31508438_ryWab7tD_icon_wanted.gif" class="vm pr5">사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">급구상품</em></div>
+		</div>
+	</div>
+</div>
+</div><!-- 급구상품 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 형광펜 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>형광펜</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+		<div class="LayerContent serviceBox">
+		<h3 class="pl5 mb5">
+		<ul><li>·채용공고 리스트 제목을 형광펜 강조효과</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="background:#0066FF; color:#fff;" class="ml10 pl5">사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">형광펜</em></div>
+		</div>
+	</div>
+</div>
+</div><!-- 형광펜 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 굵은글자 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>굵은글자</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+		<div class="LayerContent serviceBox">
+		<h3 class="pl5 mb5">
+		<ul><li>·채용공고 리스트 제목을 굵은글자 강조효과</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="font-weight:bold;" class="ml10 pl5">사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">굵은글자</em></div>
+		</div>
+	</div>
+</div>
+</div><!-- 굵은글자 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 아이콘 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>아이콘</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+		<div class="LayerContent serviceBox">
+		<h3 class="pl5 mb5">
+		<ul><li>·채용공고 리스트 제목을 아이콘 강조효과</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="" class="ml10 pl5"><img src="http://alba.netfu.co.kr/n_alba/data/icon/1308/31508438_SQ3xc2nR_icon_hot.gif" class="vm"> 사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">아이콘</em></div>
+		</div>
+	</div>
+</div>
+</div><!-- 아이콘 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 글자색 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>글자색</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+		<div class="LayerContent serviceBox">
+		<h3 class="pl5 mb5">
+		<ul><li>·채용공고 리스트 제목을 글자색 강조효과</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="color:#0066FF;" class="ml10 pl5">사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">글자색</em></div>
+		</div>
+	</div>
+</div>
+</div><!-- 글자색 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 반짝칼라 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>반짝칼라</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+	<div class="LayerContent serviceBox">
+	    <h3 class="pl5 mb5">
+		<ul><li>·채용공고 리스트 제목을 빤짝컬러 강조효과</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="color:#0066FF;" class="ml10 pl5">사무보조 알바모집 합니다.</span><em style="right:-2px; bottom:-1px; width:55px;" class="positionA">반짝칼라</em>
+		</div>
+		
+	</div>
+	</div>
+</div>
+</div><!-- 반짝칼라 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 점프서비스 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>점프서비스</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+	<div class="LayerContent serviceBox jump" >
+	    <h3 class="pl5 mb5">
+		<ul><li>·채용공고 등록 후 24시간 내에 2번 (12시간 간격)</li>
+		<li style="font-weight:normal;">·일반 채용정보 리스트 최상위로 노출 순서 변경</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="color:#0066FF;" class="ml10 pl5"></span><em style="right:1px; top:24px; width:65px;" class="positionA">점프서비스</em>
+		</div>
+	</div>
+	</div>
+</div>
+</div><!-- 점프서비스 레이어 팝업 //-->
+
+<div class="popLayerWrap" style="display:none;"><!-- 이력서열람서비스 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>이력서열람서비스</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+	<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+	</div>
+	</h2>
+	<div class="LayerContent serviceBox resumBg" >
+	    <h3 class="pl5 mb5">
+		<ul><li>·결제기간 동안 이력서 열람가능</li>
+		<li style="font-weight:normal;">·이력서 연락처 상세열람이 가능</li></ul>
+		</h3>
+		<div class="mt10 mb5 ml10"><span style="color:#0066FF;" class="ml10 pl5"></span><em style="right:1px; top:0; width:65px;" class="positionA">이력서열람</em>
+		</div>
+	</div>
+	</div>
+</div>
+</div><!-- 이력서열람서비스 레이어 팝업 //-->
+
+<div class="serviceWrap mt10">
+<h2>
+<span>메인페이지</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>플래티넘</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">1,777,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;"class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/company_paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>프라임</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%; color:#fff;"class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>그랜드</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>배너형</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>리스트형</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>	
+	
+	</tbody>
+</table>
+</div>
+</div>
+<div class="serviceWrap mt10">
+<h2>
+<span>채용정보 메인페이지</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>플래티넘</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">1,777,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;"class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>배너형</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>리스트형</strong><span> 채용정보</span></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>	
+
+	</tbody>
+</table>
+</div>
+</div>
+
+
+<div class="serviceWrap mt10">
+<h2>
+<span>급구 상품</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>급구</strong></h3>
+		<p style=" font-size:0.8em;">위치:최상단</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+<div class="serviceWrap mt50">
+<h2>
+<span>강조옵션 상품</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>형광펜</strong></h3>
+		<p style=" font-size:0.8em;">형광펜 강조</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="today"><strong>오늘</strong> +</span>
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 text_white tc">
+              신청하기
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>굵은글자</strong></h3>
+		<p style=" font-size:0.8em;">굵은글자 강조</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="today"><strong>오늘</strong> +</span>
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1  tc">
+        <a class="text_white" href="">신청하기</a>
+		</td>
+	</tr>
+<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>아이콘</strong></h3>
+		<p style=" font-size:0.8em;">아이콘 강조</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="today"><strong>오늘</strong> +</span>
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1  tc">
+        <a class="text_white" href="">신청하기</a>
+		</td>
+	</tr>
+<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>글자색</strong></h3>
+		<p style=" font-size:0.8em;">글자색 강조</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="today"><strong>오늘</strong> +</span>
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1  tc">
+        <a class="text_white" href="">신청하기</a>
+		</td>
+	</tr>
+<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>반짝칼라</strong></h3>
+		<p style=" font-size:0.8em;">반짝칼라 강조</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="today"><strong>오늘</strong> +</span>
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1  tc">
+        <a class="text_white" href="">신청하기</a>
+		</td>
+	</tr>
+	</tbody>
+</table>
+</div>
+</div>
+
+<div class="serviceWrap mt10">
+<h2>
+<span>점프 서비스</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>점프</strong></h3>
+		<p style=" font-size:0.8em;">채용공고 점프</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+
+<div class="serviceWrap mt10">
+<h2>
+<span>이력서 열람 서비스</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table class="selectList" cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th class="pl5" style="width:35%;height:50px;">
+		<h3 class="positionR">
+		<a  class="layerBtn"><img alt="미리보기" src="../images/icon/icon_view1.png"></a><strong>이력서열람</strong></h3>
+		<p style=" font-size:0.8em;">이력서 열람가능</p>
+		</th>
+		<td style="width:50%;"class="price">
+			<p class="priceSelect">
+				<span class="positionR">
+				        <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select id="idPubDay_8" name="j_publishday_8" title="신청기간" class="ipSelect2">
+										<option value="0">선택</option>
+										<option value="2">2일</option>
+										<option value="3">3일</option>
+										<option value="4">4일</option>
+										<option value="5">5일</option>
+										<option value="6">6일</option>
+										<option value="7">7일</option>
+										<option value="15">15일</option>
+										<option value="30">30일</option>
+						</select>
+                  </span>
+				  <span>=</span> 
+                   <strong class="pay pl5">
+						 <span class="text_orange1">77,000</span>
+					</strong>
+					<span class="won positionR">원
+                                    <em style="top:-19px; right:0;" class="positionA">
+                                    <span class="price">1,777,000</span>
+                                    <span class="priceDc text_orange1">50%</span>
+                                    </em>
+                     </span>
+				</p>
+		</td>
+		<td style="width:15%;" class="bg_color1 tc">
+        <a class="btn_apply text_white" href="../service/paymethod.html">신청하기</a>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+<div class="btnBottom">
+		<span style="display:block;width:50%;margin:20px auto;" class="shadowBox">
+		<a href="../service/payResult.html" class="bg_orange1 text_white" style="text-align:center;display:block; height:40px; line-height:40px; font-size:1.2em; font-weight:bold;"><span>신청하기</span></a></span> 
+	
+	
+</div>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

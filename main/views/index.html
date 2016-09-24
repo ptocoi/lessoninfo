@@ -1,0 +1,192 @@
+<?php if (!defined("_ALICE_")) exit; // 개별 페이지 접근 불가 ?>
+<script>
+var cycle_direction = "<?php echo $alba_option_logo_effects[1];?>";
+</script>
+<section id="content" class="content_wrap clearfix">
+	<?php include_once $alice['main_path'] . "/skins/".$main_skin."/main.skin.php"; // content top ?>
+
+	<style type="text/css">
+	/* ========================  기본컬러설정   ========================= */
+	#list li .icons div img{background-color:#c9c9c9;}
+
+	/* 포커스 인재정보 */
+	#photo > ul > li {border-color:#<?php echo $design['main_focus_border_color'];?>;}	/* 테두리 일반 */
+	#photo li dd.icons > div > a > img{background-color:#<?php echo $design['main_focus_border_color'];?>;}	/* 테두리 일반 */
+	#photo .name_wrap{background-color:#<?php echo $design['main_focus_background_color'];?>;} /* 배경칼라 일반 */
+
+	#platinum dd.icons > div > a > img{background-color:#<?php echo $design['main_platinum_border_color'];?>;}	/* 테두리 일반 */
+	#platinum  > ul > li{border-color:#<?php echo $design['main_platinum_border_color'];?>;}	/* 테두리 일반 */
+	#platinum .text1{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+	#platinum .text2{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+	#platinum.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_platinum_background_color'];?>;}	/* 배경칼라 일반 */
+
+	#prime dd.icons > div > a > img{background-color:#<?php echo $design['main_prime_border_color'];?>;}
+	#prime  > ul > li{border-color:#<?php echo $design['main_prime_border_color'];?>;}
+	#prime .text1{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+	#prime .text2{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+	#prime.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_prime_background_color'];?>;}
+
+	#grand dd.icons > div > a > img{background-color:#<?php echo $design['main_grand_border_color'];?>;}
+	#grand  > ul > li{border-color:#<?php echo $design['main_grand_border_color'];?>;}
+	#grand .text1{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+	#grand .text2{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+	#grand.number5  > ul > li .logo_tit{background-color:#<?php echo $design['main_grand_background_color'];?>;}
+
+	#box dd.icons > div > a > img{background-color:#<?php echo $design['main_banner_border_color'];?>;}
+	#box  > ul > li{border-color:#<?php echo $design['main_banner_border_color'];?>;}
+	#box .text1{background-color:#<?php echo $design['main_banner_background_color'];?>;}
+	#box .text2{background-color:#<?php echo $design['main_banner_background_color'];?>;}
+	/* ========================  기본컬러설정 // ========================= */
+
+	/* ========================  골드컬러설정 ========================= */
+	.border1 > ul > li.gold {z-index:1000;}
+	.border2 > ul > li.gold {z-index:1000;}
+
+	#list > ul > li.gold {background:#<?php echo $design['main_list_background_gold_color'];?>;border-color:#c3b39e;}
+	#list > ul > li.gold .icons div img{background-color:#fdb301;}
+
+	#photo  > ul > li.gold {border-color:#<?php echo $design['main_focus_border_gold_color'];?>; /*border:1px solid #afc0ff;*/} /* 테두리 골드 */
+	#photo  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_focus_border_gold_color'];?>;} /* 테두리 골드 */
+	#photo  > ul > li.gold .name_wrap{background-color:#<?php echo $design['main_focus_background_gold_color'];?>; } /* 배경 골드 */
+
+	#platinum  > ul > li.gold {border-color:#<?php echo $design['main_platinum_border_gold_color'];?>;}	/* 테두리 골드 */
+	#platinum  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_platinum_border_gold_color'];?>;}	/* 테두리 골드 */
+	#platinum  > ul > li.gold .text1 a{color:#fff;}
+	#platinum  > ul > li.gold .text1,#platinum li.gold .text2{background-color:#<?php echo $design['main_platinum_background_gold_color'];?>; color:#fff;}	/* 배경칼라 골드 */
+	#platinum  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_platinum_background_gold_color'];?>;}	/* 배경칼라 골드 */
+	#platinum.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_platinum_background_gold_color'];?>;color:#fff;}	/* 배경칼라 골드 */
+
+	#prime  > ul > li.gold {border-color:#<?php echo $design['main_prime_border_gold_color'];?>;}
+	#prime  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_prime_border_gold_color'];?>;}
+	#prime  > ul > li.gold .text1 a{color:#fff;}
+	#prime  > ul > li.gold .text1,#prime li.gold .text2{background-color:#<?php echo $design['main_prime_background_gold_color'];?>; color:#fff;}
+	#prime  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_prime_background_gold_color'];?>;}
+	#prime.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_prime_background_gold_color'];?>;color:#fff;}
+
+	#grand  > ul > li.gold {border-color:#<?php echo $design['main_grand_border_gold_color'];?>;}
+	#grand  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_grand_border_gold_color'];?>;}
+	#grand  > ul > li.gold .text1 a{color:#fff;}
+	#grand  > ul > li.gold .text1,#grand li.gold .text2{background-color:#<?php echo $design['main_grand_background_gold_color'];?>; color:#fff;}
+	#grand  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_grand_background_gold_color'];?>;}
+	#grand.number5  > ul > li.gold .logo_tit{background-color:#<?php echo $design['main_grand_background_gold_color'];?>;color:#fff;}
+
+	#box  > ul > li.gold {border-color:#<?php echo $design['main_banner_border_gold_color'];?>;}
+	#box  > ul > li.gold .icons div img{background-color:#<?php echo $design['main_banner_border_gold_color'];?>;}
+	#box  > ul > li.gold .text1 a{color:#fff;}
+	#box  > ul > li.gold .text1,#box li.gold .text2{background-color:#<?php echo $design['main_banner_background_gold_color'];?>; color:#fff;}
+	#box  > ul > li.gold .text2 .icon{background-color:#fff; font-style:normal; color:#<?php echo $design['main_banner_background_gold_color'];?>;}
+	/* ========================  골드컬러설정 // ========================= */
+	</style>  
+
+	<div class="content<?php echo $main_left;?>_wrap clearfix">
+		<?php 
+		if($main_left=='2'){	// 좌측메뉴 사용유무에 따른 좌측 메뉴 출력 설정
+			include_once $alice['include_path'] . "/left_navi.php"; 
+			echo "<div id=\"rightContent\" class='clearfix'>";
+		}
+		?>
+		<?php echo ($mside_platinum_banner) ? "<div class='mt15 mb10'>".$mside_platinum_banner."</div>" : ""; ?>
+		<?php if($main_platinum_use) include_once $alice['main_path'] . "/views/_include/platinum.php";	// 플래티넘 채용정보 ?>
+		<?php echo ($mside_prime_banner) ? "<div class='mt15 mb10'>".$mside_prime_banner."</div>" : ""; ?>
+		<?php if($main_prime_use) include_once $alice['main_path'] . "/views/_include/prime.php";		// 프라임 채용정보 ?>
+		<?php echo ($mside_grand_banner) ? "<div class='mt15 mb10'>".$mside_grand_banner."</div>" : ""; ?>
+		<?php if($main_grand_use) include_once $alice['main_path'] . "/views/_include/grand.php";		// 그랜드 채용정보 ?>
+		<?php echo ($mside_banner_banner) ? "<div class='mt15 mb10'>".$mside_banner_banner."</div>" : ""; ?>
+		<?php if($main_banner_use) include_once $alice['main_path'] . "/views/_include/banner.php";		// 배너형 채용정보 ?>
+		<?php echo ($mside_list_banner) ? "<div class='mt15 mb10'>".$mside_list_banner."</div>" : ""; ?>
+		<?php if($main_list_use) include_once $alice['main_path'] . "/views/_include/list.php";			// 리스트형 채용정보 ?>
+		<?php echo ($mside_focus_banner) ? "<div class='mt15 mb10'>".$mside_focus_banner."</div>" : ""; ?>
+		<?php if($main_focus_use) include_once $alice['main_path'] . "/views/_include/focus.php";			// 포커스 인재정보 ?>
+
+		<?php echo ($mside_elatest_banner) ? "<div class='mt15 mb10'>".$mside_elatest_banner."</div>" : ""; ?>
+		<?php if($design['main_bottom_alba_use']) include_once $alice['main_path'] . "/views/_include/alba_list.php";	// 메인 정규직 최근 리스트 ?>
+		<?php echo ($mside_rlatest_banner) ? "<div class='mt15 mb10'>".$mside_rlatest_banner."</div>" : ""; ?>
+		<?php if($design['main_bottom_resume_use']) include_once $alice['main_path'] . "/views/_include/resume_list.php";	// 메인 이력서 최근 리스트 ?>
+
+		<?php echo ($mside_board_banner) ? "<div class='mt20 mb10'>".$mside_board_banner."</div>" : ""; ?>		
+		<?php include_once $alice['main_path'] . "/views/_include/community.php";	// 커뮤니티 최근 게시물 ?>
+
+		<!--  고객센터,최저임금,설문조사(전체화면일때만 출력 )  --> 
+		<div class="CsWrap style<?php echo $main_left;?> mt25 clearfix" style="display:none;">
+		<ul class="clearfix">
+			<li>
+				<div class="cscenter">
+				<?php if($env['cs_type']){	// 텍스트 ?>
+					<h2><img class="pl10 pt5"  alt="고객센터" src="../images/tit/main_tit_01.gif"></h2>
+					<dl>
+						<dt class="num text_color1"><?php echo stripslashes($env['call_center']);?></dt>
+						<?php if($env['cs_type']){ // 텍스트 ?>
+						<dd class="mt3">
+							<?php echo nl2br(stripslashes($env['call_time']));?>
+						</dd>
+						<?php } ?>
+						<dd class="mt3">
+							<p class="bg"><a href="<?php echo $alice['service_path'];?>/cs_center.php" target="_blank">고객센터</a></p>
+							<p class="bg"><a href="mailto://<?php echo $env['email'];?>">E-MAIL 문의</a></p>
+						</dd>
+					</dl>
+				<?php } else {	 // 이미지
+					if($main_left==1){	 // 좌측 메뉴 미출력시
+						if($env['call_time_image']){
+				?>
+
+					<dd><img src="<?php echo $alice['peg_path']."/".$env['call_time_main_1'];?>"/></dd>
+				<?php
+						}
+					} else if($main_left==2){	// 좌측 메뉴 출력시
+				?>
+					<dd><img src="<?php echo $alice['peg_path']."/".$env['call_time_main_2'];?>"/></dd>
+				<?php
+					}
+				}	// 텍스트/이미지 if end.
+				?>
+				</div>
+			</li>
+			<?php if($pay_view){ ?>
+			<li>
+				<div class="Money">
+					<h2><img class="pl10 pt5"  alt="최저임금법" src="../images/tit/main_tit_02.gif"></h2>
+					<dl class="">
+						<dt class="text_color1"><em class="bg_color1 mr5">시급</em><span>(<?php echo $env['pay_year'];?>년 기준)</span></dt>
+						<dd class="num text_color1">
+						<span class="tl"><?php echo number_format($env['time_pay']);?></span><em><img class="bg_color1" width="17" height="18" alt="\" src="../images/main/img_won_1.png"></em>
+						</dd>
+						<div class="helpText mt5">일급 : 하루8시간 근무기준</div>
+						<div class="helpText text_color1">(근로계약 1년 이내 체결시 수습기간에도 최저임금 보장해야함)</div>
+						<dd class="table positionA" style="top:7px; right:6px;" >
+							<table cellpadding="0" cellspacing="0">
+							<colgroup><col width="30%"><col><col></colgroup>
+							<tr class="first">
+								<th class="bg_color1 " style="border-left:1px solid #9ABEE2;"></th>
+								<th class="bg_color1">주</th>
+								<th class="bg_color1 " style="border-right:1px solid #9ABEE2;" >야</th>
+							</tr>
+							<tr>
+								<th class="text_color1 border_color1">시급</th>
+								<td class="border_color1"><?php echo number_format($env['time_pay']);?>원</td>
+								<td class="border_color1"><?php echo number_format($env['time_pay']*1.5);?>원</td>
+							</tr>
+							<tr>
+								<th class="text_color1 border_color1">일급</th>
+								<td class="border_color1"><?php echo number_format($env['time_pay']*8);?>원</td>
+								<td class="border_color1"><?php echo number_format(($env['time_pay']*1.5)*8);?>원</td>
+							</tr>
+							</table>
+						</dd>
+					</dl>
+				</div>
+			</li>
+			<?php } ?>
+			<li><?php include_once $alice['main_path'].'/views/_include/poll.php';?></li>
+		 </ul> 
+		</div>
+<!--  고객센터,최저임금,설문조사  --> 
+
+		<?php 
+		if($main_left=='2'){	// 좌측메뉴 사용유무에 따른 좌측 메뉴 출력 설정
+			echo "</div>";
+		}
+		?>
+	</div>
+
+</section>

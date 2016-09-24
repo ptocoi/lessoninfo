@@ -1,0 +1,170 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu.html";?>
+</header>
+<section  class="contentWrap">
+<div class="memberWrap">
+<h2>
+<ul class="tapMenu clearfix">
+<li class="list1 on"><a href="">내국인</a></li>
+<li class="list2"><a href="">외국인</a></li>
+</ul>
+</h2>
+<div class="contentBoxWrap clearfix positionR shadowBox" style="margin-top:1px;">
+<table cellspacing="1" cellpadding="0" border="0" style="border:15px solid #fff; margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<td  colspan="4" class="tc ">
+              <span>
+                        <input type="radio" name="" id="">
+                        <label for="">휴대폰인증</label>
+               </span>
+               <span> 
+                        <input type="radio" name="" id="">
+                        <label for="">아이핀인증</label>
+                </span>
+		</td>
+	</tr>	
+	<tr>
+		<th  class="pl5">이름</th>
+		<td colspan="3">
+		<label class="skip">이름</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">생년월일/성별</th>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">년도</option>
+			<option value="1">1900</option>
+			<option value="2">1901</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">월</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">일</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>
+
+<tr>
+		<th  rowspan="2" class="pl5">휴대폰</th>
+		<td  colspan="3" class=" ">
+			            <span>
+                        <input type="radio" id="" name="">
+                        <label for="">SKT</label>
+                        </span>
+                        <span> 
+                        <input type="radio" id="" name="">
+                        <label for="">KT</label>
+                        </span>
+						    <span> 
+                        <input type="radio" id="" name="">
+                        <label for="">LGU</label>
+                        </span>
+						<span class="pl5"> 
+                        <input type="button" onclick="certify_check();" value="인증번호 전송" style="letter-spacing:-1px; font-size:0.9em;cursor:pointer;  border-radius:0; border:1px solid #ddd;">
+                        </span>
+		</td>
+	</tr>
+	<tr>
+		<td  class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="" name="" title="순서">
+			<option value="0">010</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td class=" tc">
+              <label class="skip">번호</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+		<td  class=" tc">
+              <label class="skip">번호</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+
+
+
+	</tbody>
+</table>
+<table cellspacing="1" cellpadding="0" border="0" style="display:none; border:15px solid #fff; margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">이름</th>
+		<td colspan="2">
+		<label class="skip">이름</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+	<tr>
+		<th  class="pl5">외국인등록번호</th>
+		<td  class=" tc">
+              <label class="skip">처음번호</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+		<td  class=" tc">
+              <label class="skip">마지막번호</label>
+              <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+	</tbody>
+</table>
+</div>			 
+<div class="contentBoxWrap clearfix positionR shadowBox" style="margin-top:1px;">
+<table cellspacing="1" cellpadding="0" border="0" style="border:15px solid #fff; margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<td  class="tl pl5" style="width:70%;">
+		<input type="checkbox" id="" title="회원이용약관동의" class="">
+		<label for="" class="">회원이용약관에 동의합니다.</label>
+		</td>
+		<td  class="tc bg_color1 button"><a href=""><span>자세히보기<img class="bg_color1" src="../images/btn/btn_rightArrow3.png" alt=""></span></a></td>
+	</tr>
+	<tr>
+		<td  class="tl pl5">
+		<input type="checkbox" id="" title="개인정보관동의" class="">
+		<label for="" class="">개인정보취급방침에 동의합니다.</label>
+		</td>
+		<td  class="tc bg_color1 button"><a href=""><span>자세히보기<img class="bg_color1" src="../images/btn/btn_rightArrow3.png" alt=""></span></a></td>
+	</tr>
+	</tbody>
+</table>
+</div>
+<div style="display:block;" class="button shadowBox"><!-- 유료서비스 -->
+                  <ul class="clearfix">
+					  <li style="margin-right:1px;"><a href="../member/join2.html"><span>개인회원가입<img class="" src="../images/btn/btn_rightArrow4.png" alt=""></span></a>
+					  </li>
+					  <li style="margin-right:-1px;"><a href="../member/join2.html"><span>기업회원가입<img class="" src="../images/btn/btn_rightArrow4.png" alt=""></span></a>
+					  </li>
+				  </ul>
+			  </div>
+</div>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

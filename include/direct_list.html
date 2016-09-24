@@ -1,0 +1,114 @@
+<?php if (!defined("_ALICE_")) exit; // 개별 페이지 접근 불가 ?>
+
+
+<section id="content" class="content_wrap clearfix">
+	
+	
+
+	<!--  content -->
+		<div class="company2 mt30">
+			<h2 class="pb5"><img src="../images/icon/direct_tlt_icon2.png" alt="다이렉트 결제"></h2>	
+			<ul class="tlt_title">
+			<li><img src="../images/icon/direct_tlt_icon3.png" alt="다이렉트 결제"></li>
+			<li>회원정보를 입력해 주시기 바랍니다</li>			
+			</ul>
+			<form method="post" name="serviceFrm" action="<?php echo $alice['service_path'];?>/process/regist.php" id="serviceFrm">
+			<input type="hidden" name="mode" value="qna_insert"/>
+			<input type="hidden" name="ajax" value="1"/>
+			<input type="hidden" name="wr_id" value="<?php echo $member['mb_id'];?>"/>
+			<input type="hidden" name="wr_type" value="0"/>
+
+			<div class="registWrap mt10">
+				<table>
+				<colgroup><col width="214px"><col width="*"></colgroup>
+				<tbody>
+				<tr>
+					<th scope="row"><label>이름</label></th>
+					<td><input name="wr_subject" class="ipText" id="wr_subject" style="width:130px;" required="" type="text" hname="제목"></td>
+				</tr>				
+				<tr>
+					<th scope="row"><label>연락처</label></th>
+					<td>
+						<div class="mobile">
+						<select class="ipSelect" style="width:110px;" name="wr_hphone[]" id="wr_hphone0" title="휴대폰 국번" hname="휴대폰 국번" required option="select">
+						<option value="">국번</option>
+						<?php echo $hp_num_option; ?>
+						</select>
+						</select>
+						<span class="delimiter">-</span>
+						<input type="text" class="ipText" style="width:120px;" title="휴대폰 앞자리" maxlength="4" name="wr_hphone[]" id="wr_hphone1" hname="휴대폰 앞자리" required value="<?php echo $hphone_num[1];?>">
+						<span class="delimiter">-</span>
+						<input type="text" class="ipText" style="width:120px;" title="휴대폰 뒷자리" maxlength="4" name="wr_hphone[]" id="wr_hphone2" hname="휴대폰 뒷자리" required value="<?php echo $hphone_num[2];?>">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" class="vt"><label>이메일</label></th>
+					<td>
+						<div class="mbrHelpWrap">
+							<input type="text" class="ipText" style="width:150px;ime-mode:disabled;" maxlength="30" id="wr_email" name="wr_email[]" hname="이메일" required value="<?php echo $mb_email[0];?>">
+							<span class="delimiter">@</span>
+							<input type="text" style="width:185px;ime-mode:disabled;" class="ipText" maxlength="25" title="이메일 서비스 입력" id="wr_email_tail" name="wr_email[]" value="<?php echo $mb_email[1];?>">
+							<select class="ipSelect" style="width:105px;" id="email_service" onchange="email_sel(this);">
+							<option value="">직접입력</option>
+							<?php echo $email_option; ?>
+							</select>
+						</div>
+					</td>
+				</tr>	
+				</tbody>
+				</table>
+
+			</div>
+
+			</form>
+		<ul class="tlt_title">
+			<li><img src="../images/icon/direct_tlt_icon3.png" alt="다이렉트 결제"></li>
+			<li>결제사항 정보를 입력해 주시기 바랍니다</li>			
+			</ul>
+			<form method="post" name="serviceFrm" action="<?php echo $alice['service_path'];?>/process/regist.php" id="serviceFrm">
+			<input type="hidden" name="mode" value="qna_insert"/>
+			<input type="hidden" name="ajax" value="1"/>
+			<input type="hidden" name="wr_id" value="<?php echo $member['mb_id'];?>"/>
+			<input type="hidden" name="wr_type" value="0"/>
+
+			<div class="registWrap mt10">
+				<table>
+				<colgroup><col width="214px"><col width="*"></colgroup>
+				<tbody>
+				<tr>
+					<th scope="row"><label>결제금액</label></th>
+					<td><input name="wr_subject" class="ipText" id="wr_subject" style="width:130px;" required="" type="text" hname="제목"></td>
+				</tr>				
+				<tr>
+					<th scope="row"><label>기타사항</label></th>
+					<td class="pt10 pb10">
+						<textarea name="wr_content" class="txt" id="wr_content" style="border: 1px solid rgb(221, 221, 221); width: 98%; height: 80px; -ms-ime-mode: active;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" class="vt"><label>결제방법</label></th>
+					<td>
+							<input name="pay_methods" class="chk" id="pay_method_card" required="" onclick="sel_methods(this);" type="radio" value="onlycard" hname="결제수단" option="radio">
+							<label for="pay_method_card">신용카드</label>&nbsp;
+							<input name="pay_methods" class="chk" id="pay_method_direct" required="" onclick="sel_methods(this);" type="radio" value="onlydbank" hname="결제수단" option="radio">
+							<label for="pay_method_direct">실시간 계좌이체</label>&nbsp;
+							<input name="pay_methods" class="chk" id="pay_method_bank" required="" onclick="sel_methods(this);" type="radio" value="bank" hname="결제수단" option="radio">
+							<label for="pay_method_bank">무통장입금</label>
+					</td>
+				</tr>	
+				</tbody>
+				</table>
+
+			</div>
+
+			</form>
+
+			</div>
+			<div style="margin:40px auto;" class="clearfix">
+			<ul> 
+				<li style="text-align:center;"><img src="../images/icon/direct_tlt_icon1.png" alt="arrow"></li>				
+			</ul>
+		</div>    <!--  content end --> 
+	</div>
+</section>

@@ -1,0 +1,32 @@
+<?php
+if(!$is_member){
+	$utility->popup_msg_js($user_control->_errors('0015'),"../login/login.html?type=individual&url=".$urlencode);
+	exit;
+}
+if($mb_type=='company'){	 // 기업회원 접근시
+	$utility->popup_msg_js($user_control->_errors('0030'));
+	exit;
+}
+$online_cnt = $receive_control->__ReceiveList( "", "", " where `type` = 'become_online' and `wr_id` = '".$member['mb_id']."' and `wr_to`!= '0' " . $_con );
+$email_cnt = $receive_control->__ReceiveList( "", "", " where `type` = 'become_email' and `wr_id` = '".$member['mb_id']."' and `wr_to`!= '0' " . $_con );
+$custom_titles = $alba_individual_control->custom_titles($member['mb_id']);	 // 맞춤채용 타이틀 뽑기
+if($custom_titles){
+	$page = ($page) ? $page : 1;
+	$page_rows = 15;
+	$custom_con = " where `is_delete` = 0 ";
+	$custom_list = $alba_individual_control->custom_list($page, $page_rows, $custom_con);
+	$pages = $utility->user_get_paging($page_rows, $page, $total_page,"./alba_customized.php?page_rows=".$page_rows."&".$custom_list['send_url']."&page=");
+}
+$scrap_list = $alba_user_control->scrap_list($member['mb_id'], $page, 10);
+?>
+<div class="top_menu border_color1">
+	<ul class="clearfix">
+	<?php /* ?>
+	<li class="topMenu list1"><a href="../person/regist1.html">이력서등록</a></li>
+	<li class="topMenu list2"><a  href="../person/list_resumeEdit.html">이력서관리</a></li>
+	<li class="topMenu list3"><a href="../person/list_application.html">입사지원관리</a></li>
+	<?php */ ?>
+	<li class="topMenu list4"><a href="../person/list_scrap.html">스크랩채용정보</a></li>
+	<li class="topMenu list5"><a href="../person/list_customized.html">맞춤채용정보</a></li>
+	</ul>
+</div>

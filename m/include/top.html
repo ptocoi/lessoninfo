@@ -1,0 +1,111 @@
+<?php
+	$alice_path = "../";
+	$cat_path = "../";
+	include_once $cat_path . "_engine.php";
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $env['site_title'];?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../../_helpers/_js/ui/jquery-ui.min.js"></script>
+<script>
+var effectFadeIn = function( classname, time ) {
+	$("."+classname).fadeOut(time).fadeIn(time, effectFadeOut(classname));
+}
+var effectFadeOut = function( classname, time ) {
+	$("."+classname).fadeIn(time).fadeOut(time, function(){
+		effectFadeIn(classname);
+	});
+}
+var fade_images = function( classname ){	// 단순히 1초만에 사라지고 다시 나타남
+	$('.'+classname).fadeOut(1000, function(){
+		$(this).show();
+	});
+}
+var blink = function( classname, time, interval ){	// 깜빡깜빡 거림
+    var timer = window.setInterval(function(){
+        $("."+classname).css("opacity", "0.1");
+        window.setTimeout(function(){
+            $("."+classname).css("opacity", "1");
+        }, 100);
+    }, interval);
+    window.setTimeout(function(){clearInterval(timer);}, time);
+}
+</script>
+<script  type="text/javascript" src="../js/iscroll-lite.js"></script>
+<script  type="text/javascript" src="../js/jquery.touchslider.js"></script>
+<script  type="text/javascript" src="../../_helpers/_js/form.js"></script>
+<script  type="text/javascript" src="../../_helpers/_js/plugins.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/index.css">
+<link rel="stylesheet" type="text/css" href="../css/<?php echo $mobile_info['wr_color'];?>.css">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="apple-touch-startup-image" href="startup.png">
+<script>
+var mb_type = "<?php echo $member['mb_type'];?>";
+var mb_id = "<?php echo $member['mb_id'];?>";
+var alba_scrap = function( no ){
+	if(mb_type=='company'){
+		alert("채용정보 스크랩은 개인회원만 가능합니다.");
+		return;
+	}
+	if(mb_id){
+		$.post('../../alba/process/scrap.php', { mb_id:mb_id, no:no }, function(result){
+			alert(result);
+		});
+	} else {
+		alert("회원만 스크랩 가능합니다.");
+		//win_open("../login/login.html", "pop_login", 480, 200);
+		location.href = "../login/login.html";
+	}
+}
+var resume_scrap = function( no ){	 // 이력서 스크랩
+	if(mb_type=='individual'){
+		alert("이력서 스크랩은 기업회원만 가능합니다.");
+		return;
+	}
+	if(mb_id){
+		$.post('../../resume/process/scrap.php', { mb_id:mb_id, no:no }, function(result){
+			alert(result);
+		});
+	} else {
+		alert("회원만 스크랩 가능합니다.");
+		//win_open("../popup/login.php", "pop_login", 480, 200);
+		location.href = "../login/login.html";
+	}
+}
+$(function(){
+	fade_images('fade_image');	// 페이드 형태
+	setInterval(function(){
+		fade_images('fade_image');
+	}, 3000);
+
+	blink('blink_image',900000,1500);	// 깜빡임
+
+	var $slide_image = $('.slide_image');
+	if($slide_image.length > 0 ) {
+		$slide_image.cycle({		// 슬라이드
+			fx:     cycle_direction, 
+			easing: 'easeInOutBack',
+			delay:  -2000 
+		});
+	}
+
+	var colour;
+	setInterval(function(){
+		colour = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);	
+		$('.jumble').animate({
+			color: colour
+		});
+	}, 500);
+});
+</script>
+<?php if(@in_array('kakao_talk',$sns_feed) || @in_array('kakao_story',$sns_feed)){ ?>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<?php } ?>
+</head>
+<body style="">

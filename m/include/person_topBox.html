@@ -1,0 +1,53 @@
+<div class="headerBoxWrap clearfix positionR" >
+	<table cellpadding="0" cellspacing="1" border="0" style="margin:0; padding:0px;">
+	<tr>
+		<th class="detailPhoto shadowBox" rowspan="3">
+			<img style="width:100px;" src="<?php echo $mb_photo;?>" alt="사진">
+		</th>
+		<th class="detailName" colspan="4">
+			<div>
+			<p><span class="name"><?php echo $member['mb_name'];?>(<?php echo $member['mb_id'];?>)님</span>안녕하세요.</p>
+			<p class="update">최종수정:<?php echo $mb_udate;?></p>
+			</div>
+		</th>
+	</tr>
+	<tr>
+		<td class="pl5" colspan="4"><?php echo $member['mb_hphone'];?> (<?php echo $member['mb_email'];?>)</td>
+		<?php /* ?><td class="bg_color1 tc" ><a href="" style="color:#fff;">개인정보수정</a></td><?php */ ?>
+	</tr>
+	<tr>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_resumeEdit.html"><?php */ ?>
+			<dl>
+				<dd><strong><?php echo number_format($member['mb_alba_resume_count']);?></strong></dd>
+				<dt>이력서등록수</dt>
+			</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_application.html"><?php */ ?>
+			<dl class="">
+				<dd><strong><?php echo number_format($online_cnt['total_count']+$email_cnt['total_count']);?></strong></dd>
+				<dt>입사지원현황</dt>
+			</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_customized.html"><?php */ ?>
+			<dl>
+				<dd><strong><?php echo number_format($custom_list['total_count']);?></strong></dd>
+				<dt>맞춤채용정보</dt>
+			</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+			<td class="countList shadowBox">
+			<?php /* ?><a href="./list_scrap.html"><?php */ ?>
+			<dl>
+				<dd><strong><?php echo number_format($scrap_list['total_count']);?></strong></dd>
+				<dt>스크랩채용정보</dt>
+			</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+	</tr>
+	</table>
+</div>

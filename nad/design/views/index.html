@@ -1,0 +1,1836 @@
+<?php if (!defined("_ALICE_")) exit; // 개별 페이지 접근 불가 ?>
+
+<link rel="stylesheet" type="text/css" media="screen,projection" href="<?php echo $alice['plugins_path']."/jquery.colourPicker.css"?>" />
+<script>
+$(function(){
+	// 사이트기본색 :: 사용자지정색사용
+	$('#site_colorUser select').colourPicker({
+		ico:	'../../images/btn/23_col.gif', 
+		title:	false
+	});
+	var form_options = { target: '', beforeSubmit: showRequest, success : showResponse };
+	$('#SiteDesignFrm').ajaxForm(form_options);
+
+});
+var site_colors = function( vals ){	// 사이트기본색 선택
+	var sel = vals.value;
+	if(sel=='1'){
+		$('#site_colorSkin').hide();
+		$('#site_colorUser').show();
+	} else {
+		$('#site_colorSkin').show();
+		$('#site_colorUser').hide();
+	}
+}
+var use_sel = function( sel, vals ){	// 출력 체크
+	var checked = vals.checked;
+	if(checked==true){
+		$('.'+sel+'_print').show();
+	} else {
+		$('.'+sel+'_print').hide();
+	}
+}
+var professional_sel = function( no, vals, cate ){	// 전문인재정보 출력 직종 선택
+	var sel = vals.value;
+	var checked = vals.checked;
+
+	if(checked==true){
+		$('#professional_val').append("<input type='hidden' name='professional_val[]' value=\""+sel+"\" id=\"professional_val_"+sel+"\"/>");
+	} else {
+		$('#professional_val_'+sel).remove();
+	}
+
+	var professional_val = new Array();
+	var i = 0;
+	$("input[name='professional_val[]']").each(function(){
+		professional_val[i] = $(this).val();
+	i++;
+	});
+
+	$.post('./views/_load/category.php', { mode:'cate_sel', type:'job_type', checked:checked, code:professional_val }, function(result){
+		$('#professional_target').html(result);
+	});
+
+}
+var cate_sels = function( cate, no, code ){	 // 카테고리 선택
+
+	$('#professional_block').show();
+	
+	if(cate=='cate_0'){
+		var next_depth = 1;
+	} else if(cate=='cate_1'){
+		var next_depth = 2;
+	}
+
+	$('#'+cate+'_list .lists').removeClass('dnbg').addClass('wbg');
+	$('#'+cate+'_list #cate_'+no).addClass('dnbg');
+
+	// 메뉴 리스트 출력
+	$('#cate_'+next_depth+'_list').load('./views/_load/category.php', { mode:'next_cate', type:'job_type', code:code, next_depth:next_depth }, function(result){	
+
+	});
+
+}
+var main_skin_msg = function(){
+	alert("메인 스타일을 변경 하시면 스타일에 맞는 배너를 다시 설정 해 주세요.");
+}
+var main_left_msg = function(){
+	alert("좌측메뉴 사용시 서브 페이지 좌측에 출력되는 공고/이력서 메뉴가 메인 좌측에 출력 됩니다.");
+}
+var update_content = function( type ){
+
+	var $position = $('#update_'+type).position();
+
+	//alert( $position.left +" @ " + $position.top );
+
+	$('#pop_info').load('./views/_load/design.php', { mode:'service_content', type:type }, function(){
+		$('#pop_content').css({
+			"left" : $position.left+80,
+			"top" : $position.top
+		});
+		$('#pop_content').draggable({ handle: "#addFrmHandle" });
+		
+		var content_form_options = { target: '', beforeSubmit: content_showRequest, success : content_showResponse };
+
+		$('#ServiceContentRegistFrm').submit(function(){
+			switch(type){
+				case 'main_platinum_content':
+					<?php echo $utility->input_cheditor('main_platinum_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_prime_content':
+					<?php echo $utility->input_cheditor('main_prime_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_grand_content':
+					<?php echo $utility->input_cheditor('main_grand_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_banner_content':
+					<?php echo $utility->input_cheditor('main_banner_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_list_content':
+					<?php echo $utility->input_cheditor('main_list_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_busy_content':
+					<?php echo $utility->input_cheditor('main_busy_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_focus_content':
+					<?php echo $utility->input_cheditor('main_focus_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_platinum_content':
+					<?php echo $utility->input_cheditor('sub_platinum_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_banner_content':
+					<?php echo $utility->input_cheditor('sub_banner_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_list_content':
+					<?php echo $utility->input_cheditor('sub_list_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_focus_content':
+					<?php echo $utility->input_cheditor('sub_focus_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_busy_content':
+					<?php echo $utility->input_cheditor('sub_busy_content');?>	// 에디터 내용 전달
+				break;
+				case 'alba_jump_content':
+					<?php echo $utility->input_cheditor('alba_jump_content');?>	// 에디터 내용 전달
+				break;
+				case 'resume_jump_content':
+					<?php echo $utility->input_cheditor('resume_jump_content');?>	// 에디터 내용 전달
+				break;
+				case 'alba_open_content':
+					<?php echo $utility->input_cheditor('alba_open_content');?>	// 에디터 내용 전달
+				break;
+				case 'resume_open_content':
+					<?php echo $utility->input_cheditor('resume_open_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_basic_content':
+					<?php echo $utility->input_cheditor('main_basic_content');?>	// 에디터 내용 전달
+				break;
+				case 'main_rbasic_content':
+					<?php echo $utility->input_cheditor('main_rbasic_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_basic_content':
+					<?php echo $utility->input_cheditor('sub_basic_content');?>	// 에디터 내용 전달
+				break;
+				case 'sub_rbasic_content':
+					<?php echo $utility->input_cheditor('sub_rbasic_content');?>	// 에디터 내용 전달
+				break;
+				case 'etc_alba_sms_content':
+					<?php echo $utility->input_cheditor('etc_alba_sms_content');?>	// 에디터 내용 전달
+				break;
+				case 'etc_resume_sms_content':
+					<?php echo $utility->input_cheditor('etc_resume_sms_content');?>	// 에디터 내용 전달
+				break;
+			}
+
+		});
+
+		$('#ServiceContentRegistFrm').ajaxForm(content_form_options);
+
+	});	
+
+}
+</script>
+
+<div id="question" style="display:none; cursor: default;">
+	<div id='quest_info'></div>
+	<p align='center' id='confirm_msg'></p><br/>
+	<p align='center'>
+		<span id='questionAnswerYes'><input type="button" onClick="questionAnswer('yes');" value="예" /> </span>
+		<input type="button" onClick="questionAnswer('no');" value="아니오" />
+	</p>
+</div> 
+
+<table class="layout">
+<tr valign="top">
+	<td id="lmn"><?php include_once "../include/left_menu.php"; ?></td>
+	<td width="1"></td>
+	<td id="left" class="<?php echo $top_menu_code;?>"><?php include_once "../include/left.php"; ?></td>
+	<td id="lopen"  class="<?php echo $top_menu_code;?>" onClick="left_menu_open('<?php echo $top_menu_code;?>');" onMouseOver="this.className='on'" onMouseOut="this.className=''"><img src="../../images/comn/b.gif"></td>
+	<td class="h pr5">
+		<table class="ltbl">
+<!--<tr><td class=nb_01></td><td class=nb_02></td><td class=nb_03></td></tr><tr>-->
+<td width="1"></td><td class="nb">
+
+			<dl class="loc"><?php echo $sub_menu_name; include_once "../include/navi.php"; ?></dl>
+			<dl class="notbox">
+				<dl>
+				구인구직 사이트의 전반적인 색상, 레이아웃, 문구등을 수정 관리하는 페이지 입니다. <br>
+				</dl>
+			</dl>
+
+			<form name="SiteDesignFrm" method="post" id="SiteDesignFrm" action="./process/design.php" enctype="multipart/form-data">
+			<input type="hidden" name="mode" value="update" id="mode"/><!-- 사이트 기본 설정정보 수정 -->
+			<input type="hidden" name="ajax" value="1"/><!-- ajax mode 유무 -->
+			<input type="hidden" name="uid" value="<?=$admin_info['uid']?>"/><!-- 현재 설정 관리자 uid -->
+			<input type="hidden" name="no" value="<?=$design['no']?>"/><!-- 현재 설정 no -->
+			<input type="hidden" name="site_color" value="0"/>
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">사이트기본설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=110><col> 
+			<tr>
+				<td class="ctlt">사이트기본색</td>
+				<td class="pdlnb2">
+					<dt class="st_col" style="display:<?php echo ($design['site_color'])?'none':'';?>;" id="site_colorSkin">
+						<input name="skin_color" type="radio" value="gr" class="radio" <?php echo ($design['skin_color']=='gr')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_gr">
+						<input name="skin_color" type="radio" value="yel" class="radio" <?php echo ($design['skin_color']=='yel')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_yel">
+						<input name="skin_color" type="radio" value="org" class="radio" <?php echo ($design['skin_color']=='org')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_org">
+						<input name="skin_color" type="radio" value="dho" class="radio" <?php echo ($design['skin_color']=='dho')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_dho">
+						<input name="skin_color" type="radio" value="red" class="radio" <?php echo ($design['skin_color']=='red')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_red">
+						<input name="skin_color" type="radio" value="pk" class="radio" <?php echo ($design['skin_color']=='pk')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_pk">
+						<input name="skin_color" type="radio" value="pp" class="radio" <?php echo ($design['skin_color']=='pp')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_pp">
+						<input name="skin_color" type="radio" value="lgr" class="radio" <?php echo ($design['skin_color']=='lgr')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_lgr">
+						<input name="skin_color" type="radio" value="grn" class="radio" <?php echo ($design['skin_color']=='grn')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_grn">
+						<input name="skin_color" type="radio" value="bgr" class="radio" <?php echo ($design['skin_color']=='bgr')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_bgr">
+						<input name="skin_color" type="radio" value="wbl" class="radio" <?php echo ($design['skin_color']=='wbl')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_wbl">
+						<input name="skin_color" type="radio" value="dbl" class="radio" <?php echo ($design['skin_color']=='dbl')?'checked':'';?>><img src="../../images/comn/b.gif" class="grf_dbl">
+					</dt>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">jQuery UI Theme</td>
+				<td class="pdlnb2">
+					<select name="ui_theme">
+					<?php echo $config->ui_themes(stripslashes($design['ui_theme']));?></select>&nbsp;
+					<span class="subtlt">사이트에서 사용되는 jQuery Plugin 의 Theme 를 설정합니다. (각종 질의창 및 선택 스타일)</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">지도검색 사용 유무</td>
+				<td class="pdlnb2">
+					<label><input name="map_use" type="radio" value="1" class="radio" checked />사용</label>
+					<label><input name="map_use" type="radio" value="0" class="radio" <?php echo (!$design['map_use'])?'checked':'';?>/>미사용</label>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td class="ctlt">전문인재정보 설정</td>
+				<td class="pdlnb2">
+					<table width="100%" class="mt10 tf">
+					<tr align="center" valign="top">
+						<td><?php include_once "./views/_include/cate_0.php"; ?></td>
+						<td><?php include_once "./views/_include/cate_1.php"; ?></td>
+						<td><?php include_once "./views/_include/cate_2.php"; ?></td>
+					</tr>
+					</table>
+				</td>
+			</tr>
+			<tr id="professional_block" style="display:<?php echo ($professional_indi[0]!='')?'':'none';?>;">
+				<td class="ctlt">선택된 전문인재정보</td>
+				<td class="pdlnb2">
+					<dt id="professional_target"><?php echo $professional_text;?></dt>
+					<dt id="professional_val">
+						<?php 
+						if($professional_indi[0]!=''){
+							for($i=0;$i<$professional_indi_cnt;$i++){ 
+						?>
+						<input type="hidden" name="professional_val[]" value="<?php echo $professional_indi[$i];?>" id="professional_val_<?php echo $professional_indi[$i];?>"/>
+						<?php 
+							} // for end.
+						}	// if end.
+						?>
+					</dt>
+				</td>
+			</tr> -->
+			<!-- <tr>
+				<td class="ctlt">회원스킨</td>
+				<td class="pdlnb2">
+					<select name="member_skin">
+					<?php for($i=0;$i<$member_skin_cnt;$i++){?>
+					<option value="<?php echo $member_skin_dir[$i];?>"><?php echo $member_skin_dir[$i];?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">채용공고 스킨</td>
+				<td class="pdlnb2">
+					<select name="employ_skin">
+					<option value="default">default</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">정규직 공고 스킨</td>
+				<td class="pdlnb2">
+					<select name="alba_skin">
+					<?php for($i=0;$i<$alba_skin_cnt;$i++){?>
+					<option value="<?php echo $alba_skin_dir[$i];?>"><?php echo $alba_skin_dir[$i];?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">인재정보 스킨</td>
+				<td class="pdlnb2">
+					<select name="resume_skin">
+					<option value="default">default</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">정규직 인재정보 스킨</td>
+				<td class="pdlnb2">
+					<select name="alba_resume_skin">
+					<?php for($i=0;$i<$alba_resume_skin_cnt;$i++){?>
+					<option value="<?php echo $alba_resume_skin_dir[$i];?>"><?php echo $alba_resume_skin_dir[$i];?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">커뮤니티 스킨</td>
+				<td class="pdlnb2">
+					<select name="board_skin">
+					<?php for($i=0;$i<$board_skin_cnt;$i++){?>
+					<option value="<?php echo $board_skin_dir[$i];?>"><?php echo $board_skin_dir[$i];?></option>
+					<?php } ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="ctlt">지도검색 스킨</td>
+				<td class="pdlnb2">
+					<select name="map_skin">
+					<option value="default">default</option>
+					</select>
+				</td>
+			</tr> -->
+			</table>
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">상단메뉴 설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=110><col> 
+			<tr>
+				<td class="ctlt">메뉴 스타일</td>
+				<td class="pdlnb2 st_mn">
+					<dl>
+						<label><input name="menu_skin" type="radio" value="01" class="radio" checked />Design 01</label>
+						<img src="../../images/nad/t_01.jpg"><!-- /main/skins/01 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="02" class="radio" <?php echo ($design['menu_skin']=='02')?'checked':'';?> />Design 02</label>
+						<img src="../../images/nad/t_02.jpg"><!-- /main/skins/02 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="03" class="radio" <?php echo ($design['menu_skin']=='03')?'checked':'';?> />Design 03</label>
+						<img src="../../images/nad/t_03.jpg"><!-- /main/skins/03 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="04" class="radio" <?php echo ($design['menu_skin']=='04')?'checked':'';?> />Design 04</label>
+						<img src="../../images/nad/t_04.jpg"><!-- /main/skins/04 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="05" class="radio" <?php echo ($design['menu_skin']=='05')?'checked':'';?> />Design 05</label>
+						<img src="../../images/nad/t_05.jpg"><!-- /main/skins/05 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="06" class="radio" <?php echo ($design['menu_skin']=='06')?'checked':'';?> />Design 06</label>
+						<img src="../../images/nad/t_06.jpg"><!-- /main/skins/06 -->
+					</dl>
+					<dl style="margin-top:15px;">
+						<label><input name="menu_skin" type="radio" value="07" class="radio" <?php echo ($design['menu_skin']=='07')?'checked':'';?> />Design 07</label>
+						<img src="../../images/nad/t_06.jpg"><!-- /main/skins/06 -->
+					</dl>
+				</td>
+			  </tr>
+			</table>
+			<dl class="pbtn"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">메인 스타일 설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=110><col> 
+			<tr>
+				<td class="ctlt">메인 스타일</td>
+				<td class="pdlnb2 st_mn">
+				<div style="width:778px; font-weight:normal;  font-size:11px; padding:2px 0 2px 10px; background-color:#999; color:#fff;">※ 메인 스타일을 변경 하시면 스타일에 맞는 배너를 다시 설정 해 주세요.</div>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="01" class="radio" checked onclick="main_skin_msg();"/>Design 01</label>
+						<img src="../../images/nad/tc_01.jpg"><!-- /main/skins/01 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="02" class="radio" <?php echo ($design['main_skin']=='02')?'checked':'';?> onclick="main_skin_msg();" />Design 02</label>
+						<img src="../../images/nad/tc_02.jpg"><!-- /main/skins/02 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="03" class="radio" <?php echo ($design['main_skin']=='03')?'checked':'';?> onclick="main_skin_msg();" />Design 03</label>
+						<img src="../../images/nad/tc_03.jpg"><!-- /main/skins/03 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="04" class="radio" <?php echo ($design['main_skin']=='04')?'checked':'';?> onclick="main_skin_msg();" />Design 04</label>
+						<img src="../../images/nad/tc_04.jpg"><!-- /main/skins/04 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="05" class="radio" <?php echo ($design['main_skin']=='05')?'checked':'';?> onclick="main_skin_msg();" />Design 05</label>
+						<img src="../../images/nad/tc_05.jpg"><!-- /main/skins/05 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="06" class="radio" <?php echo ($design['main_skin']=='06')?'checked':'';?> onclick="main_skin_msg();" />Design 06</label>
+						<img src="../../images/nad/tc_01.jpg"><!-- /main/skins/05 -->
+					</dl>
+					<dl style="margin-top:20px;">
+						<label><input name="main_skin" type="radio" value="07" class="radio" <?php echo ($design['main_skin']=='07')?'checked':'';?> onclick="main_skin_msg();" />Design 07</label>
+						<img src="../../images/nad/tc_02.jpg"><!-- /main/skins/05 -->
+					</dl>
+				</td>
+			  </tr>
+				<tr class="leftMenu">
+				<td class="ctlt">좌측메뉴 사용유무</td>
+				<td class="pdlnb2">
+					<dl style="margin-top:20px;">
+						<dt class="fl" style="width:80px;">
+						<label><input name="main_left" type="radio" value="2" class="radio" <?php echo ($design['main_left']=='2')?'checked':'';?> onclick="main_left_msg();" />사용</label><br/>
+						<label><input name="main_left" type="radio" value="1" class="radio" <?php echo ($design['main_left']=='1')?'checked':'';?> onclick="main_left_msg();"/>미사용</label>
+						</dt>
+						<dd class="fl">
+						<div class="subtlt mb10" style="background:#999;color:#fff;">좌측메뉴 사용시 서브 페이지 좌측에 출력되는 공고/이력서 메뉴가 <b class="red">메인 좌측에 출력</b>됩니다.</div>
+						<img class="" src="../../images/nad/tl_01.jpg">
+						<img src="../../images/nad/tl_02.jpg">
+
+						</dd>
+					</dl>
+				</td>
+			  </tr>
+			</table>
+
+			<dl class="pbtn"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+			<!--메인 배너광고 위치설정-->
+			<dl class="ntlt lnb_col"><img class="t" src="../../images/comn/bul_10.png">메인 배너광고 위치설정</dl>
+			<table width="100%" class="bg_col">
+			<colgroup><col width="110"><col> 
+			<tbody>
+			<!--플래티넘-->
+			<tr>
+				<td class="ctlt">플래티넘 배너설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_07.jpg"><!-- /main/skins/07 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='07')?'checked':'';?> value="07">Design 07</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_08.jpg"><!-- /main/skins/08 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_platinum" class="radio" type="radio" <?php echo ($design['main_platinum']=='08')?'checked':'';?> value="08">Design 08</label></div>
+						</li>	
+					</ul>			
+				</td>
+			  </tr>
+			  <!--프라임-->
+			  <tr>
+				<td class="ctlt">프라임 배너설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>	
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_07.jpg"><!-- /main/skins/07 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='07')?'checked':'';?> value="07">Design 07</label></div>
+						</li>	
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_08.jpg"><!-- /main/skins/08 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='08')?'checked':'';?> value="08">Design 08</label></div>
+						</li>
+						<li style="width:200px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/prm_09.jpg"><!-- /main/skins/09 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_prime" class="radio" type="radio" <?php echo ($design['main_prime']=='09')?'checked':'';?> value="09">Design 09</label></div>
+						</li>
+					</ul>
+				</td>
+			  </tr>
+			  <!--그랜드-->
+			  <tr>
+				<td class="ctlt">그랜드 배너설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>	
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_07.jpg"><!-- /main/skins/07 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='07')?'checked':'';?> value="07">Design 07</label></div>
+						</li>	
+						<li style="width:165px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/grd_08.jpg"><!-- /main/skins/08 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_grand" class="radio" type="radio" <?php echo ($design['main_grand']=='08')?'checked':'';?> value="08">Design 08</label></div>
+						</li>
+					</ul>			
+				</td>
+			  </tr>
+			   <!--그랜드-->
+			  <tr>
+				<td class="ctlt">배너형 설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="main_banner" class="radio" type="radio" <?php echo ($design['main_banner']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>					
+					</ul>			
+				</td>
+			  </tr>
+			</tbody></table>
+			<!--메인 배너광고 위치설정//-->
+
+			<dl class="pbtn"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+			<!--메인 배너광고 위치설정-->
+			<dl class="ntlt lnb_col"><img class="t" src="../../images/comn/bul_10.png">서브 배너광고 위치설정</dl>
+			<table width="100%" class="bg_col">
+			<colgroup><col width="110"><col> 
+			<tbody>
+			<!--플래티넘-->
+			<tr>
+				<td class="ctlt">플래티넘 배너설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_07.jpg"><!-- /main/skins/07 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='07')?'checked':'';?> value="07">Design 07</label></div>
+						</li>	
+						<li style="width:249px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/ptn_08.jpg"><!-- /main/skins/08 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_platinum" class="radio" type="radio" <?php echo ($design['sub_platinum']=='08')?'checked':'';?> value="08">Design 08</label></div>
+						</li>	
+					</ul>			
+				</td>
+			  </tr>
+			  <tr>
+				<td class="ctlt">배너형 설정</td>
+				<td class="pdlnb2 st_mn bnner">
+					<ul>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_01.jpg"><!-- /main/skins/01 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='01')?'checked':'';?> value="01">Design 01</label></div>
+						</li>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_02.jpg"><!-- /main/skins/02 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='02')?'checked':'';?> value="02">Design 02</label></div>
+						</li>
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_03.jpg"><!-- /main/skins/03 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='03')?'checked':'';?> value="03">Design 03</label></div>
+						</li>	
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_04.jpg"><!-- /main/skins/04 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='04')?'checked':'';?> value="04">Design 04</label></div>
+						</li>	
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_05.jpg"><!-- /main/skins/05 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='05')?'checked':'';?> value="05">Design 05</label></div>
+						</li>					
+						<li style="width:202px;padding-right:10px;float:left;">
+							<div><img src="../../images/nad/bn_06.jpg"><!-- /main/skins/06 --></div>
+							<div class="ml8 mt5 mb5"><label><input name="sub_banner" class="radio" type="radio" <?php echo ($design['sub_banner']=='06')?'checked':'';?> value="06">Design 06</label></div>
+						</li>					
+					</ul>			
+				</td>
+			  </tr>
+			</tbody></table>
+			<!--메인 배너광고 위치설정//-->
+
+			<dl class="pbtn"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">메인 공고 출력설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=130><col> 
+			
+
+	        <tr>
+				<td class="ctlt">플래티넘 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="main_platinum_use" type="checkbox" value="1" class="check" <?php echo ($design['main_platinum_use'])?'checked':'';?> onclick="use_sel('main_platinum',this);" id="main_platinum_use" /><label for="main_platinum_use">출력</label>
+						<input name="main_platinum_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_platinum_limit'])?'checked':'';?> onclick="" id="main_platinum_limit" /><label for="main_platinum_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf  main_platinum_print" style="display:<?php echo ($design['main_platinum_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="main_platinum_total" size='7' value="<?php echo $design['main_platinum_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="main_platinum_row">
+						<option value="3" <?php echo ($design['main_platinum_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['main_platinum_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['main_platinum_row']=='5')?'selected':'';?>>5 건</option>
+						<option value="6" <?php echo ($design['main_platinum_row']=='6')?'selected':'';?>>6 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="main_platinum_border" type="radio" value="1" class="radio" <?php echo ($design['main_platinum_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="main_platinum_border" type="radio" value="2" class="radio" <?php echo ($design['main_platinum_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="main_platinum_margin" type="radio" value="1" class="radio" <?php echo ($design['main_platinum_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="main_platinum_margin" type="radio" value="0" class="radio" <?php echo ($design['main_platinum_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_platinum_border_color" id="main_platinum_border_color"><?php echo $utility->gwsc($design['main_platinum_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a>
+									 -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_platinum_border_gold_color" id="main_platinum_border_gold_color"><?php echo $utility->gwsc($design['main_platinum_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a>
+									 -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_platinum_background_color" id="main_platinum_background_color"><?php echo $utility->gwsc($design['main_platinum_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_platinum_background_gold_color" id="main_platinum_background_gold_color"><?php echo $utility->gwsc($design['main_platinum_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">플래티넘 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_platinum_content');" id="update_main_platinum_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_platinum_content', stripslashes($design['main_platinum_content']));	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+	        <tr>
+				<td class="ctlt">프라임 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="main_prime_use" type="checkbox" value="1" class="check" <?php echo ($design['main_prime_use'])?'checked':'';?> onclick="use_sel('main_prime',this);" id="main_prime_use" /><label for="main_prime_use">출력</label>
+						<input name="main_prime_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_prime_limit'])?'checked':'';?> onclick="" id="main_prime_limit" /><label for="main_prime_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf main_prime_print" style="display:<?php echo ($design['main_prime_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="main_prime_total" size='7' value="<?php echo $design['main_prime_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="main_prime_row">
+						<option value="3" <?php echo ($design['main_prime_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['main_prime_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['main_prime_row']=='5')?'selected':'';?>>5 건</option>
+						<option value="6" <?php echo ($design['main_prime_row']=='6')?'selected':'';?>>6 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="main_prime_border" type="radio" value="1" class="radio" <?php echo ($design['main_prime_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="main_prime_border" type="radio" value="2" class="radio" <?php echo ($design['main_prime_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="main_prime_margin" type="radio" value="1" class="radio" <?php echo ($design['main_prime_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="main_prime_margin" type="radio" value="0" class="radio" <?php echo ($design['main_prime_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_prime_border_color" id="main_prime_border_color"><?php echo $utility->gwsc($design['main_prime_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_prime_border_gold_color" id="main_prime_border_gold_color"><?php echo $utility->gwsc($design['main_prime_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_prime_background_color" id="main_prime_background_color"><?php echo $utility->gwsc($design['main_prime_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_prime_background_gold_color" id="main_prime_background_gold_color"><?php echo $utility->gwsc($design['main_prime_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">프라임 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_prime_content');" id="update_main_prime_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_prime_content', $design['main_prime_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">그랜드 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="main_grand_use" type="checkbox" value="1" class="check" <?php echo ($design['main_grand_use'])?'checked':'';?> onclick="use_sel('main_grand',this);" id="main_grand_use" /><label for="main_grand_use">출력</label>
+						<input name="main_grand_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_grand_limit'])?'checked':'';?> onclick="" id="main_grand_limit" /><label for="main_grand_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf main_grand_print" style="display:<?php echo ($design['main_grand_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="main_grand_total" size='7' value="<?php echo $design['main_grand_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="main_grand_row">
+						<option value="3" <?php echo ($design['main_grand_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['main_grand_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['main_grand_row']=='5')?'selected':'';?>>5 건</option>
+						<option value="6" <?php echo ($design['main_grand_row']=='6')?'selected':'';?>>6 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="main_grand_border" type="radio" value="1" class="radio" <?php echo ($design['main_grand_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="main_grand_border" type="radio" value="2" class="radio" <?php echo ($design['main_grand_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="main_grand_margin" type="radio" value="1" class="radio" <?php echo ($design['main_grand_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="main_grand_margin" type="radio" value="0" class="radio" <?php echo ($design['main_grand_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+							<p style="padding:3px 2px 1px;">
+								<label>일반:</label>
+								<select name="main_grand_border_color" id="main_grand_border_color"><?php echo $utility->gwsc($design['main_grand_border_color']); ?></select>
+								<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+								<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+							</p>
+							<p style="padding:1px 2px 3px;">
+								<label>골드:</label>
+								<select name="main_grand_border_gold_color" id="main_grand_border_gold_color"><?php echo $utility->gwsc($design['main_grand_border_gold_color']); ?></select>
+								<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+								<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+							</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_grand_background_color" id="main_grand_background_color"><?php echo $utility->gwsc($design['main_grand_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_grand_background_gold_color" id="main_grand_background_gold_color"><?php echo $utility->gwsc($design['main_grand_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">그랜드 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_grand_content');" id="update_main_grand_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_grand_content', $design['main_grand_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">배너형 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="main_banner_use" type="checkbox" value="1" class="check" <?php echo ($design['main_banner_use'])?'checked':'';?> onclick="use_sel('main_banner',this);" id="main_banner_use"/><label for="main_banner_use">출력</label>
+						<input name="main_banner_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_banner_limit'])?'checked':'';?> onclick="" id="main_banner_limit" /><label for="main_banner_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf main_banner_print" style="display:<?php echo ($design['main_banner_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="main_banner_total" size='7' value="<?php echo $design['main_banner_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="main_banner_row">
+						<option value="3" <?php echo ($design['main_banner_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['main_banner_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['main_banner_row']=='5')?'selected':'';?>>5 건</option>
+						<option value="6" <?php echo ($design['main_banner_row']=='6')?'selected':'';?>>6 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="main_banner_border" type="radio" value="1" class="radio" <?php echo ($design['main_banner_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="main_banner_border" type="radio" value="2" class="radio" <?php echo ($design['main_banner_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="main_banner_margin" type="radio" value="1" class="radio" <?php echo ($design['main_banner_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="main_banner_margin" type="radio" value="0" class="radio" <?php echo ($design['main_banner_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_banner_border_color" id="main_banner_border_color"><?php echo $utility->gwsc($design['main_banner_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_banner_border_gold_color" id="main_banner_border_gold_color"><?php echo $utility->gwsc($design['main_banner_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_banner_background_color" id="main_banner_background_color"><?php echo $utility->gwsc($design['main_banner_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_banner_background_gold_color" id="main_banner_background_gold_color"><?php echo $utility->gwsc($design['main_banner_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>			
+	        <tr>
+				<td class="ctlt">배너형 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_banner_content');" id="update_main_banner_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_banner_content', $design['main_banner_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">리스트형 채용정보</td>
+				<td class="pdlnb2">
+					<label><input name="main_list_use" type="checkbox" value="1" class="check" <?php echo ($design['main_list_use'])?'checked':'';?> onclick="use_sel('main_list',this);" />출력</label>
+					<span class="main_list_print" style="display:<?php echo ($design['main_list_use'])?'':'none';?>;">
+					/ 출력 건수 <input type="text" class="tnum tc b" name="main_list_total" size='7' value="<?php echo $design['main_list_total'];?>"/> 건
+					
+						<span style="height:25px;line-height:25px; vertical-align:middle;display:inline-block; border:1px solid #D9D9D9; padding:3px 5px; background-color:#FFF;" id="site_colorUser">
+							<strong>배경칼라설정 </strong><label>골드:</label>
+							<select name="main_list_background_gold_color" id="main_list_background_gold_color"><?php echo $utility->gwsc($design['main_list_background_gold_color']); ?></select>
+							<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+						</span>
+
+					</span>
+					<div>
+						<input name="main_list_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_list_limit'])?'checked':'';?> onclick="" id="main_list_limit"/><label for="main_list_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">리스트형 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_list_content');" id="update_main_list_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_list_content', $design['main_list_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+	        <tr>
+				<td class="ctlt">급구 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_busy_content');" id="update_main_busy_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_busy_content', $design['main_busy_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">포커스 인재정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="main_focus_use" type="checkbox" value="1" class="check" <?php echo ($design['main_focus_use'])?'checked':'';?> onclick="use_sel('main_focus',this);" id="main_focus_use" /><label for="main_focus_use">출력</label>
+						<input name="main_focus_limit" type="checkbox" value="1" class="check" <?php echo ($design['main_focus_limit'])?'checked':'';?> onclick="" id="main_focus_limit"/><label for="main_focus_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf main_focus_print" style="display:<?php echo ($design['main_platinum_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:20%;">총출력수</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="main_focus_total" size='7' value="<?php echo $design['main_focus_total'];?>"/>건
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<div style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_focus_border_color" id="main_focus_border_color"><?php echo $utility->gwsc($design['main_focus_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+								<div style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_focus_border_gold_color" id="main_focus_border_gold_color"><?php echo $utility->gwsc($design['main_focus_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<div style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="main_focus_background_color" id="main_focus_background_color"><?php echo $utility->gwsc($design['main_focus_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+								<div style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="main_focus_background_gold_color" id="main_focus_background_gold_color"><?php echo $utility->gwsc($design['main_focus_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">포커스 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_focus_content');" id="update_main_focus_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_focus_content', $design['main_focus_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+	        <tr>
+				<td class="ctlt">메인 최근 공고 리스트</td>
+				<td class="pdlnb2">
+					<label><input name="main_bottom_alba_use" type="checkbox" value="1" class="check" <?php echo ($design['main_bottom_alba_use'])?'checked':'';?> />출력</label>
+					/ 출력 건수 <input type="text" class="tnum tc b" name="main_bottom_alba_total" size='7' value="<?php echo $design['main_bottom_alba_total'];?>"/> 건
+					<span class="subtlt">출력 설정하시면 메인 페이지 하단에 최근 채용공고 리스트가 출력됩니다</span>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">메인 최근 인재 리스트</td>
+				<td class="pdlnb2">
+					<label><input name="main_bottom_resume_use" type="checkbox" value="1" class="check" <?php echo ($design['main_bottom_resume_use'])?'checked':'';?> />출력</label>
+					/ 출력 건수 <input type="text" class="tnum tc b" name="main_bottom_resume_total" size='7' value="<?php echo $design['main_bottom_resume_total'];?>"/> 건
+					<span class="subtlt">출력 설정하시면 메인 페이지 하단에 최근 이력서 리스트가 출력됩니다</span>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">채용 리스트 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_basic_content');" id="update_main_basic_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_basic_content', $design['main_basic_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">인재 리스트 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('main_rbasic_content');" id="update_main_rbasic_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('main_rbasic_content', $design['main_rbasic_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			</table>
+
+			<dl class="pbtn mt10"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">서브 공고 출력설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=130><col> 
+			
+            <tr>
+				<td class="ctlt">플래티넘 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="sub_platinum_use" type="checkbox" value="1" class="check" <?php echo ($design['sub_platinum_use'])?'checked':'';?> onclick="use_sel('sub_platinum',this);" id="sub_platinum_use"/><label for="sub_platinum_use">출력</label>
+						<input name="sub_platinum_limit" type="checkbox" value="1" class="check" <?php echo ($design['sub_platinum_limit'])?'checked':'';?> onclick="" id="sub_platinum_limit" /><label for="sub_platinum_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf  sub_platinum_print" style="display:<?php echo ($design['sub_platinum_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="sub_platinum_total" size='7' value="<?php echo $design['sub_platinum_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="sub_platinum_row">
+						<option value="4" <?php echo ($design['sub_platinum_row']=='4')?'selected':'';?>>3 건</option>
+						<option value="5" <?php echo ($design['sub_platinum_row']=='5')?'selected':'';?>>4 건</option>
+						<option value="6" <?php echo ($design['sub_platinum_row']=='6')?'selected':'';?>>5 건</option>
+						<!-- <option value="6" <?php echo ($design['sub_platinum_row']=='6')?'selected':'';?>>5 건</option> -->
+						</select>
+						</td>
+						<td>
+						<input name="sub_platinum_border" type="radio" value="1" class="radio" <?php echo ($design['sub_platinum_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="sub_platinum_border" type="radio" value="2" class="radio" <?php echo ($design['sub_platinum_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="sub_platinum_margin" type="radio" value="1" class="radio" <?php echo ($design['sub_platinum_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="sub_platinum_margin" type="radio" value="0" class="radio" <?php echo ($design['sub_platinum_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_platinum_border_color" id="sub_platinum_border_color"><?php echo $utility->gwsc($design['sub_platinum_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_platinum_border_gold_color" id="sub_platinum_border_gold_color"><?php echo $utility->gwsc($design['sub_platinum_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_platinum_background_color" id="sub_platinum_background_color"><?php echo $utility->gwsc($design['sub_platinum_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_platinum_background_gold_color" id="sub_platinum_background_gold_color"><?php echo $utility->gwsc($design['sub_platinum_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">플래티넘 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_platinum_content');" id="update_sub_platinum_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_platinum_content', $design['sub_platinum_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+            <tr>
+				<td class="ctlt">배너형 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="sub_banner_use" type="checkbox" value="1" class="check" <?php echo ($design['sub_banner_use'])?'checked':'';?> onclick="use_sel('sub_banner',this);" id="sub_banner_use" /><label for="sub_banner_use">출력</label>
+						<input name="sub_banner_limit" type="checkbox" value="1" class="check" <?php echo ($design['sub_banner_limit'])?'checked':'';?> onclick="" id="sub_banner_limit" /><label for="sub_banner_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf sub_banner_print" style="display:<?php echo ($design['sub_banner_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px;margin-right:5px;" class="tnum tc b" name="sub_banner_total" size='7' value="<?php echo $design['sub_banner_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="sub_banner_row">
+						<option value="4" <?php echo ($design['sub_banner_row']=='4')?'selected':'';?>>3 건</option>
+						<option value="5" <?php echo ($design['sub_banner_row']=='5')?'selected':'';?>>4 건</option>
+						<option value="6" <?php echo ($design['sub_banner_row']=='6')?'selected':'';?>>5 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="sub_banner_border" type="radio" value="1" class="radio" <?php echo ($design['sub_banner_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="sub_banner_border" type="radio" value="2" class="radio" <?php echo ($design['sub_banner_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="sub_banner_margin" type="radio" value="1" class="radio" <?php echo ($design['sub_banner_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="sub_banner_margin" type="radio" value="0" class="radio" <?php echo ($design['sub_banner_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_banner_border_color" id="sub_banner_border_color"><?php echo $utility->gwsc($design['sub_banner_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_banner_border_gold_color" id="sub_banner_border_gold_color"><?php echo $utility->gwsc($design['sub_banner_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_banner_background_color" id="sub_banner_background_color"><?php echo $utility->gwsc($design['sub_banner_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_banner_background_gold_color" id="sub_banner_background_gold_color"><?php echo $utility->gwsc($design['sub_banner_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>			
+	        <tr>
+				<td class="ctlt">배너형 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_banner_content');" id="update_sub_banner_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_banner_content', $design['sub_banner_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">리스트형 채용정보</td>
+				<td class="pdlnb2">
+					<label><input name="sub_list_use" type="checkbox" value="1" class="check" <?php echo ($design['sub_list_use'])?'checked':'';?> onclick="use_sel('sub_list',this);" />출력</label>
+					<span class="sub_list_print" style="display:<?php echo ($design['sub_list_use'])?'':'none';?>;">
+					/ 총출력수 <input type="text" class="tnum tc b" name="sub_list_total" size='7' value="<?php echo $design['sub_list_total'];?>"/> 건
+						<span style="height:25px;line-height:25px; vertical-align:middle;display:inline-block; border:1px solid #D9D9D9; padding:3px 5px; background-color:#FFF;" id="site_colorUser">
+							<strong>배경칼라설정 </strong><label>골드:</label>
+							<select name="sub_list_background_gold_color" id="sub_list_background_gold_color"><?php echo $utility->gwsc($design['sub_list_background_gold_color']); ?></select>
+							<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+						</span>
+					</span>
+					<div>
+						<input name="sub_list_limit" type="checkbox" value="1" class="check" <?php echo ($design['sub_list_limit'])?'checked':'';?> onclick="" id="sub_list_limit" /><label for="sub_list_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">리스트형 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_list_content');" id="update_sub_list_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_list_content', $design['sub_list_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">일반리스트 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_basic_content');" id="update_sub_basic_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_basic_content', $design['sub_basic_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			</table>
+
+			<dl class="pbtn mt10"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">서브 인재정보 출력설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=150><col> 
+		
+				<tr>
+				<td class="ctlt">포커스 인재정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="sub_focus_use" type="checkbox" value="1" class="check" <?php echo ($design['sub_focus_use'])?'checked':'';?> onclick="use_sel('sub_focus',this);" id="sub_focus_use" /><label for="sub_focus_use">출력</label>
+						<input name="sub_focus_limit" type="checkbox" value="1" class="check" <?php echo ($design['sub_focus_limit'])?'checked':'';?> onclick="" id="sub_focus_limit" /><label for="sub_focus_limit">총출력수 제한</label><span class="subtlt">('총출력수 제한'을 설정하시면 총출력수 만큼만 등록/출력 됩니다)</span>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf sub_focus_print" style="display:<?php echo ($design['sub_focus_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:20%;">총출력수</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="sub_focus_total" size='7' value="<?php echo $design['sub_focus_total'];?>"/>건
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<div style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_focus_border_color" id="sub_focus_border_color"><?php echo $utility->gwsc($design['sub_focus_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+								<div style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_focus_border_gold_color" id="sub_focus_border_gold_color"><?php echo $utility->gwsc($design['sub_focus_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<div style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="sub_focus_background_color" id="sub_focus_background_color"><?php echo $utility->gwsc($design['sub_focus_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+								<div style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="sub_focus_background_gold_color" id="sub_focus_background_gold_color"><?php echo $utility->gwsc($design['sub_focus_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</div>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>			
+	        <tr>
+				<td class="ctlt">포커스 인재정보 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_focus_content');" id="update_sub_focus_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_focus_content', $design['sub_focus_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">급구 인재정보 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_busy_content');" id="update_sub_busy_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_busy_content', $design['sub_busy_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">일반리스트 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('sub_rbasic_content');" id="update_sub_rbasic_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('sub_rbasic_content', $design['sub_rbasic_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="border-bottom:1px solid #E9F0F4;background-color:#ffffff;height:5px;"></td></tr>
+			<tr>
+				<td class="ctlt">오늘의 인재정보</td>
+				<td class="pdlnb2">
+					<label><input name="today_resume_use" type="checkbox" value="1" class="check" <?php echo ($design['today_resume_use'])?'checked':'';?> onclick="use_sel('today_resume',this);" />출력</label>
+					<span class="today_resume_print" style="display:<?php echo ($design['today_resume_use'])?'':'none';?>;">
+					/ 출력 건수 <input type="text" class="tnum tc b" name="today_resume_total" size='7' value="<?php echo $design['today_resume_total'];?>"/> 건
+					</span>
+				</td>
+			</tr>
+			<!-- <tr>
+				<td class="ctlt">리스트형 인재정보</td>
+				<td class="pdlnb2">
+					<label><input name="sub_resume_list_use" type="checkbox" value="1" class="check" <?php echo ($design['sub_resume_list_use'])?'checked':'';?> onclick="use_sel('sub_resume_list',this);" />출력</label>
+					<span class="sub_resume_list_print" style="display:<?php echo ($design['sub_resume_list_use'])?'':'none';?>;">
+					/ 출력 건수 <input type="text" class="tnum tc b" name="sub_resume_list_total" size='7' value="<?php echo $design['sub_resume_list_total'];?>"/> 건
+					</span>
+				</td>
+			</tr> -->
+			</table>
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">기타 서비스 안내 설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=180><col> 
+	        <tr>
+				<td class="ctlt">채용공고 점프 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('alba_jump_content');" id="update_alba_jump_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('alba_jump_content', $design['alba_jump_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">이력서 점프 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('resume_jump_content');" id="update_resume_jump_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('resume_jump_content', $design['resume_jump_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">채용공고 열람 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('alba_open_content');" id="update_alba_open_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('alba_open_content', $design['alba_open_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">이력서 열람 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('resume_open_content');" id="update_resume_open_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('resume_open_content', $design['resume_open_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">기업회원 SMS 충전 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('etc_alba_sms_content');" id="update_etc_alba_sms_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('etc_alba_sms_content', $design['etc_alba_sms_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+	        <tr>
+				<td class="ctlt">개인회원 SMS 충전 서비스안내</td>
+				<td class="pdlnb2">
+					<span><a class="btn wbl" style="padding:0 5px;" onclick="update_content('etc_resume_sms_content');" id="update_etc_resume_sms_content">내용수정</a></span>
+					<?//php echo $utility->make_cheditor('etc_resume_sms_content', $design['etc_resume_sms_content']);	// 에디터 생성?>
+				</td>
+			</tr>
+			</table>
+
+			<dl class="pbtn mt10"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+
+
+			<!-- 추가된 19금 채용정보 설정 (2014.03.27) --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+			<dl class="ntlt lnb_col"><img src="../../images/comn/bul_10.png" class="t">19금 채용정보 출력 설정</dl>  
+			<table width="100%" class="bg_col">
+			<col width=180><col> 
+
+	        <tr>
+				<td class="ctlt">19금 플래티넘 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="adult_platinum_use" type="checkbox" value="1" class="check" <?php echo ($design['adult_platinum_use'])?'checked':'';?> onclick="use_sel('adult_platinum',this);" id="adult_platinum_use" /><label for="adult_platinum_use">출력</label>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf  adult_platinum_print" style="display:<?php echo ($design['adult_platinum_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="adult_platinum_total" size='7' value="<?php echo $design['adult_platinum_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="adult_platinum_row">
+						<option value="3" <?php echo ($design['adult_platinum_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['adult_platinum_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['adult_platinum_row']=='5')?'selected':'';?>>5 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="adult_platinum_border" type="radio" value="1" class="radio" <?php echo ($design['adult_platinum_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="adult_platinum_border" type="radio" value="2" class="radio" <?php echo ($design['adult_platinum_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="adult_platinum_margin" type="radio" value="1" class="radio" <?php echo ($design['adult_platinum_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="adult_platinum_margin" type="radio" value="0" class="radio" <?php echo ($design['adult_platinum_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_platinum_border_color" id="adult_platinum_border_color"><?php echo $utility->gwsc($design['adult_platinum_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a>
+									 -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_platinum_border_gold_color" id="adult_platinum_border_gold_color"><?php echo $utility->gwsc($design['adult_platinum_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a>
+									 -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_platinum_background_color" id="adult_platinum_background_color"><?php echo $utility->gwsc($design['adult_platinum_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_platinum_background_gold_color" id="adult_platinum_background_gold_color"><?php echo $utility->gwsc($design['adult_platinum_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+
+	        <tr>
+				<td class="ctlt">19금 프라임 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="adult_prime_use" type="checkbox" value="1" class="check" <?php echo ($design['adult_prime_use'])?'checked':'';?> onclick="use_sel('adult_prime',this);" id="adult_prime_use" /><label for="adult_prime_use">출력</label>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf adult_prime_print" style="display:<?php echo ($design['adult_prime_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="adult_prime_total" size='7' value="<?php echo $design['adult_prime_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="adult_prime_row">
+						<option value="3" <?php echo ($design['adult_prime_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['adult_prime_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['adult_prime_row']=='5')?'selected':'';?>>5 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="adult_prime_border" type="radio" value="1" class="radio" <?php echo ($design['adult_prime_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="adult_prime_border" type="radio" value="2" class="radio" <?php echo ($design['adult_prime_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="adult_prime_margin" type="radio" value="1" class="radio" <?php echo ($design['adult_prime_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="adult_prime_margin" type="radio" value="0" class="radio" <?php echo ($design['adult_prime_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_prime_border_color" id="adult_prime_border_color"><?php echo $utility->gwsc($design['adult_prime_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_prime_border_gold_color" id="adult_prime_border_gold_color"><?php echo $utility->gwsc($design['adult_prime_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_prime_background_color" id="adult_prime_background_color"><?php echo $utility->gwsc($design['adult_prime_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_prime_background_gold_color" id="adult_prime_background_gold_color"><?php echo $utility->gwsc($design['adult_prime_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+									<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="ctlt">19금 그랜드 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="adult_grand_use" type="checkbox" value="1" class="check" <?php echo ($design['adult_grand_use'])?'checked':'';?> onclick="use_sel('adult_grand',this);" id="adult_grand_use" /><label for="adult_grand_use">출력</label>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf adult_grand_print" style="display:<?php echo ($design['adult_grand_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="adult_grand_total" size='7' value="<?php echo $design['adult_grand_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="adult_grand_row">
+						<option value="3" <?php echo ($design['adult_grand_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['adult_grand_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['adult_grand_row']=='5')?'selected':'';?>>5 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="adult_grand_border" type="radio" value="1" class="radio" <?php echo ($design['adult_grand_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="adult_grand_border" type="radio" value="2" class="radio" <?php echo ($design['adult_grand_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="adult_grand_margin" type="radio" value="1" class="radio" <?php echo ($design['adult_grand_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="adult_grand_margin" type="radio" value="0" class="radio" <?php echo ($design['adult_grand_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+							<p style="padding:3px 2px 1px;">
+								<label>일반:</label>
+								<select name="adult_grand_border_color" id="adult_grand_border_color"><?php echo $utility->gwsc($design['adult_grand_border_color']); ?></select>
+								<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+								<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+							</p>
+							<p style="padding:1px 2px 3px;">
+								<label>골드:</label>
+								<select name="adult_grand_border_gold_color" id="adult_grand_border_gold_color"><?php echo $utility->gwsc($design['adult_grand_border_gold_color']); ?></select>
+								<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt">
+								<a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+							</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_grand_background_color" id="adult_grand_background_color"><?php echo $utility->gwsc($design['adult_grand_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_grand_background_gold_color" id="adult_grand_background_gold_color"><?php echo $utility->gwsc($design['adult_grand_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="ctlt">19금 배너형 채용정보</td>
+				<td class="pdlnb2">
+					<div>
+						<input name="adult_banner_use" type="checkbox" value="1" class="check" <?php echo ($design['adult_banner_use'])?'checked':'';?> onclick="use_sel('adult_banner',this);" id="adult_banner_use"/><label for="adult_banner_use">출력</label>
+					</div>
+					<table width="790px" cellspacing="1" class="ln sep tf adult_banner_print" style="display:<?php echo ($design['adult_banner_use'])?'':'none';?>;">
+					<tbody>
+					<tr height="25" align="center" class="bg b">
+						<th style="width:80px;">총출력수</th>
+						<th style="width:80px;">가로 출력수</th>
+						<th style="width:120px;">박스테두리</th>
+						<th  style="width:120px;">박스간격</th>
+						<th>테두리칼라설정</th>
+						<th>배경칼라설정</th>
+					</tr>
+					<tr  height="30" class="wbg tc">
+						<td>
+						<input type="text" style="width:50px; margin-right:5px;" class="tnum tc b" name="adult_banner_total" size='7' value="<?php echo $design['adult_banner_total'];?>"/>건
+						</td>
+						<td>  
+						<select style="width:60px;" name="adult_banner_row">
+						<option value="3" <?php echo ($design['adult_banner_row']=='3')?'selected':'';?>>3 건</option>
+						<option value="4" <?php echo ($design['adult_banner_row']=='4')?'selected':'';?>>4 건</option>
+						<option value="5" <?php echo ($design['adult_banner_row']=='5')?'selected':'';?>>5 건</option>
+						</select>
+						</td>
+						<td>
+						<input name="adult_banner_border" type="radio" value="1" class="radio" <?php echo ($design['adult_banner_border']=='1')?'checked':'';?>/><label>가늘게</label>
+						<input name="adult_banner_border" type="radio" value="2" class="radio" <?php echo ($design['adult_banner_border']=='2')?'checked':'';?>/><label>두껍게</label>
+						</td>
+						<td>
+						<input name="adult_banner_margin" type="radio" value="1" class="radio" <?php echo ($design['adult_banner_margin']=='1')?'checked':'';?>/><label>띄우기</label>
+						<input name="adult_banner_margin" type="radio" value="0" class="radio" <?php echo ($design['adult_banner_margin']=='0')?'checked':'';?>/><label>붙이기</label>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_banner_border_color" id="adult_banner_border_color"><?php echo $utility->gwsc($design['adult_banner_border_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_banner_border_gold_color" id="adult_banner_border_gold_color"><?php echo $utility->gwsc($design['adult_banner_border_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>
+						</td>
+						<td>
+							<div id="site_colorUser" style="">
+								<p style="padding:3px 2px 1px;">
+									<label>일반:</label>
+									<select name="adult_banner_background_color" id="adult_banner_background_color"><?php echo $utility->gwsc($design['adult_banner_background_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+								<p style="padding:1px 2px 3px;">
+									<label>골드:</label>
+									<select name="adult_banner_background_gold_color" id="adult_banner_background_gold_color"><?php echo $utility->gwsc($design['adult_banner_background_gold_color']); ?></select>
+									<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+								</p>
+							</div>						
+						</td>
+					</tr>
+					</tbody>
+					</table>
+				</td>
+			</tr>			
+
+			<tr>
+				<td class="ctlt">19금 리스트형 채용정보</td>
+				<td class="pdlnb2">
+					<label><input name="adult_list_use" type="checkbox" value="1" class="check" <?php echo ($design['adult_list_use'])?'checked':'';?> onclick="use_sel('adult_list',this);" />출력</label>
+					<span class="adult_list_print" style="display:<?php echo ($design['adult_list_use'])?'':'none';?>;">
+					/ 출력 건수 <input type="text" class="tnum tc b" name="adult_list_total" size='7' value="<?php echo $design['adult_list_total'];?>"/> 건
+					
+						<span style="height:25px;line-height:25px; vertical-align:middle;display:inline-block; border:1px solid #D9D9D9; padding:3px 5px; background-color:#FFF;" id="site_colorUser">
+							<strong>배경칼라설정 </strong><label>골드:</label>
+							<select name="adult_list_background_gold_color" id="adult_list_background_gold_color"><?php echo $utility->gwsc($design['adult_list_background_gold_color']); ?></select>
+							<!-- <input type="text" style="width: 45px; height: 20px; margin-right: 5px; background: none repeat scroll 0% 0% rgb(0, 153, 255); color: rgb(0, 0, 0);" value="0099FF" name="user_color" class="txt"><a href="#"><img alt="Open colour picker" src="../../images/btn/24_col.gif"></a> -->
+						</span>
+
+					</span>
+				</td>
+			</tr>
+
+			</table>
+
+			<dl class="pbtn"><input type='image' src="../../images/btn/b35_14.png" class="ln_col">&nbsp;</dl>
+
+			<!-- // 추가된 19금 채용정보 설정 (2014.03.27) --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+			</form>
+
+
+		</td>
+		<!--<td class=nb_05></td></tr><tr><td class=nb_06></td><td class=nb_07></td><td class=nb_08></td></tr>-->
+		</table>
+
+		<div id='pop_info'></div>
+
+	</td>
+</tr>
+</table>
+
+<script>
+function showRequest(formData, jqForm, form_options) {	// 폼 전송전 데이터
+}
+function showResponse(responseText, statusText, xhr, $form){	// 폼 전송 후 결과
+	
+	if(responseText){
+		alert("<?php echo $config->_success('0002');?>");
+		location.reload();
+	} else {
+		alert("<?php echo $config->_errors('0005');?>");
+	}
+}
+function content_showRequest(formData, jqForm, form_options) {	// 폼 전송전 데이터
+}
+function content_showResponse(responseText, statusText, xhr, $form){	// 폼 전송 후 결과
+	if(responseText){
+		alert("<?php echo $config->_success('0002');?>");
+		$('#pop_content').hide();
+	} else {
+		alert("<?php echo $config->_errors('0005');?>");
+	}
+}
+</script>
+<?php include_once "../include/tail.php";?>

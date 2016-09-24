@@ -1,0 +1,567 @@
+<?php 
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+
+if ($is_admin && !$token) {
+	$utility->set_session("ss_delete_token", $token);
+}
+
+$is_write = false;
+// 글작성 레벨 체크
+if($member['mb_level'] >= $board['bo_write_level']){
+	$is_write = true;
+}
+$is_update = false;
+if (($member['mb_id'] && ($member['mb_id'] == $write['wr_id'])) || $is_admin) {
+	$is_update = true;
+}
+$is_category = false;
+if ($board['bo_use_category']) {	// 분류 사용 유무
+	$ca_name = $write['wr_category'];
+	$category_option = $category_control->getOption_add('board'," and `p_code` = '".$bo_table."' ", $write['wr_category']);
+	$is_category = true;
+}
+$is_name = false;
+$is_password = false;
+$is_email = false;
+if (!$member['mb_id'] || ($mode == 'update' && $member['mb_id'] != $write['wr_id'])) {	// 비회원의 경우 작성 항목이 늘어난다.
+	$is_name = true;
+	$is_password = true;
+	$is_email = true;
+	$is_homepage = true;
+	$wr_name = stripslashes($write['wr_name']);
+	$wr_password = $_GET['password'];
+}
+$subject = preg_replace("/\"/", "&#034;", $utility->get_text($utility->cut_str($write['wr_subject'], 255), 0));
+$is_file = false;	// 파일 첨부
+//if($board['bo_use_upload'] && $is_member)	 // 파일 첨부 기능을 사용하고, 회원일때만 (보안상 비회원은 파일첨부 안됨)
+if($board['bo_use_upload'])	
+	$is_file = true;
+$is_file_content = false;	// 업로드 이미지 파일에 해당 하는 내용 (지금 버전에선 없다)
+$is_kcaptcha = false;	// 자동등록방지
+if($is_guest && $env['article_denied']==1 && $mode!='update'){	// 비회원 이고, 관리자가 사용체크 했고, 수정이 아닐때
+	$is_kcaptcha = true;
+}
+$is_number = false;	// 임의의 난수
+if($is_guest && $env['article_denied']==2 && $mode!='update'){	// 비회원 이고, 관리자가 사용체크 했고, 수정이 아닐때
+	$is_number = true;
+	$rand_num = rand(0,9).' '.rand(0,9).' '.rand(0,9).' '.rand(0,9);
+	$sess_num = explode(' ',$rand_num);
+	$_SESSION['rand_nums'] = $sess_num[0].$sess_num[1].$sess_num[2].$sess_num[3];
+}
+
+
+$view = $board_control->get_view($_GET['bo_table'],$_GET['wr_no']);
+
+// 로그인된 회원의 권한이 설정된 읽기 권한보다 작다면
+if ($member['mb_level'] < $board['bo_read_level']){
+	if ($member['mb_id'])
+		$utility->popup_msg_js($board_control->_errors('0022'));	// 글을 읽을 권한이 없습니다.
+	else
+		$utility->popup_msg_js($board_control->_errors('0023'),"../login/login.html?wr_no=".$wr_no."&url=".urlencode("../community/view.html?board_code=".$board_code."&code=".$code."&bo_table=".$bo_table."&wr_no=".$wr_no));
+}
+// 자신의 글이거나 관리자라면 통과
+if (($write['wr_id'] && $write['wr_id'] == $member['mb_id']) || $is_admin)
+	;
+else {
+	// 비밀글이라면
+	if ($write['wr_secret']){
+		// 회원이 비밀글을 올리고 관리자가 답변글을 올렸을 경우
+		// 회원이 관리자가 올린 답변글을 바로 볼 수 없던 오류를 수정
+		$is_owner = false;
+		if ($write['wr_reply'] && $member['mb_id']) {
+			$query = " select wr_id from `".$write_table."` where wr_num = '".$write['wr_num']."' and wr_reply = '' and wr_is_comment = '0' ";
+			$row = $db->query_fetch($query);
+			if ($row['wr_id'] == $member['mb_id'])
+				$is_owner = true;
+		}
+
+		if (!$is_owner){
+			$utility->popup_msg_js("모바일에서는 보안상 비밀글을 읽을수 없습니다.\n\n불편하시더라도 PC모드를 이용해 주세요.");
+		}
+
+	}
+}
+
+// 한번 읽은글은 브라우저를 닫기전까지는 카운트를 증가시키지 않음
+$hit_up = $board_control->hit_up($bo_table, $wr_no);
+if($hit_up){
+	// 자신의 글이면 통과
+	if ($write['wr_id'] && $write['wr_id'] == $member['mb_id']) {
+		;
+	} else if ($is_guest && $board['bo_read_level'] == 1 && $write['wr_ip'] == $_SERVER['REMOTE_ADDR']) {
+		// 비회원이면서 읽기레벨이 1이고 등록된 아이피가 같다면 자신의 글이므로 통과
+		;
+	} else {
+
+		// 글읽기 포인트가 설정되어 있다면
+		if ($board['bo_read_point'] && $member['mb_point'] + $board['bo_read_point'] < 0)
+			$utility->popup_msg_js("보유하신 포인트(".number_format($member['mb_point']).")가 없거나 모자라서 글읽기(".number_format($board['bo_read_point']).")가 불가합니다.\\n\\n포인트를 모으신 후 다시 글읽기 해 주십시오.");
+
+		$point_control->point_insert($member['mb_id'], $board['bo_read_point'], $board['bo_subject']." ".$wr_no." 글읽기", $bo_table, $wr_no, "읽기");
+	}
+
+}
+
+$datetime = strtr(substr($view['wr_datetime'],0,16),'-','.');
+
+/* 댓글 권한 확인 */
+$is_comment_write = false;
+if($member['mb_level'] >= $board['bo_comment_level']){
+	$is_comment_write = true;
+}
+$is_comment_write = ($board['bo_use_comment']) ? true : false; // 댓글 기능 사용 유무 확인
+/* //댓글 권한 확인 */
+
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list4").addClass("on");
+var board_path = "<?php echo $alice['board_path'];?>";
+var wr_no = "<?php echo $wr_no;?>";
+var LayerWraps = function( mode, comment_id ){
+	if(!comment_id){
+		comment_id = wr_no;
+	}
+	$('#comment_id').val(comment_id);
+	$('#mode').val('comment_'+mode);
+	if(mode=='insert'){
+		$('#wr_content').val("");	 // 초기화
+	} else {
+		var comment_content = $('#comment_content_'+comment_id).html();
+		$('#wr_content').val( strip_tags(comment_content) );
+	}
+
+	$(".popLayerWrap").fadeIn("4000");
+
+}
+var fviewcommentFrm_submit = function(){
+	$('#fviewcomment').submit();
+}
+var comment_delete = function( wr_no ){
+	if(confirm('댓글을 삭제하시겠습니까?')){
+		$.post('./process/delete_comment.php', { ajax:'true', bo_table:"<?php echo $bo_table;?>", comment_id:wr_no, token:"<?php echo $token;?>", cwin:"<?php echo $cwin;?>", page:"<?php echo $page;?>" }, function(result){
+			if(result){
+				alert(result);
+			} else {
+				location.reload();
+			}
+
+		});
+	}
+}
+  function strip_tags (input, allowed) {
+  allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+  var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+    commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+  return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+    return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+  });
+}
+var update_write = function(){	// 게시글 수정
+	$('.inputLyaerWrap').fadeIn("4000");
+}
+var write_layers = function(){
+	$("select[name='wr_category'] option:first").attr('selected',true);
+	$('#wr_name').val("");
+	$('#wr_password').val("");
+	$('#wr_subject').val("");
+	$('#wr_content').val("");
+	$('#file_name').val("");
+	$('#wr_key').val("");
+	<?php if($is_kcaptcha){ ?>$.kcaptcha_run();<?php } ?>
+	$('.inputLyaerWrap').fadeIn("4000");
+}
+var write_cancel = function(){
+	$('.popLayerWrap').hide();
+	$('.inputLyaerWrap').fadeOut();
+}
+var deletes = function(){
+	if(confirm('삭제하시겠습니까?')){
+		$.post('./process/delete.php', { mode:'delete', bo_table:"<?php echo $bo_table;?>", board_code:"<?php echo $board_code;?>", code:"<?php echo $code;?>", wr_no:"<?php echo $wr_no?>", token:"<?php echo $token;?>", wr_password:"<?php echo $member['mb_password'];?>" }, function(result){
+			location.href = "./list.php?board_code=<?php echo $board_code;?>&code=<?php echo $code;?>&bo_table=<?php echo $bo_table;?>";
+		});
+	}
+}
+</script>
+
+<section class="contentWrap">
+<!-- 레이어 팝업-->
+<div class="popLayerWrap" style="display:none;">
+<form method="post" name="fviewcomment" action="./process/regist.php" id="fviewcomment" onsubmit="return validate(this);">
+<input type='hidden' name='mode' id='mode' value='comment'>
+<input type='hidden' name='board_code' value='<?=$_GET['board_code']?>'>
+<input type='hidden' name='code' value='<?=$_GET['code']?>'>
+<input type='hidden' name='bo_table' value='<?=$_GET['bo_table']?>'>
+<input type='hidden' name='wr_no' value='<?=$_GET['wr_no']?>'>
+<input type='hidden' name='comment_id' id='comment_id'>
+<?php if($is_member){ ?>
+<input type='hidden' name='wr_name' value='<?php echo $member['mb_nick'];?>'>
+<input type='hidden' name='wr_password' value='<?php echo $member['mb_password'];?>'>
+<?php } ?>
+
+	<div class="LayerWrap">
+		<div class="popLayer">
+			<h2>
+				<em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+				<span>댓글쓰기</span>
+				<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+					<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+				</div>
+			</h2>
+			<div class="LayerContent">
+				<textarea name="wr_content" class="ipTextarea" id="wr_content" style="width:100%; height:110px;" required hname="내용"></textarea>
+				<div class="btnBottom">
+					<ul class="clearfix" style="margin:0 auto;">
+						<li><a onclick="fviewcommentFrm_submit();" class="button bg_color1 border_color1 text_white"><span>등록</span><img alt="" src="../images/btn/btn_rightArrow3.png" class="bg_color1"></a>
+						</li>
+						<li><a onclick="$('.popLayerWrap').fadeOut();" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a>
+						</li> 
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+</div>
+<!-- 레이어 팝업-->
+<div class="inputLyaerWrap" style="display:none;">
+<form name="fwrite" method="post" enctype="multipart/form-data" style="margin:0px;" id="boardwriteFrm">
+<input type="hidden" name=null> 
+<input type="hidden" name="mode" value="update">
+<input type="hidden" name='board_code' value='<?=$board_code?>'>
+<input type="hidden" name='code' value='<?=$code?>'>
+<input type="hidden" name='bo_table' value='<?=$bo_table?>'>
+<input type="hidden" name='wr_no' value='<?=$wr_no?>'>
+<input type="hidden" name="sca" value="<?=$sca?>">
+<input type="hidden" name="page" value="<?=$page?>">
+
+	<div class="LayerWrap">
+		<div class="popLayer">
+			<h2>
+				<em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+				<span>글쓰기</span>
+				<div style="top:0; right:0;" class="InputcloseBtn  bg_color1  clearfix positionA">
+					<a onclick="write_cancel();"><img src="../images/btn/btn_close1.png" alt=""></a>	
+				</div>
+			</h2>
+
+			<div class="LayerContent">
+				<div class="contentBoxWrap clearfix positionR" style="margin-top:-1px;">
+					<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+					<tbody>
+					<?php if($is_category){ ?>
+					<tr>
+						<th class="pl5">분류</th>
+						<td  style="width:75%;">
+						<div style="width:55%;" class="styled-select list5  clearfix positionR">
+							<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+							<select name="wr_category" required hname='분류' option='select' class="ipSelect">
+								<option value="">분류선택</option>
+								<?php echo $category_option;?>
+							</select>
+							</div>
+						</td>
+					</tr>
+					<?php } ?>
+					<?php if($is_name){ ?>
+					<tr>
+						<th class="pl5">작성자</th>
+						<td  style="width:75%;">
+							<input type="text" name="wr_name" class='ipText' size="20" value='<?=$wr_name?>' required hname='작성자명' id="wr_name">
+						</td>
+					</tr>
+					<?php } ?>
+					<?php if($is_password){ ?>
+					<tr>
+						<th class="pl5">비밀번호</th>
+						<td  style="width:75%;">
+							<input type="password" name="wr_password" class='ipText' size="20" value='<?=$wr_password?>' required hname='비밀번호' id="wr_password">
+							<span class="st11">*비회원의 경우 비밀번호를 꼭 입력하고 기억하셔야 합니다.</span>
+						</td>
+					</tr>
+					<?php } ?>
+					<tr>
+						<th class="pl5">제목</th>
+						<td  style="width:75%;">
+							<label class="skip">제목</label>
+							<input type="text" class="ipText" style="width:95%;" maxlength="12" id="wr_subject" name="wr_subject" value="<?php echo $subject;?>">
+						</td>
+					</tr>
+					<tr>
+						<th class="pl5">내용</th>
+						<td>
+							<textarea style="width:95%; height:70px;" id="wr_content" class="ipTextarea" name="wr_content" required hname="내용"><?php echo nl2br($write['wr_content']);?></textarea>	
+						</td>
+					</tr>
+					<?php if ($is_file) { ?>
+					<tr>
+						<th class="pl5 ">썸네일 이미지</th>
+						<td class="">
+							<input type="file" name="file_name[]" id="file_name"><br/>
+							<em class="text_help">
+								<strong><?php echo strtoupper(strtr($board['bo_upload_ext_img'],'|',','));?></strong> 파일형식으로,
+								<strong><?php echo number_format(intval(substr(ini_get('post_max_size'),0,-1)) * 1024);?>KB</strong> 용량 이내의 파일만 등록 가능합니다.
+							</em>
+						</td>
+					</tr>
+					<?php } ?>
+					<?php if($is_kcaptcha){ ?>
+					<tr>
+						<th class="pl5">자동등록방지</th>
+						<td>
+							<p class="pt5"><b class="fon13 red"><img id='kcaptcha_image' /></b>
+							<input name='wr_key' type='input' class="ipText" size='15'  hname="자동등록방지" required id='wr_key'></p>
+							<p class="pm5 st11">*왼쪽에 보이는 문자대로 입력해주세요.</p>
+						</td>
+					</tr>
+					<?php } else if($is_number){ ?>
+					<tr>
+						<th class="pl5">자동등록방지</th>
+						<td>
+							<p class="pt5"><b class="fon13 red"><?php echo $rand_num;?></b>
+							<input name='wr_key' type='input' class="txt" size='15'  hname="자동등록방지" required id='wr_key'></p>
+							<p class="pm5 st11">*왼쪽에 보이는 숫자를 입력해주세요.</p>
+						</td>
+					</tr>
+					<?php } ?>
+					</tbody>
+					</table>
+				</div>
+				<div class="btnBottom">
+					<ul class="clearfix" style="margin:0 auto;">
+						<li><a class="button bg_color1 border_color1 text_white" onclick="fwrite_submit();"><span>등록</span><img alt="" src="../images/btn/btn_rightArrow3.png" class="bg_color1"></a>
+						</li> 
+						<li><a href="javascript:write_cancel();" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a>
+						</li> 
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</form>
+</div>
+<!-- 레이어 팝업 //-->
+
+<div class="comWrap">
+<h2><em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em><span><?php echo stripslashes($board['bo_subject']);?><em class="text_color1">(<?php echo number_format($board['bo_write_count']);?>건)</em></span>
+<?php if($is_member && $is_comment_write){ ?>
+	<div class="titleBtn bg_color1  clearfix positionA" style="top:0; right:0;" onclick="LayerWraps('insert');">
+	<a>댓글쓰기<img alt="" src="../images/btn/btn_rightArrow3.png"></a>	
+	</div>
+<?php } ?>
+</h2>
+			<dl class="comlistBox clearfix">
+				<dt>
+					<div class="tit"><?php echo $view['subject'];?></div>
+					<div class="text1 pt5">
+					<span ><?php echo $view['name'];?></span><span><?php echo $datetime;?></span><span class="text2 text_color1">조회수:<?php echo $view['wr_hit'];?></span>
+					</div>
+				</dt>
+				<dd class="text  clearfix">
+					<div class="editorView">
+					<?php
+					// 파일 출력
+					for ($i=0; $i<=$view['file']['count']; $i++) {	// 이미지의 경우 그냥 출력한다.
+						if ($view['file'][$i]['view']) 
+						echo $view['file'][$i]['view'] . "<br/><br/>";
+					}
+					?>
+					<?php echo $view['content'];?>
+					</div>
+				 </dd>
+				
+<?php
+$list = array();
+
+// 코멘트 출력
+$query = " select * from `".$write_table."` where `wr_parent` = '".$wr_no."' and `wr_is_comment` = 1 order by `wr_comment`, `wr_comment_reply` ";
+$result = $db->query_fetch_rows($query);
+$i = 0;
+foreach($result as $row) {
+
+	$list[$i] = $row;
+
+	$tmp_name = $utility->get_text($utility->cut_str($row['wr_name'], $board['bo_cut_name'] * 2)); // 설정된 자리수 만큼만 이름 출력 (UTF-8로 
+	$list[$i]['wr_id'] = $row['wr_id'];
+
+	// 공백없이 연속 입력한 문자 자르기 (way 보드 참고. way.co.kr)
+	$list[$i]['content'] = $list[$i]['content1']= "비밀글 입니다.";
+	if (!$row['wr_secret'] || $is_admin || ($write['wr_id']==$member['mb_id'] && $member['mb_id']) || ($row['wr_id']==$member['mb_id'] && $member['mb_id']) ) {
+		$list[$i]['content1'] = $row['wr_content'];
+		$list[$i]['content'] = $utility->conv_content($row['wr_content'], 0, 'wr_content');
+		$list[$i]['content'] = $utility->search_font($search_keyword, $list[$i]['content']);
+	}
+
+	// 당일인 경우 시간으로 표시함
+	$list[$i]['datetime'] = substr($row['wr_datetime'],2,14);
+	$list[$i]['datetime2'] = $row['wr_datetime'];
+	
+	if($list[$i]['datetime'] == date("Y-m-d", $alice['server_time'])) {
+		$list[$i]['datetime2'] = substr($row['datetime2'],11,5);
+	} else {
+		$list[$i]['datetime2'] = substr($row['wr_datetime'],0,10);
+	}
+
+	$list[$i]['ip'] = $row['wr_ip'];
+
+	$list[$i]['is_reply'] = false;
+	$list[$i]['is_edit'] = false;
+	$list[$i]['is_del']  = false;
+	
+	if ($is_comment_write || $is_admin) {
+		if ($member['mb_id']) {	// 회원
+			if($row['wr_id'] == $member['mb_id'] || $is_admin){
+				$del_links = "./delete_comment.php?board_code=".$board_code."&code=".$code."&bo_table=".$bo_table."&wr_no=".$wr_no."&comment_id=".$row['wr_no']."&token=".$token."&cwin=".$cwin."&page=".$page;
+				if ($row['wr_id'] == $member['mb_id']) {
+					$list[$i]['del_link']  = $del_links;
+					$list[$i]['is_edit']   = true;
+					$list[$i]['is_del']    = true;
+				}
+			}
+		} else {	 // 비회원
+			if(!$row['mb_id']){
+				$del_links = "./password.php?mode=comment_delete&board_code=".$board_code."&code=".$code."&bo_table=".$bo_table."&wr_no=".$wr_no."&comment_id=".$row['wr_no']."&cwin=".$cwin."&page=".$page;
+				$list[$i]['del_link'] = $del_links;
+				$list[$i]['is_del']   = true;
+			}
+		}
+
+		if (strlen($row['wr_comment_reply']) < 5)
+			$list[$i]['is_reply'] = true;
+	}
+
+	// 05.05.22
+	// 답변있는 코멘트는 수정, 삭제 불가
+	if ($i > 0 && !$is_admin){
+		if ($row['wr_comment_reply']) {
+			$tmp_comment_reply = substr($row['wr_comment_reply'], 0, strlen($row['wr_comment_reply']) - 1);
+			if ($tmp_comment_reply == $list[$i-1]['wr_comment_reply']){
+				$list[$i-1]['is_edit'] = false;
+				$list[$i-1]['is_del'] = false;
+			}
+		}
+	}
+
+$i++;
+}	// foreach end.
+
+	$list_cnt = count($list);
+
+			for($i=0;$i<$list_cnt;$i++){
+			$comment_id = $list[$i]['wr_no'];
+			// FLASH XSS 공격에 의해 주석 처리
+			$wr_content = preg_replace("/\[\<a\s.*href\=\"(http|https|ftp|mms)\:\/\/([^[:space:]]+)\.(mp3|wma|wmv|asf|asx|mpg|mpeg)\".*\<\/a\>\]/i", "<script>doc_write(obj_movie('$1://$2.$3'));</script>", $list[$i]['content']);
+			//$wr_content = preg_replace("/\[\<a\s*href\=\"(http|https|ftp)\:\/\/([^[:space:]]+)\.(gif|png|jpg|jpeg|bmp)\"\s*[^\>]*\>[^\s]*\<\/a\>\]/i", "<img src='$1://$2.$3' id='target_resize_image[]' onclick='image_window(this);' border='0'>", $wr_content);
+			if($list[$i]['wr_del']){
+				$wr_content = "<span style='color:dfdfdf;'>* 삭제된 댓글 입니다.</span>";
+			}
+			$comment_reply = strlen($list[$i]['wr_comment_reply']);
+?>
+			<a name="c_<?php echo $comment_id;?>"></a>
+			<dd class="reply positionR  clearfix">
+				<dl class="clearfix <?php echo ($list[$i]['wr_comment_reply'])?'ml10':'';?>">
+					<dt class="pb5"><strong><?php echo $list[$i]['wr_name'];?></strong><em class="time"><img width="12" height="12" alt="time" src="../images/icon/ico_time1.gif" class="vm mr5"><?php echo strtr(substr($list[$i]['datetime'],3,11),'-','.');?></em>
+					<?php if($is_comment_write){ ?><?php echo ($list[$i]['wr_comment_reply'])?"":" <span onclick=\"LayerWraps('insert', '".$comment_id."');\">댓글달기</span>";?><?php } ?>
+					<?php echo ($list[$i]['wr_id']==$member['mb_id'])?" <span onclick=\"LayerWraps('update', '".$comment_id."');\">수정</span> <span onclick=\"comment_delete('".$comment_id."');\">삭제</span>":"";?>
+					</dt>  
+					<dd>
+						<p id="comment_content_<?php echo $comment_id;?>"><?php echo nl2br(stripslashes($wr_content));?></p>
+					</dd>
+				</dl>
+			 </dd>
+<?php
+			}	// fof end.
+?>
+			</dl>
+
+</div>
+<div class="btnBottom">
+        <ul class="clearfix">
+		<li><a class="button white" href="../community/list.php?bo_table=<?php echo $bo_table;?>"><span>목록보기</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li> 
+		<li><a class="button white" onclick="deletes();"><span>삭제</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li>
+		<?php if($is_update){ ?>
+		<li><a class="button white" onclick="update_write();"><span>수정</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li>
+		<?php } ?>
+		<?php if($is_write){ ?>
+		<li><a class="button white" onclick="write_layers();"><span>글작성</span><img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></li>
+		<?php } ?>
+		</ul>
+	</div>
+</section>
+
+<?php if($is_kcaptcha){ ?><script type="text/javascript" src="<?php echo $alice['js_plugin']."/jquery.kcaptcha.js"?>"></script><?php } ?>
+
+<script>
+function fwrite_submit() {
+
+	var f = document.fwrite;
+
+    var subject = "";
+    var content = "";
+    $.ajax({
+        url: "<?php echo $alice['board_path'];?>/skins/default/ajax.filter.php",
+        type: "POST",
+        data: {
+			"bo_table" : "<?php echo $bo_table;?>",
+            "subject": f.wr_subject.value,
+            "content": f.wr_content.value
+        },
+        dataType: "json",
+        async: false,
+        cache: false,
+        success: function(data, textStatus) {
+            subject = data.subject;
+            content = data.content;
+        }
+    });
+
+    if (subject) {
+        alert("제목에 금지단어('"+subject+"')가 포함되어있습니다");
+        f.wr_subject.focus();
+        return false;
+    }
+
+    if (content) {
+        alert("내용에 금지단어('"+content+"')가 포함되어있습니다");
+        if (typeof(ed_wr_content) != "undefined") 
+            ed_wr_content.returnFalse();
+        else 
+            f.wr_content.focus();
+        return false;
+    }
+
+	<?php if($is_kcaptcha){?>
+    if (!check_kcaptcha(f.wr_key)) {
+        return false;
+    }
+	<?php } ?>
+
+	var boardwriteFrm = document.getElementById('boardwriteFrm');
+	
+	if(validate(boardwriteFrm)){
+		<?php
+		/*
+		if ($alice[https_url])	// 보안서버
+			echo "f.action = '$alice[https_url]/$alice[app]/$alice[board]/process/regist.php';";
+		else
+			echo "f.action = './process/regist.php';";
+		*/
+		?>
+
+		f.action = './process/regist.php';
+		f.submit();
+		
+	} else {
+		return false;
+	}
+
+}
+</script>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

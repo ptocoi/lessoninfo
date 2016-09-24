@@ -1,0 +1,610 @@
+<?php 
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+
+$get_resume = $alba_individual_control->get_resume_no($no);	// 이력서 정보
+
+$get_member = $user_control->get_member($get_resume['wr_id']);	 // 등록 회원 정보
+$mb_gender_txt = $user_control->mb_gender_txt[$get_member['mb_gender']];	// 성별
+$mb_birth = explode('-',$get_member['mb_birth']);
+$mb_homepage = $utility->add_http($get_member['mb_homepage']);
+
+$mb_photo_file = $alice['data_member_path']."/".$get_member['mb_id']."/".$get_member['mb_photo'];
+$mb_photo = (is_file($mb_photo_file)) ? $mb_photo_file : "../images/basic/bg_noPhoto.gif";	 // 개인회원 프로필 사진
+
+$service_open = $utility->valid_day($member_service['mb_service_open']);	// 이력서 열람 서비스 체크
+
+if($_GET['receive']){	// 열람일 저장
+	$receive_control->update_receive_etc_4( $_GET['receive'], $member['mb_id'] );
+}
+
+$wr_udate = substr($get_resume['wr_udate'],0,11);	// 수정일
+$wr_subject = stripslashes($get_resume['wr_subject']);
+$wr_calltime = explode('-',$get_resume['wr_calltime']);
+$wr_school_ability = explode('/',$get_resume['wr_school_ability']);
+$wr_school_ability = $category_control->get_categoryCode($wr_school_ability[0]);
+
+/* 희망근무지 */
+// 1차 지역
+$wr_area0 = $category_control->get_categoryCodeName($get_resume['wr_area0']);
+$wr_area1 = $category_control->get_categoryCodeName($get_resume['wr_area1']);
+if($wr_area0){
+	//$wr_area_0 = "<li><a href=\"#\">";
+	$wr_area_0 = "<li>";
+	if($wr_area0) $wr_area_0 .= $wr_area0;
+	if($wr_area1) $wr_area_0 .= " " . $wr_area1;
+	$wr_area_0 .= "</li>";
+	//$wr_area_0 .= "</a></li>";
+}
+// 2차 지역
+$wr_area2 = $category_control->get_categoryCodeName($get_resume['wr_area2']);
+$wr_area3 = $category_control->get_categoryCodeName($get_resume['wr_area3']);
+if($wr_area2){
+	//$wr_area_1 = ", <li><a href=\"#\">";
+	$wr_area_1 = ", <li>";
+	if($wr_area2) $wr_area_1 .= $wr_area2;
+	if($wr_area3) $wr_area_1 .= " " . $wr_area3;
+	$wr_area_1 .= "</li>";
+	//$wr_area_1 .= "</a></li>";
+
+}
+// 3차 지역
+$wr_area4 = $category_control->get_categoryCodeName($get_resume['wr_area4']);
+$wr_area5 = $category_control->get_categoryCodeName($get_resume['wr_area5']);
+if($wr_area4){
+	//$wr_area_2 = ", <li><a href=\"#\">";
+	$wr_area_2 = ", <li>";
+	if($wr_area4) $wr_area_2 .= $wr_area4;
+	if($wr_area5) $wr_area_2 .= " " . $wr_area5;
+	$wr_area_2 .= "</li>";
+	//$wr_area_2 .= "</a></li>";
+}
+/* //희망근무지 */
+
+/* 희망 근무직종 */
+// 1차 근무직종
+$wr_job_type0 = $category_control->get_categoryCodeName($get_resume['wr_job_type0']);
+$wr_job_type1 = $category_control->get_categoryCodeName($get_resume['wr_job_type1']);
+$wr_job_type2 = $category_control->get_categoryCodeName($get_resume['wr_job_type2']);
+if($wr_job_type0){
+	if($wr_job_type0) $wr_job_type_0 .= $wr_job_type0;
+	if($wr_job_type1) $wr_job_type_0 .= "·" . $wr_job_type1;
+	if($wr_job_type2) $wr_job_type_0 .= "·" . $wr_job_type2;
+}
+// 2차 근무직종
+$wr_job_type3 = $category_control->get_categoryCodeName($get_resume['wr_job_type3']);
+$wr_job_type4 = $category_control->get_categoryCodeName($get_resume['wr_job_type4']);
+$wr_job_type5 = $category_control->get_categoryCodeName($get_resume['wr_job_type5']);
+if($wr_job_type3){
+	$wr_job_type_1 = " ,";
+	if($wr_job_type3) $wr_job_type_1 .= $wr_job_type2;
+	if($wr_job_type4) $wr_job_type_1 .= "·" . $wr_job_type3;
+	if($wr_job_type5) $wr_job_type_1 .= "·" . $wr_job_type4;
+}
+// 3차 근무직종
+$wr_job_type6 = $category_control->get_categoryCodeName($get_resume['wr_job_type6']);
+$wr_job_type7 = $category_control->get_categoryCodeName($get_resume['wr_job_type7']);
+$wr_job_type8 = $category_control->get_categoryCodeName($get_resume['wr_job_type8']);
+if($wr_job_type6){
+	$wr_job_type_2 = " ,";
+	if($wr_job_type6) $wr_job_type_2 .= $wr_job_type6;
+	if($wr_job_type7) $wr_job_type_2 .= "·" . $wr_job_type7;
+	if($wr_job_type8) $wr_job_type_2 .= "·" . $wr_job_type8;
+}
+/* //희망 근무직종 */
+
+
+$wr_date = $category_control->get_categoryCodeName($get_resume['wr_date']);		// 근무기간
+$wr_week = $category_control->get_categoryCodeName($get_resume['wr_week']);	// 근무요일
+$wr_time = $category_control->get_categoryCodeName($get_resume['wr_time']);		// 근무시간
+$wr_work_direct = ($get_resume['wr_work_direct']) ? "(즉시출근가능)" : "";
+
+
+/* 근무형태 */
+if($get_resume['wr_work_type']){
+	$wr_work_type = explode(',',$get_resume['wr_work_type']);	
+	$wr_work_type_cnt = count($wr_work_type);
+	$work_type = array();
+	for($i=0;$i<$wr_work_type_cnt;$i++){
+		$work_type_name = $category_control->get_categoryCodeName($wr_work_type[$i]);
+		$work_type[$i] = $work_type_name;
+	}
+}
+/* //근무형태 */
+
+
+/* 학력사항 */
+$school_ability = explode(' ',$wr_school_ability['name']);
+$wr_school_type = explode(',',$get_resume['wr_school_type']);
+// 대학 (2,3년) 데이터
+$wr_half_college = unserialize($get_resume['wr_half_college']);
+$wr_half_college_cnt = count($wr_half_college['college']);
+// 대학 (4년) 데이터
+$wr_college = unserialize($get_resume['wr_college']);
+$wr_college_cnt = count($wr_college['college']);
+// 대학원 데이터
+$wr_graduate = unserialize($get_resume['wr_graduate']);
+$wr_graduate_cnt = count($wr_graduate['graduate']);
+// 대학원 이상 데이터
+$wr_success = unserialize($get_resume['wr_success']);
+$wr_success_cnt = count($wr_graduate['success']);
+/* //학력사항 */
+
+
+/* 경력사항 */
+if($get_resume['wr_career']){
+	$wr_career_use = $get_resume['wr_career_use'];
+	if($wr_career_use){	// 경력 사항을 체크했다면
+		$wr_career = unserialize($get_resume['wr_career']);
+	}
+}
+/* //경력사항 */
+
+
+/* OA 능력 및 특기사항 */
+if($get_resume['wr_oa']){
+	$wr_oa = unserialize($get_resume['wr_oa']);	// oa 능력 및 특기사항
+	$oa_word = $alba_individual_control->oa_level['word'][$wr_oa['word']];				// 워드 능력
+	$oa_pt = $alba_individual_control->oa_level['pt'][$wr_oa['pt']];								// 파워포인트 능력
+	$oa_sheet = $alba_individual_control->oa_level['sheet'][$wr_oa['sheet']];				// 엑셀 능력
+	$oa_internet = $alba_individual_control->oa_level['internet'][$wr_oa['internet']];	// 인터넷 능력
+}
+/* //OA 능력 및 특기사항 */
+
+/* 컴퓨터 능력 */
+if($get_resume['wr_computer']){
+	$wr_computer = explode(',',$get_resume['wr_computer']);
+	$wr_computer_cnt = count($wr_computer);
+	$computers = array();
+	for($i=0;$i<$wr_computer_cnt;$i++){
+		$computers[$i] = $category_control->get_categoryCodeName($wr_computer[$i]);
+	}
+}
+/* //컴퓨터 능력 */
+
+/* 특기사항 */
+if($get_resume['wr_specialty']){
+	$wr_specialty = explode(',',$get_resume['wr_specialty']);
+	$wr_specialty_cnt = count($wr_specialty);
+	$specialty = array();
+	for($i=0;$i<$wr_specialty_cnt;$i++){
+		$specialty[$i] = $category_control->get_categoryCodeName($wr_specialty[$i]);
+	}
+	$wr_specialty_etc = explode('//',$get_resume['wr_specialty_etc']);
+	if($wr_specialty_etc[0]){
+		array_push($specialty,$wr_specialty_etc[1]);
+	}
+}
+/* //특기사항 */
+
+$wr_prime = nl2br(stripslashes($get_resume['wr_prime']));	// 수상·수료활동내역
+$wr_introduce = $utility->conv_content($get_resume['wr_introduce'],2);
+
+/* 경력 정보 추출 */
+$wr_career = unserialize($get_resume['wr_career']);
+if($wr_career){
+	$wr_career_cnt = count($wr_career);
+	$career = 0;
+	for($i=0;$i<$wr_career_cnt;$i++){
+		$career += $utility->date_diff($wr_career[$i]['sdate'],$wr_career[$i]['edate']);
+	}							
+	$strtime = time() - strtotime("-".$career.' day');
+	$year = date("Y", $strtime) - 1970;
+	$month = date("m", $strtime);
+	$career_periods = "약 " . sprintf('%02d',$year) . "년 " . $month . "개월";
+} else {
+	$career_periods = "없음";
+}
+/* //경력 정보 추출 */
+
+/* 희망급여 */
+if($get_resume['wr_pay_conference']){
+	$pay_type = "추후협의";
+} else {
+	$wr_pay_type = $category_control->get_categoryCode($get_resume['wr_pay_type']);
+	$pay_type = $wr_pay_type['name']." ".number_format($get_resume['wr_pay'])."원";
+}
+/* //희망급여 */
+
+/* 자격증 */
+$license = "";
+if($get_resume['wr_license']){
+	$wr_license = unserialize($get_resume['wr_license']);
+	$wr_license_cnt = count($wr_license);
+	if($wr_license){
+		foreach($wr_license as $key => $val){
+			if($key==0){
+				$license .= $val['name'];
+			}
+		}
+		if($wr_license_cnt >= 2){
+			$license .= " 외 " . ($wr_license_cnt-1) . "개";
+		}
+	} else {
+		$license .= "없음";
+	}
+} else {
+	$license .= "없음";
+}
+/* //자격증 */
+
+
+/* 외국어능력 */
+$language = "";
+if($get_resume['wr_language']){
+	$wr_language = unserialize($get_resume['wr_language']);
+	$wr_language_cnt = count($wr_language);
+	if($wr_language){
+		foreach($wr_language as $key => $val){
+			$language_val = $category_control->get_categoryCode($val['language']);
+			if($key==0){
+				$language .= $language_val['name'];
+				$language_icon = $alba_individual_control->language_level[$val['level']]['icon'];
+				$language_name = $alba_individual_control->language_level[$val['level']]['name'];
+				$language .= "<em class=\"pl5 vt\"><img src=\"../images/icon/".$language_icon."\" width=\"17\" height=\"14\" alt=\"".$language_name."\" /></em>";
+			}
+		}
+		if($wr_language_cnt >= 2){
+			$language .= " 외 " . ($wr_language_cnt-1) . "개국어";
+		}
+	} else {
+		$language .= "없음";
+	}
+} else {
+	$language .= "없음";
+}
+/* //외국어능력 */
+
+// 조회수 증가
+$alba_resume_user_control->hit_up($no);
+
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list2").addClass("on");
+$(".resumeBtnWrap").fadeIn("fast");
+</script> 
+<section class="contentWrap">
+	<!-- 레이어 팝업-->
+	<div class="popLayerWrap" style="display:none;">
+		<div class="LayerWrap">
+			<div class="popLayer">
+				<h2>
+					<em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+					<span>입사지원 요청</span>
+					<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+						<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+					</div>
+				</h2>
+				<div class="LayerContent">
+					<div class="contentBoxWrap clearfix positionR" style="margin-top:-1px;">
+						<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px; width:100%;">
+						<tbody>
+						<tr>
+						<th class="pl5" style="width:25%;">채용공고 선택</th>
+						<td  style="width:75%;">
+							<div class="styled-select  positionR">
+							<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+							<select title="순서" name="" id="" style="border: 1px solid #E3E3E3; width:100%;" class="">
+							<option value="0">채용공고 입니다.</option>
+							<option value="1">1900</option>
+							<option value="2">1901</option>
+							</select>
+							</div>
+						</td>
+						</tr>
+						<tr>
+						<th class="pl5">담당자명</th>
+						<td>
+						<label class="skip">담당자명</label>
+						<input type="text" placeholder="담당자" class="ipText" style="width:100%;"  id="" name="">
+						</td>
+						</tr>
+						<tr>
+						<th class="pl5">담당자연락처</th>
+						<td>
+						<label class="skip">담당자연락처</label>
+						<input type="text" placeholder="010-123-4567" class="ipText" style="width:100%;"  id="" name="">
+						</td>
+						</tr>
+						<tr>
+						<th class="pl5">회신 e-메일</th>
+						<td>
+						<label class="skip">회신 e-메일</label>
+						<input type="text" placeholder="1245@124.com" class="ipText" style="padding:0; margin:0; width:100%;" id="" name="">
+						</td>
+						</tr>
+						<tr>
+						<th class="pl5">전달메세지</th>
+						<td>
+						<textarea style="width:100%; height:160px; padding:0; margin:0;" id="" class="ipTextarea" name=""></textarea>	
+						</td>
+						</tr>
+						</tbody>
+						</table>
+					</div>
+					<div class="btnBottom">
+						<ul class="clearfix" style="margin:0 auto;">
+						<li><a href="../community/list.html" class="button bg_color1 border_color1 text_white"><span>전송</span><img alt="" src="../images/btn/btn_rightArrow3.png" class="bg_color1"></a>
+						</li> 
+						<li><a href="" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a>
+						</li> 
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 레이어 팝업 //-->
+
+	<div class="resumeDetailWrap">
+		<h2 class="skip">인재정보 상단 인재소개</h2>
+		<div class="headerBoxWrap clearfix positionR" style="width:100%; margin:0; padding:0;">
+			<table cellpadding="0" cellspacing="1" border="0" style="margin:0; padding:0px;">
+			<tr>
+				<th class="detailPhoto" rowspan="4">
+					<img style="width:100px;" src="<?php echo $mb_photo;?>">
+				</th>
+				<th class="detailName" colspan="3">
+					<div>
+						<p class="name"><?php echo ($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id'])) ?$get_member['mb_name']:$utility->make_pass_○○($get_member['mb_name']);?>(<?php echo $mb_gender_txt;?>, <?php echo $mb_birth[0]?>년생)</p>
+						<p class="callTime">통화가능시간:<?php echo $wr_calltime[0];?>:00~<?php echo $wr_calltime[1];?>:00</p>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<td style="">전화번호</td>
+				<td style="" colspan="2">
+					<?php if($get_member['mb_phone_view'] && ($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id']))){?>
+					<a href="tel:<?php echo $get_member['mb_phone'];?>"><?php echo $get_member['mb_phone'];?></a>>
+					<?php } else { ?>
+					<img width="41" height="14" alt="비공개" src="../images/icon/icon_closed.gif">
+					<?php } ?>
+				</td>
+			</tr>
+			<tr>
+				<td class="text">핸드폰</td>
+				<td class="tel">
+					<?php if($get_member['mb_hphone_view'] && ($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id']))){ ?>
+					<a href="tel:<?php echo $get_member['mb_hphone'];?>"><?php echo $get_member['mb_hphone'];?></a>
+					<?php } else { ?>
+					<img width="41" height="14" alt="비공개" src="../images/icon/icon_closed.gif">
+					<?php } ?>
+				</td>
+				<?php if($get_member['mb_hphone_view'] && ($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id']))){ ?>
+				<td class="call bg_color1" style="color:#fff;">
+					<a href="tel:<?php echo $get_member['mb_hphone'];?>"><img  src="../images/icon/icon_img_call1.png" alt="로고">전화하기</a>
+				</td>
+				<?php } ?>
+			</tr>
+			<tr>
+				<td style="">이메일</td>
+				<td style="" colspan="2">
+					<?php if($get_member['mb_email_view'] && ($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id']))){ ?>
+					<a href="mailto:<?php echo $get_member['mb_email'];?>"><?php echo $get_member['mb_email'];?></a>
+					<?php } else { ?>
+					<img width="41" height="14" alt="비공개" src="../images/icon/icon_closed.gif">
+					<?php } ?>
+				</td>
+			</tr>
+			<tr>
+				<td class="title shadowBox" colspan="4">
+					<p><?php echo $wr_subject;?></p>
+					<p class="date">수정일:<?php echo $wr_udate;?></p>
+				</td>
+			</tr>
+			</table>
+		</div>
+
+		<div class="tapBoxWrap"><!--  인재정보 tap 메뉴   -->
+			<table class="titleTab"  cellpadding="0" cellspacing="1" border="0" style="margin:0; padding:0px;">
+			<tr class="">
+				<th class="tapBox list1 on"><a>이력서정보</a></th>
+				<th class="tapBox list2"><a>자격사항</a></th>
+				<th class="tapBox list3"><a>자기소개서</a></th>
+			</tr>
+			<tr>
+				<td colspan="3" class="globalNavigation shadowBox" style="background-color:#fff;">
+					<a onclick="resume_scrap('<?php echo $no;?>');"><span>스크랩<img class="bg_color1"  src="../images/icon/icon_img_scrap_on.png" alt="스크랩"></span></a>
+				</td>
+			</tr>
+			</table>
+		</div><!--  인재정보  tap 메뉴// -->
+		<div class="contentBox list1" style="display:block;"><!--  이력서정보 -->
+			<dl class="list clearfix">
+				<dt><span>희망근무지</span></dt>
+				<dd><span><?php echo $wr_area_0;?><?php echo $wr_area_1;?><?php echo $wr_area_2;?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>희망직종</span></dt>
+				<dd><span><?php echo $wr_job_type_0;?><?php echo $wr_job_type_1;?><?php echo $wr_job_type_2;?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>희망급여</span></dt>
+				<dd><span><?php echo $pay_type;?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>근무일시</span></dt>
+				<dd><span><?php echo $wr_date;?>, <?php echo $wr_week;?>, <?php echo $wr_time;?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>근무형태</span></dt>
+				<dd><span><?php echo @implode($work_type,',');?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>학력사항</span></dt>
+				<dd><span><?php echo stripslashes($wr_school_ability['name']);?></span></dd>
+			</dl>
+			<dl class="list mb3 clearfix">
+				<dt><span>경력사항</span></dt>
+				<dd class="listDown">
+					<span><?php echo $career_periods;?></span>
+					<em class="iconDown"><a><img src="../images/btn/btn_down1.png" class="bg_gray2"></a></em>
+				</dd>
+			</dl>
+			<?php if($service_open||$alba_resume_user_control->is_open_resume('alba',$member['mb_id'],$get_resume['wr_id'])){ ?>
+			<div class="content clearfix" style="display:block;">
+				<table cellpadding="0" cellspacing="1">
+				<tbody>
+				<tr>
+					<th class="career T1 bg_color1">근무기간</th>
+					<th class="career T2 bg_color1">회사명</th>
+					<th class="career T3 bg_color1">담당업무</th>
+				</tr>
+				<?php
+				if($wr_career){
+					foreach($wr_career as $key => $val){
+						$date_val = "";
+						$sdate = ($val['sdate']) ? explode('-',$val['sdate']) : "";
+						$date_val = $sdate[0].". " . $sdate[1] . " ~ ";
+						$edate = ($val['edate']) ? explode('-',$val['edate']) : "";
+						$date_val .= $edate[0].". " . $edate[1];
+						$career_type = $val['type'];
+						$career_type_cnt = count($val['type']);
+				?>
+				<tr>
+					<td><?php echo $date_val;?></td>
+					<td><?php echo $val['company'];?></td>
+					<td>
+					<?php 
+					$career_types = array();
+					for($k=0;$k<$career_type_cnt;$k++){ 
+						if($career_type[$k]) $career_types[$k] = $category_control->get_categoryCodeName($career_type[$k]);
+					}
+					echo @implode($career_types,", ");
+					?>
+					</td>
+				</tr>
+				<?php
+					}	// foreach end.
+				}	// if end.
+				?>
+				</tbody>
+				</table>	
+			</div><!-- 경력사항// -->
+			<?php } ?>
+		</div><!-- 이력서정보// -->
+		
+		<!--  자격사항 -->
+		<div class="contentBox list2" style="display:none;">
+			<?php if($wr_language){ ?>
+			<dl class="list clearfix">
+				<dt><span>외국어능력</span></dt>
+				<dd class="listDown">
+					<span><em class="payIcon">상</em>영어 <em class="payIcon">상</em>중국어</span>
+					<em class="iconDown"><a><img src="../images/btn/btn_down1.png" class="bg_gray2"></a></em>
+				</dd>
+			</dl>
+			<div class="content clearfix mb5" style="display:none;">
+				<table cellpadding="0" cellspacing="1">
+				<tbody>
+				<tr>
+					<th class="career T1 bg_color1">외국어명</th>
+					<th class="career T4 bg_color1">구사능력/공인시험/어학연수</th>
+				</tr>
+				<tr>
+					<td>영어</td>
+					<td><em class="payIcon">상</em>회화능숙, TOEIC 700점 (취득년도:2000년), 어학연수 2년</td>
+				</tr>
+				<tr>
+					<td>중국어</td>
+					<td><em class="payIcon">상</em>일상대화, HSK회화 초급 (취득년도:2005년)</td>
+				</tr>
+				</tbody>
+				</table>	
+			</div>
+			<!-- 외국어능력// -->
+			<?php } ?>
+			<?php 
+			if($wr_license){ 
+				$license_name = array();
+				$n = 0;
+				foreach($wr_license as $key => $val){
+					$license_name[$n] = $val['name'];
+				$n++;
+				}
+			?>
+			<dl class="list clearfix">
+				<dt><span>보유자격증</span></dt>
+				<dd class="listDown">
+					<span><?php echo @implode($license_name,", ");?></span>
+					<em class="iconDown"><a><img src="../images/btn/btn_down1.png" class="bg_gray2"></a></em>
+				</dd>
+			</dl>
+			<div class="content clearfix mb5" style="display:block;">
+				<table cellpadding="0" cellspacing="1">
+				<tbody>
+				<tr>
+					<th class="career T1 bg_color1">취득일</th>
+					<th class="career T2 bg_color1">자격증명</th>
+					<th class="career T3 bg_color1">발행처</th>
+				</tr>
+				<?php foreach($wr_license as $key => $val){ ?>
+				<tr>
+					<td><?php echo $val['year'];?>년</td>
+					<td><?php echo $val['name'];?></td>
+					<td><?php echo $val['public'];?></td>
+				</tr>
+				<?php } ?>
+				</tbody>
+				</table>	
+			</div>
+			<!-- 보유자격증// -->
+			<?php } ?>
+			<dl class="list clearfix">
+				<dt><span>OA능력</span></dt>
+				<dd><span><em class="payIcon"><?php echo $oa_word['name'];?></em>한글/워드, <em class="payIcon"><?php echo $oa_pt['name'];?></em>파워포인트, <em class="payIcon"><?php echo $oa_sheet['name'];?></em>엑셀, <em class="payIcon"><?php echo $oa_internet['name'];?></em>인터넷</span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>컴퓨터능력</span></dt>
+				<dd><span><?php echo @implode($computers,', ');?></span></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>특기사항</span></dt>
+				<dd><span><?php echo @implode($specialty,', ');?></dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>수상수료활동내역</span></dt>
+				<dd><span><?php echo $wr_prime;?></span></dd>
+			</dl>
+		</div><!-- 자격사항// -->
+
+		<!--  자기소개서 -->
+		<div class="contentBox list3" style="display:none;">
+			<div class="self clearfix"><?php echo $wr_introduce;?></div>
+		</div>
+		<!-- 자기소개서// -->
+
+		<div class="caution mt10 mb20">
+			<p>본 정보는 취업활동을 위해 등록한 이력서 정보이며 <?php echo $env['site_name'];?>는(은) 기재된 내용에 대한 오류와 사용자가 신뢰하여 취한 조치에 대한 책임을 지지 않습니다.</p>
+			<p>누구든 본 정보를 <?php echo $env['site_name'];?>의 동의없이 재배포할 수 없으며 본 정보를 출력 및 복사하더라도 채용목적 이외의 용도로 사용할 수 없습니다.</p>
+			<p>본 정보를 출력 및 복사한 경우의 개인정보보호에 대한 책임은 출력 및 복사한 당사자에게 있으며 정보통신부 고시 제2005-18호 (개인정보의 기술적·관리적 보호조치 기준)에 따라 개인정보가 담긴 이력서 등을 불법유출 및 배포하게 되면 법에 따라 책임지게 됨을 양지하시기 바랍니다. <저작권자 ⓒ <?php echo $env['site_name'];?>. 무단전재-재배포 금지></p>
+		</div>
+<?php
+$prev_query = $db->query_fetch(" select * from `alice_alba_resume` where `wr_open` = 1 and `wr_report` = 0 and `is_delete` = 0 and `no` < ".$no." order by `no` desc limit 1 ");
+$prev_no = $prev_query['no'];
+$next_query = $db->query_fetch(" select * from `alice_alba_resume` where `wr_open` = 1 and `wr_report` = 0 and `is_delete` = 0 and `no` > ".$no." order by `no` asc limit 1 ");
+$next_no = $next_query['no'];
+?>
+		<div class="listContent mt10 mb20">
+			<ul>
+				<!-- <li class="icon">
+				<ul>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_cacao.gif"></a></li>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_google.gif"></a></li>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_clog.gif"></a></li>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_blog.gif"></a></li>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_facebook.gif"></a></li>
+					<li><a target="_blank" href=""><img class="" src="../images/icon/icon_sns_twitter.gif"></a></li>
+				</ul>
+				</li> -->
+				<li class="listWrap clearfix" ><span class="pre"><a href="<?php echo ($prev_no)?"./detail.html?no=".$prev_no:"javascript:alert('마지막입니다');";?>"><img class="bg_gray1" src="../images/btn/btn_leftArrow2.png" alt="">이전</a></span><span class="list"><a href="./index.html">목록보기</a></span><span class="next"><a href="<?php echo ($next_no)?"./detail.html?no=".$next_no:"javascript:alert('마지막입니다');";?>">다음<img class="bg_gray1" src="../images/btn/btn_rightArrow2.png" alt=""></a></span></li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

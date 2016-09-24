@@ -1,0 +1,313 @@
+<?php 
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+
+
+$alba_list_con = " where `wr_open` = 1 and `wr_report` = 0 and `is_delete` = 0 ";
+$alba_list = $mobile_control->__AlbaList($page, $page_rows, $alba_list_con);
+$alba_list_count = count($alba_list['result']);
+$alba_list_total_page = $alba_list['total_page'];
+$alba_list_pages = $mobile_control->get_ajax_paging($page_rows, $page, $alba_list_total_page, "alba");
+
+$alba_resume_con = " where `wr_open` = 1 and `wr_report` = 0 and `is_delete` = 0 ";
+$alba_resume_list = $mobile_control->__AlbaResumeList($page, $page_rows, $alba_resume_con);
+$alba_resume_list_count = count($alba_resume_list['result']);
+$alba_resume_list_total_page = $alba_resume_list['total_page'];
+$alba_resume_list_pages = $mobile_control->get_ajax_paging($page_rows, $page, $alba_resume_list_total_page, "alba_resume");
+
+$board_search_list = $mobile_control->board_list( $page, $page_rows );
+
+?>
+</header>
+<script>
+var alba_total_page = "<?php echo $alba_list_total_page;?>";
+var alba_resume_total_page = "<?php echo $alba_resume_list_total_page;?>";
+var ajax_paging = function( page, list_service ){
+
+	$.ajax({
+		type : "POST",
+		url : "./_load/paging.php",
+		data : { page:page, list_service:list_service }
+	}).done(function( result ){
+		$('#'+list_service).html(result);
+		$('.'+list_service+'_page').removeClass('bg_color1 on');
+		$('.'+list_service+'_page').addClass('text_color1');
+		$('#page_'+list_service+"_"+page).removeClass('text_color1');
+		$('#page_'+list_service+"_"+page).addClass('bg_color1 on');
+
+		switch(list_service){
+			case 'alba': total_page = alba_total_page; break;
+			case 'alba_resume': total_page = alba_resume_total_page; break;
+			//case 'sub': total_page = sub_total_page; break;
+		}
+
+		if(page == total_page){
+			$('#'+list_service+'_first').html("<a href='javascript:ajax_paging(1,\""+list_service+"\");' class='prev' onfocus='blur();'><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"></a>");
+			$('#last_'+list_service).hide();
+		} else {
+			$('#'+list_service+'_first').html("");
+			$('#last_'+list_service).show();
+		}
+
+	});
+	
+}
+
+</script>
+<section class="contentWrap">
+<div class="mList">
+	<h2>
+		<em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+		<span>채용정보 검색결과<em class="text_color1"><?php echo number_format($alba_list['total_count']);?></em></span>
+	</h2>
+	<ul class="boxWrap clearfix positionR" id="alba">
+	<?php if(!$alba_list_count){ ?>
+	<li class="bth positionR">
+		<dl class="tc clearfix" style="height:40px;line-height:40px;">검색된 채용정보가 없습니다.</dl>
+	</li>
+	<?php
+	} else {
+		$li_class = "";
+		for($i=0;$i<$alba_list_count;$i++){
+			$list_no = $alba_list['result'][$i]['no'];
+			if($i==0) {
+				$li_class = "positionR";	// gold
+			} else {
+				if($i > 3 ){
+					$li_class = "clearfix";
+				} else {
+					$li_class = "";
+				}
+			}
+			$get_alba = $alba_user_control->get_alba_no($list_no);
+			$get_payment = $payment_control->get_payment_for_oid($get_alba['wr_oid']);	 // 결제정보
+			$company_info = $user_control->get_member_company($get_alba['wr_id']);	// 등록 기업회원 정보
+
+			$volume_arr = array( "volume_date" => $get_alba['wr_volume_date'], "volume_always" => $get_alba['wr_volume_always'], "volume_end" => $get_alba['wr_volume_end'] );
+			$volume_date = $alba_user_control->volume_date($volume_arr,true);
+
+			$wr_pay_type = $category_control->get_categoryCodeName($get_alba['wr_pay_type']);	// 급여조건
+			$wr_pay = number_format($get_alba['wr_pay']);
+			$wr_pay_conference = $get_alba['wr_pay_conference'];	// 협의가능
+			$wr_area = $alba_user_control->list_area($get_alba['wr_area_0']);	// 2차 지역까지 출력
+			$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba', $list_no, date('Y-m-d'));
+
+			$is_service = $alba_user_control->service_valid( $get_alba );	// 서비스 정보
+
+			## Gold service
+			$is_gold = false;
+			if($is_service['service_platinum_sub_gold'] || $is_service['service_banner_sub_gold']){
+				$is_gold = true;
+			}
+			if($is_gold){
+				$li_class .= " gold";
+			}
+			## // Gold service
+
+			// 급구 아이콘
+			$is_service_busy = "";
+			if($is_service['service_busy']){
+				$service_check = $service_control->service_check('alba_option_busy');
+				$is_service_busy = "<img src=\"".$alice['data_icon_path'] . "/" . $service_check['busy_icon']."\" class=\"vm pr5\"/>";
+			}
+
+			// 강조 아이콘
+			$is_service_icon = "";
+			if($is_service['service_icon']){	
+				$icon_sel = $category_control->get_category($get_payment['pay_alba_option_icon_sel']);
+				$is_service_icon = "<img src=\"".$alice['data_icon_path'] . "/" . $icon_sel['name']."\" class=\"vm pr5\">";
+			}
+
+			$style_add = " style=\"";
+
+			// 형광펜
+			if($is_service['service_neon']){
+				$style_add .= "background-color:#".$get_payment['pay_alba_option_neon_color'].";";
+			}
+
+			// 굵은글자
+			if($is_service['service_bold']){
+				$style_add .= "font-weight:bold;";
+			}
+
+			// 글자색
+			if($is_service['service_color']){
+				$style_add .= "color:#".$get_payment['pay_alba_option_color_sel'].";";
+			}
+
+			$style_add .= "\" ";
+
+			// 반짝임
+			$class = "";
+			if($is_service['service_blink']){
+				$class = "class=\"jumble\"";
+			}
+	?>
+		<li class="bth positionR <?php echo $li_class;?>">
+			<dl class="clearfix">
+				<dt> 
+					<a href="../job/detail.html?no=<?php echo $list_no;?>">
+					<span class="logo_tit"><?php echo stripslashes($get_alba['wr_company_name']);?></span>
+					</a> 
+				</dt>
+				<dd class="text1" >
+					<?php echo $is_service_icon;?><a href="../job/detail.html?no=<?php echo $list_no;?>" class=""><span <?php echo $style_add;?> <?php echo $class;?>><?php echo stripslashes($get_alba['wr_subject']);?></span> </a>
+				</dd>
+				<dd class="text2">
+					<span class="add"><?php echo $wr_area;?></span>
+					<span class="gender"><?php echo $wr_gender;?></span>
+					<span class="time"><?php echo $wr_time;?></span>
+				</dd>
+				<dd class="etc">
+					<span class="edy edyEn"><?php echo $volume_date['text'];?></span>
+					<span class="pay"><em class="number"><?php echo $wr_pay;?></em>원<em class="payIcon"><?php echo $wr_pay_type;?></em></span>
+				</dd>
+				<dd class="scrap" ><!-- bg_color1 -->
+					<a onclick="alba_scrap('<?php echo $list_no;?>')"><img  class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>" src="../images/icon/icon_scrap1.png" alt="스크랩"></a>
+				</dd>
+			</dl>
+		</li>
+	<?php 
+		} // for end.
+	}	// if end.
+	?>
+	</ul>
+</div>
+<div class="paging mt20 mb50">
+	<span class="page">
+	<span id="alba_first"></span>
+	<?php
+		$alba_list_pages = str_replace("처음", "<img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\">", $alba_list_pages);
+		$alba_list_pages = str_replace("이전", "<img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\">", $alba_list_pages);
+		$alba_list_pages = str_replace("다음", "<img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\">", $alba_list_pages);
+		$alba_list_pages = str_replace("맨끝", "<img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\">", $alba_list_pages);
+		$alba_list_pages = preg_replace("/<b>([0-9]*)<\/b>/", "$1", $alba_list_pages);
+		echo $alba_list_pages;
+	?>
+	</span>
+</div>
+
+<div class="mList mt10">
+	<h2>
+		<em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+		<span>인재정보 검색결과<em class="text_color1"><?php echo number_format($alba_resume_list['total_count']);?></em></span>
+	</h2>
+	<ul class="boxWrap clearfix positionR" id="alba_resume">
+	<?php if(!$alba_resume_list_count){ ?>
+	<li class="bth positionR">
+		<dl class="tc clearfix" style="height:40px;line-height:40px;">검색된 인재정보가 없습니다.</dl>
+	</li>
+	<?php
+	} else {
+		for($i=0;$i<$alba_resume_list_count;$i++){
+		$no = $alba_resume_list['result'][$i]['no'];
+		$wr_id = $alba_resume_list['result'][$i]['wr_id'];
+		$list = $alba_resume_user_control->get_resume_service($no,"",44);
+		$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba_resume', $no, date('Y-m-d'));
+	?>
+		<li class="bth">
+			<dl class="resumeList clearfix">
+				<dt class="name_wrap"> 
+					<a href="../resume/detail.html?no=<?php echo $no;?>">
+						<span class="name"><?php echo $list['wr_name'];?></span>
+						<?php if($list['wr_photo']){ ?><span class="photo"><img width="16" height="16" src="../images/icon/icon_photo1.gif" class="vb pb2"></span><?php } ?>
+						<span class="gender">(<?php echo $list['wr_gender'];?><?php echo $list['wr_age'];?>)</span>
+						<span class="career"><?php echo $list['career'];?></span>
+					</a> 
+				</dt>
+				<dd class="text1 positionR">
+					<a href="../resume/detail.html?no=<?php echo $no;?>" class=""><?php echo $list['subject'];?></a>
+				</dd>
+				<dd class="text2 clearfix positionR">
+					<span class="pay">
+						<em class="number"><?php echo $list['wr_pay'];?></em> 
+						<?php if($list['wr_pay']!='추후협의'){ ?>
+						<em class="payIcon"><?php echo $list['wr_pay_type'];?></em>
+						<?php } ?>
+					</span>
+					<span class="etc"><?php echo $list['school_ability'];?></span>
+					<span class="etc"><?php echo $utility->str_cut($list['wr_area'],18,"");?></span>
+				</dd>
+				<dd class="scrap" ><!-- bg_color1 -->
+					<a onclick="resume_scrap('<?php echo $no;?>');"><img alt="스크랩" src="../images/icon/icon_scrap1.png" class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>"></a>
+				</dd>
+			</dl>
+		</li>
+	<?php
+		}	// for end.
+	}	// if end.
+	?>
+	</ul>
+</div>
+<div class="paging mt20 mb50">
+	<span class="page">
+	<span id="alba_resume_first"></span>
+	<?php
+		$alba_resume_list_pages = str_replace("처음", "<img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\">", $alba_resume_list_pages);
+		$alba_resume_list_pages = str_replace("이전", "<img src=\"../images/btn/btn_leftArrow2.png\" class=\"bg_color1\">", $alba_resume_list_pages);
+		$alba_resume_list_pages = str_replace("다음", "<img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\">", $alba_resume_list_pages);
+		$alba_resume_list_pages = str_replace("맨끝", "<img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\"><img src=\"../images/btn/btn_rightArrow2.png\" class=\"bg_color1\">", $alba_resume_list_pages);
+		$alba_resume_list_pages = preg_replace("/<b>([0-9]*)<\/b>/", "$1", $alba_resume_list_pages);
+		echo $alba_resume_list_pages;
+	?>
+	</span>
+</div>
+<div class="comWrap">
+	<h2>
+		<em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em>
+		<span>커뮤니티 검색결과</span>
+	</h2>
+	<ul class="boxWrap clearfix positionR">
+	<?php if(!$board_search_list){ ?>
+	<li class="bth positionR">
+		<dl class="tc clearfix" style="height:40px;line-height:40px;">검색된 게시글이 없습니다.</dl>
+	</li>
+	<?php
+	} else {
+		$i = 0;
+		foreach($board_search_list as $key => $val){
+		$bo_table = $val['bo_table'];
+		$bo_subject = $val['bo_subject'];
+		$bo_result = $val['result'];
+
+			foreach($bo_result as $bo_val){ 		
+			if($i >= 10) break;
+			$wr_datetime = substr($bo_val['wr_datetime'],0,10);
+	?>
+			<li class="positionR">
+				<dl class="clearfix">
+					<dt> 
+						<a href="../community/view.html?bo_table=<?php echo $bo_table;?>&wr_no=<?php echo $bo_val['wr_no'];?>">
+						<span class="tit"><?php echo stripslashes($bo_val['wr_subject']);?></span></a>
+					</dt>
+					<dd class="text1 clearfix">
+						<span class="id"><?php echo $bo_val['wr_name'];?></span>
+						<span class="date"><?php echo $wr_datetime;?></span>
+					</dd>
+					<dd class="text2 text_color1" >
+						<span>[<?php echo stripslashes($bo_subject);?>]</span>
+					</dd>
+				</dl>
+			</li>
+	<?php
+			$i++;
+			}
+		}	// foreach end.
+	}	// if end.
+	?>
+	</ul>
+</div>
+<!-- <div class="paging mt20 mb50">
+	<span class="page">
+		<a href="#" class="prev text_color1"><img alt="" src="../images/btn/btn_leftArrow2.png" class="bg_color1"></a>
+		<a href="#" class="page bg_color1 on">1</a>
+		<a href="#" class="page text_color1">2</a>
+		<a href="#" class="next text_color1"><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_color1"></a>
+    </span>
+</div> -->
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

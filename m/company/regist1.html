@@ -1,0 +1,358 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu_company.html";?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+		$(".topMenu.list1").addClass("on");
+</script>
+<section  class="contentWrap" >
+<div class="popLayerWrap" style="display:none;"><!-- 레이어 팝업-->
+<div class="LayerWrap">
+	<div class="popLayer">
+	<h2><em class="icon"><img src="../images/icon/icon_mList1.png" class="bg_color1"></em>
+	<span>지도위치 확인</span>
+	<div style="top:0; right:0;" class="closeBtn layerBtn bg_color1  clearfix positionA">
+<a><img src="../images/btn/btn_close1.png" alt=""></a>	
+</div>
+	</h2>
+		<div class="LayerContent">
+			<div class="contentBoxWrap clearfix positionR" style="margin-top:-1px;">
+			<p class="pt5 pb10">※지도를 움직여 회사위치를 선택하신 후 저장하세요.</p>
+			<div class="popMapBox" style="background:#efefef;">
+				<p style="height:30px; line-height:30px; background:#666; color:#fff;">
+				<strong class="pl10">
+				<span class="Box">주소</span>
+				<span id="addrResult">인천 남구 관교동 aaa </span>
+				</strong>
+				</p>
+				<div id="dev_map_view" style="height:250px;">지도</div>
+			</div>
+			</div>
+			<div class="btnBottom">
+				<ul class="clearfix" style="margin:0 auto;">
+				<li><a href="" class="button bg_color1 border_color1 text_white"><span>저장</span><img alt="" src="../images/btn/btn_rightArrow3.png" class="bg_color1"></a>
+				</li> 
+				<li><a href="" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a>
+				</li> 
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div><!-- 레이어 팝업 //-->
+<div class="memberWrap" >
+<div style="width:100%; margin:0; padding:0;" class="headerBoxWrap clearfix positionR ">
+<table cellspacing="1" cellpadding="0" border="0" style="margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th rowspan="3" class="detailLogo shadowBox">
+        <img style="width:120px;" src="../images/logo/logo_106_5.gif" alt="로고">
+        </th>
+		</th>
+		<th colspan="3" class="info">
+			<div>
+				<p class="name"><strong>넷퓨</strong> / idname</p>
+				<p class="addr">광주 동구 금남로5가 남선빌딩 608호</p>
+			</div>
+		</th>
+	</tr>
+	<tr>
+		<td style="">연락처</td>
+		<td style="">010-9790-5580</td>
+		<td style="color:#fff;" class="call bg_color1">
+		<a href="../member/edit1.html">기업정보수정</a>
+		</td>
+	</tr>
+	<tr>
+		<td class="text">핸드폰</td>
+		<td colspan="2">010-9790-5580</td>
+	</tr>
+	
+</tbody>
+</table>
+</div>
+
+<div class="memberWrap mt10">
+<h2>
+<span>담당자정보</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">담당자명</th>
+		<td colspan="3">
+		<label class="skip">담당자명</label>
+        <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+
+	<tr>
+		<th class="pl5">전화번호</th>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">지역번호선택</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td class=" tc">
+              <label class="skip">중간번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+		<td class=" tc">
+              <label class="skip">마지막번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">휴대폰</th>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">010</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td class=" tc">
+              <label class="skip">중간번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+		<td class=" tc">
+              <label class="skip">마지막번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">팩스번호</th>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">지역번호선택</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td class=" tc">
+              <label class="skip">중간번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+		<td class=" tc">
+              <label class="skip">마지막번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+	</tr>
+	
+<tr>
+		<th class="pl5">e-메일</th>
+		<td colspan="2">
+			 <label class="skip">중간번호</label>
+              <input type="text" class="ipText" style="width:40%;" maxlength="12" id="" name="">
+			  @
+			  <label class="skip">중간번호</label>
+              <input type="text" class="ipText" style="width:40%;" maxlength="12" id="" name="">
+		</td>
+		<td class="">
+              <div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">선택하세요</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>
+	
+	</tbody>
+</table>
+</div>
+</div>
+
+<div class="memberWrap mt10">
+<h2>
+<span>업무내용 및 근무지정보</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">근무회사/점포명</th>
+		<td colspan="3">
+		<label class="skip">근무회사/점포명</label>
+        <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+
+	<tr>
+		<th class="pl5">채용제목</th>
+		<td colspan="3">
+		<label class="skip">채용제목</label>
+        <input type="text" name="" id="" maxlength="12" style="width:95%;" class="ipText">
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">업직종</th>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">010</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="순서" name="" id="" style="" class="">
+			<option value="0">010</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		
+		<td class=" tc">
+              <label class="skip">마지막번호</label>
+              <input type="text" class="ipText" style="width:95%;" maxlength="12" id="" name="">
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">근무지주소</th>
+		<td class="pl5 " colspan="3">
+		<table cellspacing="0" cellpadding="0" border="0" style="margin:0;padding:5px 0;" >
+		<tbody>
+       <tr>
+		<td>
+		<div class="styled-select list2   positionR" style="width:32%;">
+		<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+		<select class="" style="" id="" name="" title="순서">
+			<option value="0">시도</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+			<div class="styled-select list2   positionR"style="width:32%;">
+		    <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select class="" style="" id="" name="" title="순서">
+            <option value="0">시군구</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+				<div class="styled-select list2   positionR"style="width:32%;">
+		    <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select class="" style="" id="" name="" title="순서">
+            <option value="0">읍면동</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<label for="" class="skip">번지수입력</label>
+		<input type="text" id="" class="ipText" style="width:50%;" maxlength="12" placeholder="번지수입력" name="">
+		<em style="font-style:normal;vertical-align:middle; display:inline-block; padding:2px 5px; color:#fff;" class="layerBtn bg_color1"> 지도위치확인</em>
+		</td>
+		</tr>
+		</tbody></table>
+		</td>
+	</tr>
+    <tr>
+		<th class="pl5">인근지하철</th>
+		<td class="pl5 " colspan="3">
+		<table  cellspacing="0" cellpadding="0" border="0" style="margin:0;padding:5px 0;" >
+		<tbody>
+       <tr>
+		<td >
+		<div class="styled-select list2   positionR" style="width:32%;">
+		<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+		<select class="" style="" id="" name="" title="순서">
+			<option value="0">지역</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+			<div class="styled-select list2   positionR" style="width:32%;">
+		    <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select class="" style="" id="" name="" title="순서">
+            <option value="0">호선</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+				<div class="styled-select list2  positionR" style="width:32%;">
+		    <img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select class="" style="" id="" name="" title="순서">
+            <option value="0">지하철역</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<label for="" class="skip">번지수입력</label>
+		<input type="text" id="" class="ipText" style="width:50%;" maxlength="12" placeholder="출구,소요시간 입력" name="">
+		<em style="font-style:normal;vertical-align:middle; display:inline-block; padding:2px 5px; color:#fff;" class=" bg_color1"> 추가</em>
+		</td>
+		</tr>
+		</tbody></table>
+		</td>
+	</tr>
+    <tr>
+		<th class="pl5">인근대학</th>
+		<td class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="지역" name="" id="" style="" class="">
+			<option value="0">지역</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+		<td colspan="2" class=" ">
+			<div class="styled-select list7  clearfix positionR">
+			<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+			<select title="인근대학" name="" id="" style="" class="">
+			<option value="0">인근대학</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			</select>
+			</div>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+<div class="btnBottom">
+     <ul class="clearfix">
+		<li><a href="../company/regist2.html" class="button white"><span>다음</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+		<li><a href="../main/main.html" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+	</ul>
+</div>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

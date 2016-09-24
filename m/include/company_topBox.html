@@ -1,0 +1,41 @@
+<div class="headerBoxWrap clearfix positionR" >
+<table cellpadding="0" cellspacing="1" border="0" style="margin:0; padding:0px;">
+	<tr>
+		<th class="detailLogo shadowBox" rowspan="2"  style="width:120px;">
+			<!-- <a href="./photo.html"> --><img src="<?php echo $mb_logo;?>" alt="사진"><!-- </a> -->
+        </th>
+		<th class="detailName" colspan="3">
+		<div>
+		<p><span class="name"><?php echo $member['mb_name'];?>(<?php echo $member['mb_id'];?>)님</span>안녕하세요.</p>
+		</div>
+		</th>
+		<!-- <td class="bg_color1 tc" ><a href="../member/edit1.html" style="color:#fff;">기업정보수정</a></td> -->
+	</tr>
+	<tr>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_manage.html"><?php */ ?>
+				<dl class="">
+					<dd><strong><?php echo number_format($continue_cnt);?></strong></dd>
+					<dt>채용공고현황</dt>
+				</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_apply.html"><?php */ ?>
+				<dl>
+					<dd><strong><?php echo number_format($apply_cnt);?></strong></dd>
+					<dt>공고지원자</dt>
+				</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+		<td class="countList shadowBox">
+			<?php /* ?><a href="./list_scrap.html"><?php */ ?>
+				<dl>
+					<dd><strong><?php echo number_format($scrap_cnt);?></strong></dd>
+					<dt>스크랩인재정보</dt>
+				</dl>
+			<?php /* ?></a><?php */ ?>
+		</td>
+	</tr>
+</table>
+</div>

@@ -1,0 +1,67 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu.html";?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list4").addClass("on");
+$(".communityBtnWrap").fadeIn("fast");
+</script>
+
+<section class="contentWrap">
+<?php 
+if($sub_board_use) {
+	
+	/*
+	echo "<pre>";
+	print_R($sub_board);
+	echo "</pre>";
+	*/
+
+	foreach($sub_board as $key => $val){
+		
+		$board = $board_control->get_boardTable($key);
+		$wr_view = $val['wr_view'];
+		$wr_total = $val['wr_total'];
+		
+		$bo_table = $board['bo_table'];
+		$bo_skin = $board['bo_skin'];	 // 게시판 스킨
+
+		// 출력 설정시
+		if($wr_view){
+		
+			$list_con = " where `wr_is_comment` = 0 ";
+			$list_row = $board_control->__TableList($bo_table,$page,$val['wr_total'],$list_con);
+
+			$bo_table = $board['bo_table'];
+			$bo_subject = $board['bo_subject'];
+			$bo_write_count = $board['bo_write_count'];
+
+			switch($bo_skin){
+				case 'default':	// 기본
+					include "./_include/board_latest_default.skin.php";
+				break;
+				case 'webzine':	// 웹진형
+					include "./_include/board_latest_webzine.skin.php";
+				break;
+				case 'image':	// 이미지
+					include "./_include/board_latest_image.skin.php";
+				break;
+			}
+		} else {
+			continue;
+		}
+
+	}
+
+	/*
+	include_once "./_include/board_latest_default.skin.php";
+	include_once "./_include/board_latest_webzine.skin.php";
+	include_once "./_include/board_latest_image.skin.php";
+	*/
+}
+?>
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

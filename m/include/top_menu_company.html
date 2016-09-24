@@ -1,0 +1,39 @@
+<?php
+if(!$is_member){
+	$utility->popup_msg_js($user_control->_errors('0015'),"../login/login.html?type=company&url=".$urlencode);
+	exit;
+}
+if($mb_type=='individual'){	 // 개인회원 접근시
+	$utility->popup_msg_js($user_control->_errors('0031'));
+	exit;
+}
+$con  = " where `wr_id` = '".$member['mb_id']."' and `is_delete` = 0 ";
+$continue_cnt = $alba_company_control->alba_list_count($con . " and ( `wr_volume_always` = '1' or `wr_volume_end` = '1' or `wr_volume_date` >= curdate() ) ");	// 진행중인 공고 카운팅
+$end_cnt = $alba_company_control->alba_list_count($con . " and ( `wr_volume_always` = '0' and `wr_volume_end` = '0' and `wr_volume_date` < curdate() ) ");	// 마감된 공고 카운팅
+
+$apply_con = " where `wr_to_id` = '".$member['mb_id']."' and `is_cancel` = 0 and `is_delete` = 0 ";
+$apply_list = $receive_control->__ReceiveList( $receive_page, $receive_page_rows, $apply_con );
+$apply_cnt = $apply_list['total_count'];
+$scrap_list = $alba_user_control->scrap_list($member['mb_id']);
+$scrap_cnt = $scrap_list['total_count'];	// 스크랩 카운팅
+
+$custom_titles = $alba_company_control->custom_titles($member['mb_id']);	 // 타이틀 뽑기
+if($custom_titles){
+	$page = ($page) ? $page : 1;
+	$con = " where `is_delete` = 0 ";
+	$custom_list = $alba_company_control->custom_list($page, 15, $con);
+	$total_page = $custom_list['total_page'];
+	$pages = $utility->user_get_paging(15, $page, $total_page,"./alba_customized.php?page_rows=15&".$custom_list['send_url']."&page=");
+}
+?>
+	<div class="top_menu border_color1">
+		<ul class="clearfix">
+		<?php /* ?>
+			<li class="topMenu list1"><a href="../company/regist1.html">채용공고등록</a></li>
+			<li class="topMenu list2"><a  href="../company/list_manage.html">채용공고관리</a></li>
+			<li class="topMenu list3"><a href="../company/list_apply.html">지원자관리</a></li>
+		<?php */ ?>
+			<li class="topMenu list4"><a href="../company/list_scrap.html">스크랩인재정보</a></li>
+			<li class="topMenu list5"><a href="../company/list_customized.html">맞춤인재정보</a></li>
+		</ul>
+	</div>

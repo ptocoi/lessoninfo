@@ -1,0 +1,427 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu_company.html";?>
+</header>
+<script> 
+$(".topMenu.list5").addClass("on");
+var CustomSearchFrmSubmit = function(){	// 맞춤 조건에 맞게 검색 시작
+	$('#CustomSearchFrm').submit();
+}
+var job_type_sel_first = function( vals, target ){	// 첫번째 직종값 선택
+	var sel = vals.value;
+	$('#'+target+'_display').load('../../individual/views/_load/alba_resume_regist.php', { mode:'second_job_type', type:'job_type', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+</script>
+<section class="contentWrap">
+<div class="companyDetailWrap">
+<h2 class="skip">맞춤인재정보</h2>
+<?php include_once "../include/company_topBox.html";?>
+
+	<div class="cList content1">
+		<h2>
+			<ul class="tapMenu clearfix">
+				<li class="list1 on">맞춤 인재정보<em class="">[<?php echo number_format($custom_list['total_count']);?>]</em></li>
+				<!-- <li class="list2">조건 설정·수정</li> -->
+			</ul>
+		</h2>
+
+		<form method="get" name="CustomSearchFrm" action="<?php echo $_SERVER['PHP_SELF'];?>" id="CustomSearchFrm">
+		<input type="hidden" name="mode" value="search"/>
+		<input type="hidden" name="wr_id" value="<?php echo $member['mb_id'];?>"/>
+		<div class="selectBox clearfix positionR">
+			<div class="positionR" style="width:80%; height:30px; line-height:30px; background-color:#F9F9F9; margin-bottom:1px;  ">
+				<div class="styled-select list5  clearfix positionR" style="width:95%; margin:0 auto;">
+				<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+				<select class=""  id="search_no" name="no" title="순서">
+				<?php 
+					$search_no = ($_GET['no']) ? $_GET['no'] : $_GET['search_no'];
+					$n = 1;
+					foreach($custom_titles as $val){ 
+					$selected = ($search_no==$val['no']) ? 'selected' : '';
+				?>
+				<option value="<?php echo $val['no'];?>" <?php echo $selected;?>><?php echo "[".sprintf('%02d',$n)."] ".$val['wdate']." 저장";?></option>
+				<?php 
+					$n++;
+					} // foreach end.
+				?>
+				</select>
+				</div>
+			</div>
+			<div style="top:0; right:0;" class="titleBtn bg_color1  clearfix positionA">
+				<a onclick="CustomSearchFrmSubmit();">검색<img src="../images/btn/btn_rightArrow3.png" alt=""></a>	
+			</div>
+		</div>
+		</form>
+
+		<ul class="boxWrap clearfix positionR">
+			<?php if(!$custom_list['total_count']){ ?>
+			<li class="bth positionR">
+				<dl class="tc clearfix" style="height:40px;line-height:40px;">맞춤 인재정보가 없습니다.</dl>
+			</li>
+			<?php 
+			} else { 
+				foreach($custom_list['result'] as $val){ 
+				$no = $val['no'];
+				$list = $alba_resume_user_control->get_resume_service($no,"",80);
+				if($list['is_delete']){	// 삭제된 이력서 체크
+					$resume_href = "javascript:is_delete();";
+					$href_target = "";
+				} else {
+					$resume_href = $alice['resume_path'] . "/alba_resume_detail.php?no=" . $no;
+					$href_target = "target=\"_blank\"";
+				}
+				$mailto = ($list['is_delete']) ? "javascript:is_delete();" : "mailto://".$list['mb_email'];
+				$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba_resume', $no, date('Y-m-d'));
+			?>
+			<li class="bth positionR">
+				<dl class="clearfix">
+					<dt class="name_wrap"> 
+						<a onclick="" href="../resume/detail.html?no=<?php echo $no;?>">
+						<span class="name"><?php echo $list['wr_name'];?><img class="vt" style="padding-top:1px; padding-left:1px;" src="../images/icon/icon_photo1.gif" width="12"></span>
+						<span class="gender">(<?php echo $list['wr_gender'];?><?php echo $list['wr_age'];?>)</span>
+						<span class="career"><?php echo $list['wr_career'];?></span>
+						</a> 
+					</dt>
+					<dd class="text1 ">
+						<a class="" href="../resume/detail.html?no=<?php echo $no;?>">항상 처음과 같은 자세로 맡은일에 최선을 다하자!!</a>				
+					</dd>
+					<dd class="text2 ">
+						<span class="etc text_color1"><?php echo $list['school_ability'];?> <?php echo $list['wr_area'];?></span>
+					</dd>
+					<dd class="etc">
+						<span class="pay">
+							<em class="number"><?php echo $list['wr_pay'];?></em>
+							<?php if($list['wr_pay']=!'추후협의'){ ?>
+							<em class="payIcon"><?php echo $list['wr_pay_type;']?></em>
+							<?php } ?>
+						</span>
+					</dd>
+					<dd class="scrap">
+						<a onclick="resume_scrap('<?php echo $no;?>');"><img class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>" src="../images/icon/icon_scrap1.png" alt="스크랩"></a>
+					</dd>
+				</dl>
+				<!-- <div class="checkBox"><input type="checkbox" name="chkAll" value="1"></div> -->
+			</li>
+			<?php
+				}	// foreach end.
+			}	// if end.
+			?>
+		</ul>
+
+		<?php /* ?>
+		<div class="btnBottom">
+			<ul class="clearfix">
+			<li><a href="" class="button white"><span>스크랩</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+			<li><a href="" class="button white"><span>삭제</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+			</ul>
+		</div>
+		<?php */ ?>
+		<?php include_once "../include/page.html";?>
+	</div>
+
+	<div class="cList content2" style="display:none;">
+		<h2>
+			<ul class="tapMenu clearfix">
+			<li class="list1">맞춤 인재정보<em class="">[<?php echo number_format($custom_list['total_count']);?>]</em></li>
+			<li class="list2 on">조건 설정·수정</li>
+			</ul>
+		</h2>
+		<div class="selectBox clearfix positionR">
+			<div class="positionR" style="width:100%; height:30px; line-height:30px; background-color:#F9F9F9; margin-bottom:1px;  ">
+				<div class="styled-select list5  clearfix positionR" style="width:95%; margin:0 auto;">
+				<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+				<select class=""  id="sel_custom" name="no" title="순서">
+				<option value="">------------ 맞춤조건선택 ---------------</option>
+				<?php 
+					foreach($custom_titles as $val){ 
+					$selected = ($_GET['no']==$val['no']) ? 'selected' : '';
+				?>
+				<option value="<?php echo $val['no'];?>" <?php echo $selected;?>><?php echo "[".sprintf('%02d',$no)."] ".$val['wdate']." 저장";?></option>
+				<?php } ?>
+				</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="contentBox clearfix positionR">
+			<dl class="list clearfix">
+				<dt class="positionR">
+					<span>업직종<!-- <em style="right:2px; top:6px; " class="positionA bg_color1">+ 추가</em> --></span>
+				</dt>
+				<dd>
+					<div class="styled-select list4  clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="1차 분류선택" name="wr_job_type0" id="wr_job_type0" style="" class="" onchange="job_type_sel_first(this,'wr_job_type1');">
+						<option value="">1차 분류선택</option>
+						<?php 
+							foreach($job_types as $val){ 
+							$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+							$selected = ($wr_job_type0 == $val['code']) ? "selected" : "";
+						?>
+						<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php } ?>
+						</select>
+					</div>
+					<div class="styled-select list4 clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<div id="wr_job_type1_display">
+							<select title="2차 분류선택" name="wr_job_type1" id="wr_job_type1" style="" class="">
+							<option value="">2차 분류선택</option>
+							<?php
+							if($wr_job_type1){
+								$pcodeList = $category_control->category_pcodeList('job_type', $wr_job_type0);
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($wr_job_type1 == $val['code']) ? "selected" : "";
+							?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+							<?php 
+								}	// foreach end.
+							} else {
+							?>
+								<option value="">1차 직종을 먼저 선택해 주세요</option>
+							<?php
+							}	// if end.
+							?>
+							</select>
+						</div>
+					</div>				
+					<div class="styled-select list4 clearfix positionR " style="margin-right:-2px;">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<div id="wr_job_type2_display">
+						<select title="3차 분류선택" name="wr_job_type2" id="wr_job_type2" style="" class="">
+							<option value="">3차 분류선택</option>
+							<?php
+							if($wr_job_type2){
+								$pcodeList = $category_control->category_pcodeList('job_type', $wr_job_type1);
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($wr_job_type2 == $val['code']) ? "selected" : "";
+							?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+							<?php 
+								}	// foreach end.
+							} else {
+							?>
+								<option value="">2차 직종을 먼저 선택해 주세요</option>
+							<?php
+							}	// if end.
+							?>
+							</select>
+						</div>
+					</div>	
+				</dd>
+			</dl>
+			<?php /* ?>
+			<dl class="list clearfix">
+				<dt class="positionR">
+					<span>업직종<!-- <em style="right:2px;top:6px; " class="positionA bg_color1">- 삭제</em> --></span>
+				</dt>
+				<dd>
+					<div class="styled-select list4  clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="1차 분류선택" name="" id="" style="" class="">
+						<option value="0">1차 분류선택</option>
+						<option value="1">광주광역시</option>
+						<option value="2">대전광역시</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>
+					<div class="styled-select list4 clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="2차 분류선택" name="" id="" style="" class="">
+						<option value="0">2차 분류선택</option>
+						<option value="1">북구</option>
+						<option value="2">서구</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>				
+					<div class="styled-select list4 clearfix positionR " style="margin-right:-2px;">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="3차 분류선택" name="" id="" style="" class="">
+						<option value="0">3차 분류선택</option>
+						<option value="1">쌍촌동</option>
+						<option value="2">상무동</option>
+						<option value="3">광천동</option>
+						</select>
+					</div>	
+				</dd>
+			</dl>
+			<?php */ ?>
+			<dl class="list clearfix">
+				<dt  class="positionR">
+					<span>근무지<!-- <em style="right:2px;top:6px; " class="positionA bg_color1">+ 추가</em> --></span>
+				</dt>
+				<dd>
+					<div class="styled-select list4  clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="시/도" name="" id="" style="" class="">
+						<option value="0">시/도</option>
+						<option value="1">광주광역시</option>
+						<option value="2">대전광역시</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>
+					<div class="styled-select list4 clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="시/구/군" name="" id="" style="" class="">
+						<option value="0">시/구/군</option>
+						<option value="1">북구</option>
+						<option value="2">서구</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>				
+					<div class="styled-select list4 clearfix positionR " style="margin-right:-2px;">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="읍/면/동" name="" id="" style="" class="">
+						<option value="0">읍/면/동</option>
+						<option value="1">쌍촌동</option>
+						<option value="2">상무동</option>
+						<option value="3">광천동</option>
+						</select>
+					</div>	
+				</dd>
+			</dl>
+			<?php /* ?>
+			<dl class="list clearfix">
+				<dt  class="positionR">
+					<span>근무지<!-- <em style="right:2px;top:6px; " class="positionA bg_color1">- 삭제</em> --></span>
+				</dt>
+				<dd>
+					<div class="styled-select list4  clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="시/도" name="" id="" style="" class="">
+						<option value="0">시/도</option>
+						<option value="1">광주광역시</option>
+						<option value="2">대전광역시</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>
+					<div class="styled-select list4 clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="시/구/군" name="" id="" style="" class="">
+						<option value="0">시/구/군</option>
+						<option value="1">북구</option>
+						<option value="2">서구</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>				
+					<div class="styled-select list4 clearfix positionR " style="margin-right:-2px;">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="읍/면/동" name="" id="" style="" class="">
+						<option value="0">읍/면/동</option>
+						<option value="1">쌍촌동</option>
+						<option value="2">상무동</option>
+						<option value="3">광천동</option>
+						</select>
+					</div>	
+				</dd>
+			</dl>
+			<?php */ ?>
+			<dl class="list clearfix">
+				<dt><span>근무일시</span></dt>
+				<dd>
+					<div class="styled-select list4  clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="근무기간" name="" id="" style="" class="">
+						<option value="0">근무기간</option>
+						<option value="1">광주광역시</option>
+						<option value="2">대전광역시</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>
+					<div class="styled-select list4 clearfix positionR ">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="근무요일" name="" id="" style="" class="">
+						<option value="0">근무요일</option>
+						<option value="1">북구</option>
+						<option value="2">서구</option>
+						<option value="3">인천광역시</option>
+						</select>
+					</div>				
+					<div class="styled-select list4 clearfix positionR " style="margin-right:-2px;">
+						<img class="bg_color1" src="../images/btn/btn_down2.png" alt="">
+						<select title="근무시간" name="" id="" style="" class="">
+						<option value="0">근무시간</option>
+						<option value="1">쌍촌동</option>
+						<option value="2">상무동</option>
+						<option value="3">광천동</option>
+						</select>
+					</div>	
+				</dd>
+			</dl>
+			<dl class="list clearfix">
+				<dt><span>성별</span></dt>
+				<dd style="margin-right:-1px;">
+					<span>
+						<input type="radio" id="gender1" name="gender">
+						<label for="gender1">성별무관</label>
+						<input type="radio" id="gender2" name="gender">
+						<label for="gender2">남자</label>
+						<input type="radio" id="gender3" name="gender">
+						<label for="gender3">여자</label>
+					</span>
+				</dd>
+			</dl>
+
+			<dl class="list clearfix">
+				<dt><span>연령</span></dt>
+				<dd style="margin-right:-1px;">
+					<span>
+					<input type="radio" id="gender1" name="gender">
+					<label for="gender1">연령무관</label>
+					<input type="radio" id="gender2" name="gender">
+					<label for="gender2">연령제한</label>
+					<input type="text" maxlength="2" style="width:15px;text-align:center;" class="ipText" value="" id="" name="Age_1">
+					<label>세 이상~</label>
+					<input type="text" maxlength="2" style="width:15px;text-align:center;" class="ipText" value="" id="" name="Age_2">
+					<label>세 이하</label>
+					</span>
+				</dd>
+			</dl>  
+			<dl class="list clearfix">
+				<dt><span>근무형태</span></dt>
+				<dd style="margin-right:-1px;">
+					<span>
+					<input type="checkbox" id="JobType1" name="JobType">
+					<label for="JobType1">정규직</label>
+					<input type="checkbox" id="JobType2" name="JobType">
+					<label for="JobType2">아르바이트</label>
+					<input type="checkbox" id="JobType3" name="JobType">
+					<label for="JobType3">계약직</label>
+					<input type="checkbox" id="JobType4" name="JobType">
+					<label for="JobType4">인턴쉽</label>
+					</span>
+				</dd>
+			</dl>  
+		</div>
+		<!-- <div class="btnBottom">
+		<ul class="clearfix">
+			<li><a href="" class="button white"><span>저장</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+			<li><a href="" class="button white"><span>삭제</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+		</ul>
+		</div> -->
+	</div>
+
+</div>
+</section>
+
+<script>
+ $(".list1").click(function() {
+		
+		$(".cList.content1").fadeIn("fast");
+		$(".cList.content2").hide();
+	}
+);
+ $(".list2").click(function() {
+		
+		$(".cList.content2").fadeIn("fast");
+		$(".cList.content1").hide();
+	}
+);
+</script>
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

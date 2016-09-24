@@ -1,0 +1,118 @@
+<?php
+	$job_menu_arr = array( "job_index", "alba_list_busy", "alba_list_college", "alba_list_local", "alba_list_part", "alba_list_part_adult", "alba_list_pay", "alba_list_search", "alba_list_subway", "alba_list_target", "alba_list_term" );
+	$resume_menu_arr = array( "alba_resume_index", "alba_resume_list_busy", "alba_resume_list_local", "alba_resume_list_part", "alba_resume_list_search", "alba_resume_list_term" );
+?>
+	<script>
+		$(".jobBtn").touchSlider({mouseTouch: true});
+		$(".resumeBtn").touchSlider({mouseTouch: true});
+	</script>
+
+	<div class="top_menu border_color1">
+		<ul class="clearfix">
+			<li class="topMenu list1"><a href="../job/index.html">채용정보</a></li>
+			<li class="topMenu list2"><a href="../resume/index.html">인재정보</a></li>
+			<?php if($sub_board_use){ ?>
+			<li class="topMenu list4"><a href="../community/main.html">커뮤니티</a></li>
+			<?php } ?>
+		</ul>
+	</div>
+
+	<?php if(@in_array($page_name,$job_menu_arr)){ ?>
+
+	<div class="jobBtnWrap" style="display:none;">
+		<div class="jobBtn" id="touchslider">
+			<ul class="clearfix">
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_busy')?'on':'';?>">
+					<a href="../job/list_busy.html"><p><img src="../images/btn/icon_jobBtn7.png"  alt="급구"></p><p>급구</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_local')?'on':'';?>">
+					<a href="../job/list_local.html"><p><img src="../images/btn/icon_jobBtn1.png"  alt="지역별"></p><p>지역별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_part')?'on':'';?>">
+					<a href="../job/list_part.html"><p><img src="../images/btn/icon_jobBtn9.png"  alt="업직종별"></p><p>업직종별</p></a>
+				</li>
+				<?php if($is_adult){ ?>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_part_adult')?'on':'';?>">
+					<!-- ../member/19adult.html -->
+					<a href="../job/list_part_adult.html?type=<?php echo $adult_job_types[0]['code'];?>"><p><img src="../images/btn/icon_jobBtn8.png"  alt="19"></p><p>채용</p></a>
+				</li>
+				<?php } ?>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_subway')?'on':'';?>">
+					<a href="../job/list_subway.html"><p><img src="../images/btn/icon_jobBtn3.png"  alt="역세권별"></p><p>역세권별</p></a>
+				</li> 
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_college')?'on':'';?>">
+					<a href="../job/list_college.html"><p><img src="../images/btn/icon_jobBtn4.png"  alt="대학가별"></p><p>대학가별</p></a>
+				</li>	
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_term')?'on':'';?>">
+					<a href="../job/list_term.html"><p><img src="../images/btn/icon_jobBtn10.png"  alt="기간별"></p><p>기간별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_pay')?'on':'';?>">
+					<a href="../job/list_pay.html"><p><img src="../images/btn/icon_jobBtn6.png"  alt="급여별"></p><p>급여별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_target')?'on':'';?>">
+					<a href="../job/list_target.html"><p><img src="../images/btn/icon_jobBtn2.png"  alt="대상별"></p><p>대상별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_list_search')?'on':'';?>"">
+	  				<a href="../job/list_search.html"><p><img src="../images/btn/icon_jobBtn11.png"  alt="상세검색"></p><p>상세검색</p></a>
+				 </li>
+			</ul>
+		</div>
+		<div class="leftArrow" style="display:block;"><a href="#" class="btn_flick_prev"><img class="bg_color1" src="../images/btn/btn_leftArrow1.png"  alt="leftArrow"></a></div>
+		<div class="rightArrow" style="display:none;"><a href="#" class="btn_flick_next"><img class="bg_color1" src="../images/btn/btn_rightArrow1.png"  alt="rightArrow"></a></div>
+	</div>
+
+	<?php } ?>
+
+	<?php if(@in_array($page_name,$resume_menu_arr)){ ?>
+
+	<div class="resumeBtnWrap" style="display:none;">
+		<div class="resumeBtn" id="touchslider">
+			<ul class="clearfix">
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_resume_list_busy')?'on':'';?>">
+					<a href="../resume/list_busy.html"><p><img src="../images/btn/icon_jobBtn7.png"  alt="급구"></p><p>급구</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_resume_list_local')?'on':'';?>">
+					<a href="../resume/list_local.html"><p><img src="../images/btn/icon_jobBtn1.png"  alt="지역별"></p><p>지역별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_resume_list_part')?'on':'';?>">
+					<a href="../resume/list_part.html"><p><img src="../images/btn/icon_jobBtn9.png"  alt="업직종별"></p><p>업직종별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_resume_list_term')?'on':'';?>">
+					<a href="../resume/list_term.html"><p><img src="../images/btn/icon_jobBtn10.png"  alt="기간별"></p><p>기간별</p></a>
+				</li>
+				<li class="subBtn bg_color1 <?php echo ($page_name=='alba_resume_list_search')?'on':'';?>"">
+	  				<a href="../resume/list_search.html"><p><img src="../images/btn/icon_jobBtn11.png"  alt="상세검색"></p><p>상세검색</p></a>
+				 </li>
+			</ul>
+		</div>
+		<div class="leftArrow" style="display:block;"><a href="#" class="btn_flick_prev"><img class="bg_color1" src="../images/btn/btn_leftArrow1.png"  alt="leftArrow"></a></div>
+		<div class="rightArrow" style="display:none;"><a href="#" class="btn_flick_next"><img class="bg_color1" src="../images/btn/btn_rightArrow1.png"  alt="rightArrow"></a></div>
+	</div>
+
+	<?php } ?>
+
+<script>
+$('#touchslider').touchSlider({
+    flexible : true,
+    roll : false,
+    view : 4,
+    page : 3,
+    btn_prev : $('.btn_flick_prev'),
+    btn_next : $('.btn_flick_next'),
+    counter : function(e) {
+
+        if(e.total > 1) {
+            if(e.current == 1) {
+                $('.leftArrow').hide();
+                $('.rightArrow').fadeIn();
+            } else if (e.current == e.total) {
+                $('.leftArrow').fadeIn();
+                $('.rightArrow').hide();
+            } else {
+                $('.leftArrow').fadeIn();
+                $('.rightArrow').fadeIn();
+            }
+        }
+    }
+});
+</script>

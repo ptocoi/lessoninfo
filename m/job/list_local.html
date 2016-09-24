@@ -1,0 +1,54 @@
+<?php 
+$page_name = "alba_list_local";
+include_once "../include/top.html";
+include_once "../include/header.html";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list1").addClass("on");
+$(".jobBtnWrap").fadeIn("fast");
+
+var area_sels = function( code, target ){
+	$('.'+target+'Box li').html("");	// 선택지역 초기화
+	$('#'+target+'_area_'+code).load('./_load/search.php', { mode:'job_area', type:'area', p_code:code, target:target }, function(result){
+	});
+}
+</script>
+<section class="contentWrap">
+<div class="location">
+	<h2 class="skip">지역별 선택</h2>
+	<ul class="boxWrap clearfix positionR">
+		<li class="clearfix">
+			<?php 
+			if($category_area){ 
+				foreach($category_area as $val){
+				$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+				$category_count = $alba_user_control->get_category_count_area($val['code']);
+			?>
+			<div class="positionR">
+				<a onclick="area_sels('<?php echo $val['code']?>','second');">
+				<span class="local"><?php echo $name;?><em class="text_color1">(<?php echo number_format($category_count);?>)</em></span>
+				<div class="localRightArrow">
+					<img class="bg_color1" width="6" height="11" src="../images/btn/btn_rightArrow2.png" alt="click" id="second_arrow_<?php echo $val['code'];?>">
+				</div>
+				</a> 
+			</div>
+
+			<ul class="secondBox clearfix positionR">
+				<li class="clearfix" id="second_area_<?php echo $val['code'];?>"></li>
+			</ul>
+
+			<?php
+				}	// foreach end.
+			}	// if end.
+			?>
+		</li>
+	</ul>
+</div>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

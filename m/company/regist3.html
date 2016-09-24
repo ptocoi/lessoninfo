@@ -1,0 +1,129 @@
+<?php include_once "../include/top.html";?>
+<?php include_once "../include/header.html";?>
+<?php include_once "../include/top_menu_company.html";?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+		$(".topMenu.list1").addClass("on");
+</script>
+<section  class="contentWrap" >
+
+<div class="memberWrap mt10">
+<h2>
+<span>모집내용</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+	<tr>
+		<th  class="pl5">모집인원</th>
+		<td style="width:75%;">
+        <input type="text" class="ipText" style="width:30%;" maxlength="12" id="" name="">
+		<label class="">명</label>
+		<input type="checkbox" title="추후협의" class="" id="">
+        <label for="" class="">0명</label>
+		<input type="checkbox" title="추후협의" class="" id="">
+        <label for="" class="">00명</label>
+		</td>
+	</tr>
+
+	<tr>
+		<th class="pl5">모집대상</th>
+		<td >
+			<span>
+				<input type="checkbox" title="추후협의" class="" id="">
+        <label for="" class="">청소년</label>
+				<input type="checkbox" title="추후협의" class="" id="">
+        <label for="" class="">대학생</label>
+				<input type="checkbox" title="추후협의" class="" id="">
+        <label for="" class="">주부</label>
+				</span>
+		</td>
+	</tr>
+	<tr>
+		<th class="pl5">모집종료일</th>
+		<td >
+		<span>
+				<input id="date" type="date" class="ipText"><label for="date" class="bg_color1" style="color:#fff;padding:2px; ">날짜선택</label>
+				<input type="checkbox" name="gender" id="gender2">
+                <label for="gender2">상시모집</label>
+				<input type="checkbox" name="gender" id="gender3">
+                <label for="gender3">채용시까지</label>
+				</span>
+		</td>
+	
+	</tr>
+	<tr>
+		<th class="pl5">접수방법</th>
+		<td >
+		<span>
+				<input type="checkbox" name="" id="">
+                <label for="">온라인지원</label>
+				<input type="checkbox" name="" id="">
+                <label for="">e-메일지원</label>
+				<input type="checkbox" name="" id="">
+                <label for="">전화연락</label>
+				</span>
+		</td>
+	</tr>
+    <tr>
+		<th class="pl5">제출서류</th>
+		<td >
+			<span>
+				<input type="checkbox" name="" id="">
+                <label for="">이력서</label>
+				<input type="checkbox" name="" id="">
+                <label for="">주민등록등본</label>
+				<input type="checkbox" name="" id="">
+                <label for="">자기소개서</label>
+				</span>
+		</td>
+	</tr>
+ <tr>
+		<th class="pl5">사전질문</th>
+		<td>
+		<textarea name="" class="ipTextarea" id="" style="width:95%; height:40px;"></textarea>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+
+<div class="memberWrap mt10">
+<h2>
+<span>상세모집요강</span>
+</h2>
+<div class="contentBoxWrap clearfix positionR" >
+<table cellspacing="1" cellpadding="0" border="0" style=" margin:0; padding:0px;">
+	<tbody>
+  
+ <tr>
+		<th class="pl5">
+		<p><input type="checkbox" id="" name=""><label for="">전체선택</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">업무내용</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">복리후생</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">우대사항</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">제출서류</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">지원방법</label></p>
+		<p><input type="checkbox" id="" name=""><label for="">기타사항</label></p>
+		</th>
+		<td style="width:75%; padding:5px 5px">
+		<textarea name="" class="ipTextarea" id="" style="width:95%; height:160px;">＊ 업무내용</textarea>
+		</td>
+	</tr>	
+	</tbody>
+</table>
+</div>
+</div>
+<div class="btnBottom">
+     <ul class="clearfix">
+		<li><a href="../main/main.html" class="button white"><span>등록</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+		<li><a href="../main/main.html" class="button white"><span>취소</span><img alt="" src="../images/btn/btn_rightArrow2.png" class="bg_gray1"></a></li> 
+	</ul>
+</div>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

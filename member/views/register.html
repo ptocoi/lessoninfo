@@ -1,0 +1,31 @@
+<?php if (!defined("_ALICE_")) exit; // 개별 페이지 접근 불가 ?>
+	
+	<form name="MemberRegistFrm" method="post" id="MemberRegistFrm" action="./register_form.php">
+	<input type="hidden" name="mb_type" id="mb_type"/>
+	<?php if($virtualno){ // 아이핀에서 넘어온 값 ?>
+	<input type="hidden" name="encPsnlInfo" value="<?php echo $_POST['encPsnlInfo'];?>"/>
+	<input type="hidden" name="virtualno" value="<?php echo $_POST['virtualno'];?>"/>
+	<input type="hidden" name="dupinfo" value="<?php echo $_POST['dupinfo'];?>"/>
+	<input type="hidden" name="realname" value="<?php echo $_POST['realname'];?>"/>
+	<input type="hidden" name="cprequestnumber" value="<?php echo $_POST['cprequestnumber'];?>"/>
+	<input type="hidden" name="age" value="<?php echo $_POST['age'];?>"/>
+	<input type="hidden" name="sex" value="<?php echo $_POST['sex'];?>"/>
+	<input type="hidden" name="nationalinfo" value="<?php echo $_POST['nationalinfo'];?>"/>
+	<input type="hidden" name="birthdate" value="<?php echo $_POST['birthdate'];?>"/>
+	<input type="hidden" name="coinfo1" value="<?php echo $_POST['coinfo1'];?>"/>
+	<input type="hidden" name="coinfo2" value="<?php echo $_POST['coinfo2'];?>"/>
+	<input type="hidden" name="ciupdate" value="<?php echo $_POST['ciupdate'];?>"/>
+	<input type="hidden" name="cpcode" value="<?php echo $_POST['cpcode'];?>"/>
+	<input type="hidden" name="authinfo" value="<?php echo $_POST['authinfo'];?>"/>
+	<?php } ?>
+	</form>
+
+<?php
+	/*
+	 * 스킨 형태로 페이지를 읽어 옵니다.
+	 * 페이지의 디자인을 변경하고자 하는 경우 skins 디렉토리에 별도의 디렉토리를 만든 후 아래에서 include 경로를 변경하면 됩니다.
+	 * 수정시 기존 스킨은 그대로 두시고(백업) 새로운 스킨 디렉토리를 생성하여 사용하시기 바랍니다.
+	 *
+	 */
+	include_once $alice['member_path'] . "/skins/custom/register.skin.php";	// 회원가입 약관동의 스킨을 불러온다.
+?>

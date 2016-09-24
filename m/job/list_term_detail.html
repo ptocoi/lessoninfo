@@ -1,0 +1,368 @@
+<?php 
+$page_name = "alba_list_term";
+include_once "../include/top.html";
+include_once "../include/header.html";
+$search_mode = "alba_term";
+include_once "../include/top_menu.html";
+?>
+</header>
+<script> /* 솔루션 구축환경  리눅스,윈도우 클릭시 이벤트 */
+$(".topMenu.list1").addClass("on");
+$(".jobBtnWrap").fadeIn("fast");
+var type_sel_first = function( vals, target ){	// 첫번째 직종값 선
+	var sel = vals.value;
+	$('#'+target+'_display').load('./_load/search.php', { mode:'second_type', type:'job_type', p_code:sel, target:target }, function(result){
+		//alert(result);
+	});
+}
+var searchFrm_submit = function(){
+	$('#albaSearchFrm').submit();
+}
+</script>
+<section class="contentWrap">
+
+<form method="get" name="albaSearchFrm" action="<?php echo $_SERVER['PHP_SELF'];?>" id="albaSearchFrm">
+<input type="hidden" name="mode" value="search"/>
+<input type="hidden" name="search_mode" value="<?php echo $search_mode;?>"/>
+
+<div class="location clearfix">
+	<h2 class="clearfix">
+		<em class="icon shadowBox"><img src="../images/icon/icon_local1.png" class="bg_color1"></em>
+		<div class="styled-select list1  clearfix positionR shadowBox" style="width:40%;">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="h30" style="" id="wr_date" name="wr_date" title="업직종1차">
+			<option value="">기간선택</option>
+			<?php 
+			if($alba_date_list){
+				foreach($alba_date_list as $val){ 
+				$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+				$selected = ($wr_date == $val['code']) ? 'selected' : '';
+			?>
+			<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+			<?php
+				}	// foreach end.
+			}	// if end.
+			?>
+			</select>
+		</div>
+
+		<div class="detailSearch clearfix positionR shadowBox bg_color1" >
+			<a><span>상세검색<span><img alt="" src="../images/btn/btn_down4.png" class="bg_color1"></a>                
+		</div>
+	</h2><!-- 지역별 검색 select box //-->
+	<div class="detailSearchBox bg_color1 shadowBox" style="display:none;"><!-- 상세검색 리스트 -->
+		<div class="selectWrap clearfix">
+			<div class="clearfix">
+				<div class="styled-select list4 clearfix positionR ">
+					<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+					<select class="h30" style="" id="" name="wr_job_type0" title="업직종1차" onchange="type_sel_first(this,'wr_job_type1');">
+					<option value="">업직종1차</option>
+					<?php 
+					if($job_types){ 
+						foreach($job_types as $val){
+						$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+						$selected = ($first_type_code == $val['code']) ? "selected" : "";
+					?>
+					<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+					<?php
+						}	// foreach end.
+					}	// if end.
+					?>
+					</select>
+				</div><!-- 업직종1차// -->
+				<div class="styled-select list4 clearfix positionR">
+					<div id="wr_job_type1_display">
+						<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+						<select class="h30" style="" id="" name="wr_job_type1" title="업직종2차">
+						<option value="">업직종2차</option>
+						<?php
+						if($wr_job_type1 || $second_type_code){
+							$pcodeList = $category_control->category_pcodeList('job_type', $first_type_code, "", " and `view` = 'yes' ");
+							if($pcodeList){
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($second_type_code == $val['code']) ? "selected" : "";
+						?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php 
+								}	// foreach end.
+							}	// if end.
+						}	// if end.
+						?>
+						</select>
+					</div>
+				</div><!-- 업직종2차 //-->
+				<div class="styled-select list4 clearfix positionR">
+					<div id="wr_job_type2_display">
+						<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+						<select class="h30" style="" id="" name="wr_job_type2" title="업직종3차">
+						<option value="">업직종3차</option>
+						<?php
+						if($wr_job_type2 || $third_type_code){
+							$pcodeList = $category_control->category_pcodeList('job_type', $second_type_code, "", " and `view` = 'yes' ");
+							if($pcodeList){
+								foreach($pcodeList as $val){ 
+								$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+								$selected = ($third_type_code == $val['code']) ? "selected" : "";
+						?>
+								<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+						<?php 
+								}	// foreach end.
+							}	// if end.
+						}	// if end.
+						?>
+						</select>
+					</div>
+				</div><!-- 업직종3차 //-->
+			</div>
+			<div class="styled-select list clearfix positionR mt10 ">
+				<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+				<select class="" style="" id="wr_career" name="wr_career" title="경력선택">
+				<option value="">경력선택</option>
+				<?php
+				if($job_career_list) {
+					foreach($job_career_list as $val){
+					$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+					$selected = ($wr_career==$val['code']) ? "selected" : "";
+				?>
+				<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?> 이상</option>
+				<?php 
+					} // foreach end.
+				}	// if end.
+				?>
+				</select>
+			</div>
+		</div>
+		<div class="styled-radio bg_color2">
+			<span>
+				<input type="radio" id="wr_career_type_0" name="wr_career_type" value="0" <?php echo ($wr_career_type=='0')?'checked':'';?>>
+				<label for="wr_career_type_0">무관</label>
+			</span>
+			<span>
+				<input type="radio" id="wr_career_type_1" name="wr_career_type" value="1" <?php echo ($wr_career_type=='1')?'checked':'';?>>
+				<label for="wr_career_type_1">신입</label>
+			</span>
+			<span>
+				<input type="radio" id="wr_career_type_2" name="wr_career_type" value="2" <?php echo ($wr_career_type=='2')?'checked':'';?>>
+				<label for="wr_career_type_2">경력</label>
+			</span>
+		</div><!-- 경력선택 // -->
+		<div class="styled-select list clearfix positionR mt10">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="wr_ability" name="wr_ability" title="학력선택">
+			<option value="">학력선택</option>
+			<?php
+			if($job_ability_list) {
+				foreach($job_ability_list as $val){
+				$name = $utility->remove_quoted($val['name']);	 // (쌍)따옴표 등록시 필터링
+				$selected = ($wr_ability==$val['code']) ? "selected" : "";
+			?>
+			<option value="<?php echo $val['code'];?>" <?php echo $selected;?>><?php echo $name;?></option>
+			<?php
+				}	// foreach end.
+			}	// if end.
+			?>
+			</select>
+		</div>
+		<div class="styled-select list clearfix positionR mt10">
+			<img alt="" src="../images/btn/btn_down2.png" class="bg_color1">
+			<select class="" style="" id="wr_age" name="wr_age" title="나이선택">
+			<option value="">나이선택</option>
+			<option value="10" <?php echo ($wr_age=='10')?'selected':'';?>>10세</option>
+			<option value="15" <?php echo ($wr_age=='15')?'selected':'';?>>15세</option>
+			<option value="20" <?php echo ($wr_age=='20')?'selected':'';?>>20세</option>
+			<option value="25" <?php echo ($wr_age=='25')?'selected':'';?>>25세</option>
+			<option value="30" <?php echo ($wr_age=='30')?'selected':'';?>>30세</option>
+			<option value="35" <?php echo ($wr_age=='35')?'selected':'';?>>35세</option>
+			<option value="40" <?php echo ($wr_age=='40')?'selected':'';?>>40세</option>
+			<option value="45" <?php echo ($wr_age=='45')?'selected':'';?>>45세</option>
+			<option value="50" <?php echo ($wr_age=='50')?'selected':'';?>>50세</option>
+			<option value="55" <?php echo ($wr_age=='55')?'selected':'';?>>55세</option>
+			<option value="60" <?php echo ($wr_age=='60')?'selected':'';?>>60세</option>
+			<option value="65" <?php echo ($wr_age=='65')?'selected':'';?>>65세</option>
+			<option value="70" <?php echo ($wr_age=='70')?'selected':'';?>>70세</option>
+			<option value="75" <?php echo ($wr_age=='75')?'selected':'';?>>75세</option>
+			<option value="80" <?php echo ($wr_age=='80')?'selected':'';?>>80세</option>
+			<option value="85" <?php echo ($wr_age=='85')?'selected':'';?>>85세</option>
+			<option value="90" <?php echo ($wr_age=='90')?'selected':'';?>>90세</option>
+			<option value="95" <?php echo ($wr_age=='95')?'selected':'';?>>95세</option>
+			<option value="100" <?php echo ($wr_age=='100')?'selected':'';?>>100세</option>
+			</select>
+		</div>
+		<div class="styled-radio bg_color2">
+			<span>
+				<input type="radio" id="wr_age_low" name="wr_age_lows" value="low" checked>
+				<label for="wr_age_low">이하</label>
+			</span>
+			<span>
+				<input type="radio" id="wr_age_high" name="wr_age_lows" value="high" <?php echo ($wr_age_low=='high')?'checked':'';?>>
+				<label for="wr_age_high">이상</label>
+			</span>
+			<span>
+				<input type="checkbox" id="wr_age_limit" name="wr_age_limit" value="1" class="chk" <?php echo ($wr_age_limit)?'checked':'';?>>
+				<label for="wr_age_limit" class="lbl_long">나이무관 포함</label>
+			</span>
+		</div><!-- 나이선택 // -->
+		<div class="styled-radio bg_color2 mt10">
+			<span>
+				<input type="radio" id="wr_gender_1" name="wr_gender" value="1" checked>
+				<label for="wr_gender_1">남자</label>
+			</span>
+			<span>
+				<input type="radio" id="wr_gender_2" name="wr_gender" value="2" <?php echo ($wr_gender=='2')?'checked':'';?>>
+				<label for="wr_gender_2">여자</label>
+			</span>
+			<span>
+				<input type="checkbox" id="wr_gender_0" name="wr_gender" class="chk" value="0" <?php echo ($wr_gender=='0')?'checked':'';?>>
+				<label for="wr_gender_0" class="lbl_long">성별무관</label>
+			</span>
+		</div><!-- 성별선택 // -->
+		<div class="doubleBtn mt10">
+			<!-- <a  href=""><span>초기화<img alt="" src="../images/btn/btn_rightArrow3.png"></span></a> -->
+			<a href="javascript:searchFrm_submit();"><span>검색<img alt="" src="../images/btn/btn_rightArrow3.png"></span></a>
+		</div>
+	</div><!-- 상세검색 리스트 //-->
+</div>
+
+</form>
+
+
+<div class="mList">
+	<h2>
+		<em class="icon"><img  class="bg_color1" src="../images/icon/icon_mList1.png"></em><span>기간별 채용정보<em class="text_color1 pl5">(<?php echo number_format($term_alba_list['total_count']);?>건)</em></span>
+	</h2>
+	<ul class="boxWrap clearfix positionR">
+		<?php if(!$term_alba_list['total_count']){ ?>
+		<li class="bth positionR">
+			<dl class="tc clearfix" style="height:40px;line-height:40px;">등록된 채용정보가 없습니다.</dl>
+		</li>
+		<?php } else { 
+			$li_class = "";
+			foreach($term_alba_list['result'] as $val){
+				$type_alba_no = $val['no'];
+
+				$get_alba = $alba_user_control->get_alba_no($type_alba_no);
+				$get_payment = $payment_control->get_payment_for_oid($get_alba['wr_oid']);	 // 결제정보
+				$company_info = $user_control->get_member_company($get_alba['wr_id']);	// 등록 기업회원 정보
+
+				// 회사 로고
+				$wr_logo = $company_info['mb_logo'];
+				if($wr_logo){
+					$logo_path = $alice['data_member_path'] . '/' . $get_alba['wr_id'] . '/logo';
+					$wr_logo = "<img src=\"".$logo_path."/".$company_info['mb_logo']."\" width=\"200\" height=\"100\"/>";
+				} else {
+					$wr_logo = "<img src=\"".$alice['images_path']."/basic/bg_noLogo.gif\" width=\"200\" height=\"100\"/>";
+				}
+				$volume_arr = array( "volume_date" => $get_alba['wr_volume_date'], "volume_always" => $get_alba['wr_volume_always'], "volume_end" => $get_alba['wr_volume_end'] );
+				$volume_date = $alba_user_control->volume_date($volume_arr,true);
+
+				$wr_pay_type = $category_control->get_categoryCodeName($get_alba['wr_pay_type']);	// 급여조건
+				$wr_pay = number_format($get_alba['wr_pay']);
+				$wr_pay_conference = $get_alba['wr_pay_conference'];	// 협의가능
+				$wr_area = $alba_user_control->list_area($get_alba['wr_area_0']);	// 2차 지역까지 출력
+				$wr_gender = $alba_user_control->gender_val[$get_alba['wr_gender']];	 // 성별
+
+				$wr_stime = $get_alba['wr_stime'];
+				$wr_etime = $get_alba['wr_etime'];
+				$time_conference = $get_alba['wr_time_conference'];
+				$wr_time = ($time_conference) ? "시간협의" : $wr_stime . " ~ " . $wr_etime;
+				$get_scrap = $alba_user_control->get_scrap_cnt($member['mb_id'], 'alba', $type_alba_no, date('Y-m-d'));
+
+				$is_service = $alba_user_control->service_valid( $get_alba );	// 서비스 정보
+
+				## Gold service
+				$is_gold = false;
+				if($is_service['service_platinum_sub_gold'] || $is_service['service_banner_sub_gold']){
+					$is_gold = true;
+				}
+				if($is_gold){
+					$li_class .= " gold";
+				}
+				## // Gold service
+
+				// 급구 아이콘
+				$is_service_busy = "";
+				if($is_service['service_busy']){
+					$service_check = $service_control->service_check('alba_option_busy');
+					$is_service_busy = "<img src=\"".$alice['data_icon_path'] . "/" . $service_check['busy_icon']."\" class=\"vm pr5\"/>";
+				}
+
+				// 강조 아이콘
+				$is_service_icon = "";
+				if($is_service['service_icon']){	
+					$icon_sel = $category_control->get_category($get_payment['pay_alba_option_icon_sel']);
+					$is_service_icon = "<img src=\"".$alice['data_icon_path'] . "/" . $icon_sel['name']."\" class=\"vm pr5\">";
+				}
+
+				$style_add = " style=\"";
+
+				// 형광펜
+				if($is_service['service_neon']){
+					$style_add .= "background-color:#".$get_payment['pay_alba_option_neon_color'].";";
+				}
+
+				// 굵은글자
+				if($is_service['service_bold']){
+					$style_add .= "font-weight:bold;";
+				}
+
+				// 글자색
+				if($is_service['service_color']){
+					$style_add .= "color:#".$get_payment['pay_alba_option_color_sel'].";";
+				}
+
+				$style_add .= "\" ";
+
+				// 반짝임
+				$class = "";
+				if($is_service['service_blink']){
+					$class = "class=\"jumble\"";
+				}
+		?>
+		<li class="bth positionR <?php echo $li_class;?>">
+			<dl class="clearfix">
+				<dt> 
+					<a href="./detail.html?no=<?php echo $type_alba_no;?>">
+					<span class="logo_tit"><?php echo stripslashes($get_alba['wr_company_name']);?></span>
+					</a> 
+				</dt>
+				<dd class="text1" >
+					<?php echo $is_service_icon;?><a href="./detail.html?no=<?php echo $type_alba_no;?>" class=""><span <?php echo $style_add;?> <?php echo $class;?>><?php echo stripslashes($get_alba['wr_subject']);?></span> </a>
+				</dd>
+				<dd class="text2">
+					<span class="add"><?php echo $wr_area;?></span>
+					<span class="gender"><?php echo $wr_gender;?></span>
+					<span class="time"><?php echo $wr_time;?></span>
+				</dd>
+				<dd class="etc">
+					<span class="edy edyEn"><?php echo $volume_date['text'];?></span>
+					<span class="pay">
+						<?php 
+						if(!$wr_pay || $wr_pay==0){ 
+							echo "<strong>[급여협의]</strong>";
+						} else { 
+						?>
+						<em class="payIcon"><?php echo $wr_pay_type;?></em> <em class="number"><?php echo $wr_pay;?></em>원
+						<?php } ?>
+					</span>
+					<!-- <span class="pay"><em class="number"><?php echo $wr_pay;?></em>원<em class="payIcon"><?php echo $wr_pay_type;?></em></span> -->
+				</dd>
+				<dd class="scrap" ><!-- bg_color1 -->
+					<a onclick="alba_scrap('<?php echo $type_alba_no;?>')"><img  class="<?php echo ($get_scrap['cnt'])?'bg_color1':'bg_gray1';?>" src="../images/icon/icon_scrap1.png" alt="스크랩"></a>
+				</dd>
+			</dl>
+		</li>
+		<?php
+			} // foreach end.
+		} // if end.
+		?>
+	</ul>
+</div>
+
+<?php include_once "../include/page.html";?>
+
+</section>
+
+<?php include_once "../include/footer.html";?>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?php if (!defined("_ALICE_")) exit; // 개별 페이지 접근 불가 ?>
+
+<section id="content" class="content_wrap clearfix">
+	<?php include_once $alice['include_path']."/banner.php"; ?>
+	<div class="content2_wrap clearfix"> 
+		<?php include_once $alice['board_path'] . "/views/_include/left_navi.php"; ?>
+		<div id="rightContent"> 
+			<?php /* navigation */ ?>
+			<div class="NowLocation mt35 clearfix">
+				<p> <a href="/">HOME</a> > <a href="<?php echo $alice['board_path'];?>"><?php echo $menu_name;?></a> > <!-- <a href="#">공감 이야기</a> >  --><strong><?php echo $bo_subject;?></strong> </p>
+			</div>
+			<?php /* //navigation */ ?>
+			<?php 
+				include_once $alice['self'] . "board_head.php"; 
+
+				if(is_file($alice['self'] . 'skins/'.$board['bo_skin'].'/write.skin.php'))
+					include_once $alice['self'] . 'skins/'.$board['bo_skin'].'/write.skin.php';
+				else
+					$config->error_info( $alice['self'] . 'skins/'.$board['bo_skin'].'/write.skin.php' );
+
+				include_once $alice['self'] . "board_tail.php";
+				?>
+		</div>
+	</div>  
+</section>
